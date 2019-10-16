@@ -32,7 +32,9 @@ jobs: # a collection of steps
       # PUBLISHING
       # PUBLISHING
       # PUBLISHING
-
+      - run:
+          name: React Scripts Build
+          command: npm run build
       - run:
           name: Install Firebase Tools
           command: npm install --prefix=./firebase-deploy firebase-tools
