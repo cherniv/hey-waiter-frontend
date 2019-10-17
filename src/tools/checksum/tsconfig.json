@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "outDir": "bin",
+    "noImplicitReturns": true,
+    "module": "none",
+    "target": "es5",
+    "lib": ["es6", "dom"],
+    "allowJs": false,
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}
