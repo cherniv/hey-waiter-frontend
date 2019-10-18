@@ -1,6 +1,3 @@
-
-const code=(a:string, n:number)=>a.charCodeAt(n);
-
 /**
  * Implementing Damm algorithm - the most robust one
  * https://en.wikipedia.org/wiki/Damm_algorithm
@@ -23,9 +20,9 @@ class Checksum {
     }
     static last(id:string):number{
         let o=0;
-        const zero=code('0',0);
+        const zero='0'.charCodeAt(0);
         for(let i=0; i<id.length;++i){
-            const char = code(id, i);
+            const char = id.charCodeAt(i);
             o = this.t[o][char - zero];
         }
         return o;

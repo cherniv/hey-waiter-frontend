@@ -1,4 +1,3 @@
-var code = function (a, n) { return a.charCodeAt(n); };
 /**
  * Implementing Damm algorithm - the most robust one
  * https://en.wikipedia.org/wiki/Damm_algorithm
@@ -11,9 +10,9 @@ var Checksum = /** @class */ (function () {
     };
     Checksum.last = function (id) {
         var o = 0;
-        var zero = code('0', 0);
+        var zero = '0'.charCodeAt(0);
         for (var i = 0; i < id.length; ++i) {
-            var char = code(id, i);
+            var char = id.charCodeAt(i);
             o = this.t[o][char - zero];
         }
         return o;

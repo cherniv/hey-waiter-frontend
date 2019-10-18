@@ -1,0 +1,10 @@
+{
+  "name": "checksum",
+  "version": "1.0.0",
+  "devDependencies": {
+    "typescript": "3.3.3"
+  },
+  "dependencies": {
+    
+  }
+}
