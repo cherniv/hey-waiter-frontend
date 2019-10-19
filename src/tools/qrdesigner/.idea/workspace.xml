@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/BgImage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/BgImage.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ts/ConfKeeper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/ConfKeeper.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ts/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ts/QRGen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QRGen.ts" afterDir="false" />
@@ -33,11 +29,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="54" selection-start-line="54" selection-end-line="54" />
+            <state relative-caret-position="217">
+              <caret line="48" selection-start-line="48" selection-end-line="48" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -49,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/ts/Settings.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="390">
-              <caret line="26" column="100" selection-start-line="26" selection-start-column="100" selection-end-line="26" selection-end-column="100" />
+              <caret line="26" column="104" selection-start-line="26" selection-start-column="104" selection-end-line="26" selection-end-column="104" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
                 <element signature="e#121#127#0" expanded="true" />
@@ -60,22 +56,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ts/_declare/pixi.d.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="3130" column="14" selection-start-line="3130" selection-start-column="14" selection-end-line="3130" selection-end-column="14" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ts/Main.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="23" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+            <state relative-caret-position="270">
+              <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -83,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ts/ConfKeeper.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="202">
+              <caret line="44" selection-start-line="44" selection-end-line="44" />
             </state>
           </provider>
         </entry>
@@ -95,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ts/Stor.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+            <state relative-caret-position="270">
+              <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -131,14 +115,14 @@
         <option value="$PROJECT_DIR$/ts/UrlVarsParser.ts" />
         <option value="$PROJECT_DIR$/ts/SettingsDataType.ts" />
         <option value="$PROJECT_DIR$/ts/_declare/Glob.d.ts" />
-        <option value="$PROJECT_DIR$/ts/_declare/pixi.d.ts" />
         <option value="$PROJECT_DIR$/ts/BgImage.ts" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/ts/QRGen.ts" />
+        <option value="$PROJECT_DIR$/ts/Settings.ts" />
+        <option value="$PROJECT_DIR$/ts/_declare/pixi.d.ts" />
         <option value="$PROJECT_DIR$/ts/Main.ts" />
         <option value="$PROJECT_DIR$/ts/Stor.ts" />
-        <option value="$PROJECT_DIR$/ts/Settings.ts" />
         <option value="$PROJECT_DIR$/ts/ConfKeeper.ts" />
-        <option value="$PROJECT_DIR$/ts/QRGen.ts" />
       </list>
     </option>
   </component>
@@ -233,12 +217,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571429879981</updated>
-      <workItem from="1571429881784" duration="19632000" />
+      <workItem from="1571429881784" duration="20442000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19632000" />
+    <option name="totallyTimeSpent" value="20442000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1293" height="702" extended-state="6" />
@@ -324,24 +308,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ts/Stor.ts">
+    <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="20" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ts/ConfKeeper.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ts/Main.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="23" selection-start-line="17" selection-start-column="23" selection-end-line="17" selection-end-column="23" />
+        <state relative-caret-position="217">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
@@ -361,7 +331,7 @@
     <entry file="file://$PROJECT_DIR$/ts/Settings.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
-          <caret line="26" column="100" selection-start-line="26" selection-start-column="100" selection-end-line="26" selection-end-column="100" />
+          <caret line="26" column="104" selection-start-line="26" selection-start-column="104" selection-end-line="26" selection-end-column="104" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
             <element signature="e#121#127#0" expanded="true" />
@@ -370,13 +340,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
+    <entry file="file://$PROJECT_DIR$/ts/Stor.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        <state relative-caret-position="270">
+          <caret line="18" column="20" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ts/Main.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ts/ConfKeeper.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="202">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
         </state>
       </provider>
     </entry>

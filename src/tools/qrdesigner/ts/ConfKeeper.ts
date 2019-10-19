@@ -37,25 +37,20 @@ export class ConfKeeper {
             '',
         ];
         const d = ConfKeeper.dataType;
-        const capitalize = (s: string) =>{
+        const capitalize = (s: string) => {
             const a = s.substr(0, 1).toUpperCase() + s.substr(1);
-            let r='';
-            for(let i=0; i<a.length;++i){
-                const c=a.charAt(i);
-                if(c==c.toUpperCase()) r+=' ';
-                r+=c;
+            let r = '';
+            for (let i = 0; i < a.length; ++i) {
+                const c = a.charAt(i);
+                if (c == c.toUpperCase()) r += ' ';
+                r += c;
             }
             return r;
         };
         for (let i = 0; i < list.length; ++i) {
             const n = list[i];
-            if(n!='')d.push({name:n, title:capitalize(n), type:'boolean', filter:n, mul:false, def:false})
+            if (n != '') d.push({name:n, title:capitalize(n), type:'boolean', filter:n, mul:false, def:false})
         }
-
-        // {name:'sepia', title:'Sepia', type:'boolean', filter:'sepia', mul:1, def:false},
-        // {name:'vintage', title:'vintage', type:'boolean', filter:'vintage', mul:1, def:false},
-        // {name:'vintage', title:'vintage', type:'boolean', filter:'vintage', mul:1, def:false},
-        // {name:'polaroid', title:'Polaroid', type:'boolean', filter:'polaroid', mul:1, def:false},
 
     };
 

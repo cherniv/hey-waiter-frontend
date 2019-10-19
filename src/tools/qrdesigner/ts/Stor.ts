@@ -7,7 +7,6 @@
 const pfx = 'qr_';
 
 
-
 export class Stor {
     static can = () => (typeof (Storage) !== "undefined");
 
@@ -18,12 +17,12 @@ export class Stor {
     }
 
     static get = (key: string) => {
-        const ret = JSON.parse(localStorage.getItem(pfx+key));
+        const ret = JSON.parse(localStorage.getItem(pfx + key));
         // debugger;
         return ret;
     };
     static set = (key: string, val: any) => {
-        const ret = localStorage.setItem(pfx+key, JSON.stringify(typeof val != 'undefined' ? val : 'null'));
+        const ret = localStorage.setItem(pfx + key, JSON.stringify(typeof val != 'undefined' ? val : 'null'));
         // debugger;
         return ret;
     };

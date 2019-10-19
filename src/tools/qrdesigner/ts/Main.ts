@@ -5,19 +5,20 @@ import {QRGen} from "./QRGen";
 import {ConfKeeper} from "./ConfKeeper";
 
 
-class Main{
+class Main {
     constructor(){
         $(document).ready(this.run);
     }
-    private run=()=>{
-        this.vars=new UrlVarsParser();
+
+    private run = () => {
+        this.vars = new UrlVarsParser();
         ConfKeeper.init();
         new Settings();
         new BgImage();
-        const gen=new QRGen(this.vars);
+        const gen = new QRGen(this.vars);
         gen.generate();
     };
-    vars:UrlVarsParser;
+    vars: UrlVarsParser;
 }
 
 new Main();
