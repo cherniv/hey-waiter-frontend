@@ -1,5 +1,8 @@
 import {UrlVarsParser} from "./UrlVarsParser";
 import {Settings} from "./Settings";
+import {BgImage} from "./BgImage";
+import {QRGen} from "./QRGen";
+import {ConfKeeper} from "./ConfKeeper";
 
 
 class Main{
@@ -7,19 +10,14 @@ class Main{
         $(document).ready(this.run);
     }
     private run=()=>{
-        const parser=new UrlVarsParser();
-        if(!parser.has('company') || !parser.has('urls'))
-            location.href = '?company='+encodeURIComponent('A good company')
-                +'&urls='+encodeURIComponent(JSON.stringify(
-                    [
-                        'https://waiter.live#q23432',
-                        'https://waiter.live#q76543',
-                        'https://waiter.live#q09846',
-                    ]));
+        this.vars=new UrlVarsParser();
+        ConfKeeper.init();
         new Settings();
+        new BgImage();
+        const gen=new QRGen(this.vars);
+        setTimeout(()=>gen.generate(), 300);
     };
-    company:string;
-    urls:string[];
+    vars:UrlVarsParser;
 }
 
 new Main();

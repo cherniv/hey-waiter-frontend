@@ -37,3 +37,10 @@ body{
 h1{
     font-size: 1.4em!important;
 }
+
+.bg-scroll-pane{
+    overflow-y: scroll;
+    height:500px;
+    border: 1px dashed #aaa;
+    border-radius: .5em;
+}

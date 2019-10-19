@@ -11,8 +11,23 @@ export class UrlVarsParser{
                 this.vars[ parts[ 0 ] ] = parts[ 1 ];
             } );
         }
+        if(!this.has('company') || !this.has('urls'))
+            location.href = '?company='+encodeURIComponent('A good company')
+                +'&urls='+encodeURIComponent(JSON.stringify(
+                    [
+                        'https://waiter.live#q23432',
+                        'https://waiter.live#q76543',
+                        'https://waiter.live#q09846',
+                    ]));
+        else{
+            this.company=this.get('company');
+            this.urls=JSON.parse(this.get('urls'));
+        }
     }
-    has=(name:string)=>typeof this.vars[name]!='undefined';
-    get=(name:string)=>this.vars[name];
-    vars:MapStrStr;
+    private has=(name:string)=>typeof this.vars[name]!='undefined';
+    private get=(name:string)=>decodeURIComponent(this.vars[name]);
+    private vars:MapStrStr;
+    company:string;
+    urls:string[];
+
 }
