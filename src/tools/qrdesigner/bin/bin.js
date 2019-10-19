@@ -64,7 +64,7 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
         }
         ConfKeeper.dataType = [
             { name: 'distort', title: 'Perspective distortion', type: 'boolean', def: true },
-            { name: 'bgPath', type: 'string', def: 'assets/bg/1.jpg', outer: true, mul: false },
+            { name: 'bgPath', type: 'string', def: 'assets/bg/1.jpg', outer: true, mul: 0 },
             { name: 'blur', title: 'Blur Background', type: 'boolean', def: true },
             { name: 'blur2', title: 'Blur More', type: 'boolean', def: false },
             { name: 'darken', title: 'Darken Background', type: 'boolean', def: true },
@@ -101,7 +101,7 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
             for (var i = 0; i < list.length; ++i) {
                 var n = list[i];
                 if (n != '')
-                    d.push({ name: n, title: capitalize(n), type: 'boolean', filter: n, mul: false, def: false });
+                    d.push({ name: n, title: capitalize(n), type: 'boolean', filter: n, mul: 1, def: false });
             }
         };
         ConfKeeper.keyExists = function (keyName) { return ConfKeeper.getDataTypeEntryByKey(keyName) != null; };
@@ -211,14 +211,23 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                 _this.generate();
             };
             this.generate = function () {
+                var scaleSprite = function (sprite, sc) {
+                    var ow = sprite.width;
+                    sprite.width *= sc;
+                    sprite.x = (ow - sprite.width) / 2;
+                    var oh = sprite.height;
+                    sprite.height *= sc;
+                    sprite.y = (oh - sprite.height) / 2;
+                };
                 console.log('generating!');
                 console.log(ConfKeeper_2.ConfKeeper.conf);
                 var all = _this.all;
                 var setting = ConfKeeper_2.ConfKeeper.get;
                 all.removeChildren();
                 var bg = new PIXI.Sprite(PIXI.Texture.from(setting('bgPath')));
-                bg.width = _this.size.w;
-                bg.height = _this.size.h;
+                var sz = _this.size;
+                bg.width = sz.w;
+                bg.height = sz.h;
                 all.addChild(bg);
                 var filters = [];
                 var addMatrixFn = function (proc) {
@@ -228,8 +237,11 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                 };
                 var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
                 var dark = .6;
-                if (setting('blur'))
-                    filters.push(new PIXI.filters.BlurFilter(4 * (setting('blur2') ? 2 : 1)));
+                if (setting('blur')) {
+                    var x2 = setting('blur2');
+                    filters.push(new PIXI.filters.BlurFilter(4 * (x2 ? 2 : 1)));
+                    scaleSprite(bg, x2 ? 1.1 : 1.05);
+                }
                 if (setting('darken')) {
                     brightness(dark);
                     if (setting('darken2'))

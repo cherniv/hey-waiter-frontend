@@ -1,13 +1,13 @@
 import {Stor} from "./Stor";
 
 type DataEntry =
-    { name: string, title?: string, type: string, filter?: string, mul?: boolean, def?: any, outer?: boolean };
+    { name: string, title?: string, type: string, filter?: string, mul?: number, def?: any, outer?: boolean };
 
 export class ConfKeeper {
     static dataType: DataEntry[] = [
 
         {name:'distort', title:'Perspective distortion', type:'boolean', def:true},
-        {name:'bgPath', type:'string', def:'assets/bg/1.jpg', outer:true, mul:false},
+        {name:'bgPath', type:'string', def:'assets/bg/1.jpg', outer:true, mul:0},
 
         {name:'blur', title:'Blur Background', type:'boolean', def:true},
         {name:'blur2', title:'Blur More', type:'boolean', def:false},
@@ -49,7 +49,7 @@ export class ConfKeeper {
         };
         for (let i = 0; i < list.length; ++i) {
             const n = list[i];
-            if (n != '') d.push({name:n, title:capitalize(n), type:'boolean', filter:n, mul:false, def:false})
+            if (n != '') d.push({name:n, title:capitalize(n), type:'boolean', filter:n, mul:1, def:false})
         }
 
     };
