@@ -30,9 +30,9 @@ export class QRGen {
 
     doUpdate = (settingsKey: string, value: string) => {
         ConfKeeper.setConf(settingsKey, value);
-        this.generate();
+        this.generate(0);
     };
-    generate = () => {
+    generate = (urlIndex=0) => {
         const scaleSprite = (sprite:PIXI.Sprite, sc:number)=>{
             const ow =sprite.width;
             sprite.width *= sc;
@@ -58,7 +58,6 @@ export class QRGen {
             filters.push(f);
         };
         const brightness = (val: number) => addMatrixFn(f => f.brightness(val));
-        const dark = .6;
         if (setting('blur')){
             const x2=setting('blur2');
             filters.push(new PIXI.filters.BlurFilter(4 * (x2 ? 2 : 1)));
@@ -67,8 +66,8 @@ export class QRGen {
 
 
         if (setting('darken')){
-            brightness(dark);
-            if (setting('darken2')) brightness(dark);
+            brightness(.5);
+            if (setting('darken2')) brightness(.7);
         }
         // if(setting('bw')) addMatrixFn(f=>f.desaturate());
         const d = ConfKeeper.dataType;
@@ -80,19 +79,60 @@ export class QRGen {
 
 
         bg.filters = filters;
+
+
+
+
+
+
+
+
+
+        const url = this.vars.urls[urlIndex], round=Math.round;
+
+
+
+
+        const qrCanvas = document.getElementById('qr'),  qrSizeRatio = .5;
+        const qrious = new QRious({
+            element: qrCanvas,
+            value: url,
+            level:'M',
+            size:round(sz.w*qrSizeRatio),
+            padding:round(sz.w*.03),
+        });
+        const qr = new PIXI.Sprite(PIXI.Texture.from(qrious.toDataURL()));
+        qr.anchor.x = .5; qr.anchor.y = .5;
+        qr.x = sz.w * .5;
+        qr.y = sz.h * .6;
+        all.addChild(qr);
+
+
+
+
+
+
+
+
+
+
+
+
+
         setTimeout(() => $(this.app.view).show(), 800);
 
-        // let n=0;
-        // function anim(){
-        //     n+=.002;
-        //     const wave = Math.sin(n*Math.PI*2);
-        //     const scale = 1 + wave*.1;
-        //
-        //     bg.width = sz.w; bg.height = sz.h;
-        //
-        //     scaleSprite(bg, scale);
-        //     console.log(scale);
-        //     setTimeout(anim, 1/60);
-        // }anim();
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -208,9 +208,10 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
             this.size = { w: 0, h: 0 };
             this.doUpdate = function (settingsKey, value) {
                 ConfKeeper_2.ConfKeeper.setConf(settingsKey, value);
-                _this.generate();
+                _this.generate(0);
             };
-            this.generate = function () {
+            this.generate = function (urlIndex) {
+                if (urlIndex === void 0) { urlIndex = 0; }
                 var scaleSprite = function (sprite, sc) {
                     var ow = sprite.width;
                     sprite.width *= sc;
@@ -236,16 +237,15 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                     filters.push(f);
                 };
                 var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
-                var dark = .6;
                 if (setting('blur')) {
                     var x2 = setting('blur2');
                     filters.push(new PIXI.filters.BlurFilter(4 * (x2 ? 2 : 1)));
                     scaleSprite(bg, x2 ? 1.1 : 1.05);
                 }
                 if (setting('darken')) {
-                    brightness(dark);
+                    brightness(.5);
                     if (setting('darken2'))
-                        brightness(dark);
+                        brightness(.7);
                 }
                 var d = ConfKeeper_2.ConfKeeper.dataType;
                 var _loop_1 = function (i) {
@@ -257,6 +257,21 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                     _loop_1(i);
                 }
                 bg.filters = filters;
+                var url = _this.vars.urls[urlIndex], round = Math.round;
+                var qrCanvas = document.getElementById('qr'), qrSizeRatio = .5;
+                var qrious = new QRious({
+                    element: qrCanvas,
+                    value: url,
+                    level: 'M',
+                    size: round(sz.w * qrSizeRatio),
+                    padding: round(sz.w * .03),
+                });
+                var qr = new PIXI.Sprite(PIXI.Texture.from(qrious.toDataURL()));
+                qr.anchor.x = .5;
+                qr.anchor.y = .5;
+                qr.x = sz.w * .5;
+                qr.y = sz.h * .6;
+                all.addChild(qr);
                 setTimeout(function () { return $(_this.app.view).show(); }, 800);
             };
             window.qrGenUpdate = this.doUpdate;
@@ -288,7 +303,7 @@ define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "Q
                 new Settings_1.Settings();
                 new BgImage_1.BgImage();
                 var gen = new QRGen_1.QRGen(_this.vars);
-                gen.generate();
+                gen.generate(0);
             };
             $(document).ready(this.run);
         }

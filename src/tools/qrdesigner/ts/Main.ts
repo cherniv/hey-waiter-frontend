@@ -16,7 +16,7 @@ class Main {
         new Settings();
         new BgImage();
         const gen = new QRGen(this.vars);
-        gen.generate();
+        gen.generate(0);
     };
     vars: UrlVarsParser;
 }
