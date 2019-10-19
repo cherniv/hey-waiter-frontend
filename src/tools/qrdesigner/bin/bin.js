@@ -35,17 +35,21 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
 define("Stor", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var pfx = 'qr_';
     var Stor = (function () {
         function Stor() {
         }
         Stor.can = function () { return (typeof (Storage) !== "undefined"); };
-        Stor.has = function (key) { return Stor.get(key) != null; };
+        Stor.has = function (key) {
+            var ret = Stor.get(key) != null;
+            return ret;
+        };
         Stor.get = function (key) {
-            var ret = JSON.parse(localStorage.getItem(key));
+            var ret = JSON.parse(localStorage.getItem(pfx + key));
             return ret;
         };
         Stor.set = function (key, val) {
-            var ret = localStorage.setItem(key, JSON.stringify(typeof val != 'undefined' ? val : 'null'));
+            var ret = localStorage.setItem(pfx + key, JSON.stringify(typeof val != 'undefined' ? val : 'null'));
             return ret;
         };
         return Stor;
@@ -59,11 +63,47 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
         function ConfKeeper() {
         }
         ConfKeeper.dataType = [
-            { name: 'blur', title: 'Blur Background', type: 'boolean', def: true },
-            { name: 'darken', title: 'Darken Background', type: 'boolean', def: true },
             { name: 'distort', title: 'Perspective distortion', type: 'boolean', def: true },
-            { name: 'bgPath', type: 'string', def: 'assets/bg/1.jpg', outer: true },
+            { name: 'bgPath', type: 'string', def: 'assets/bg/1.jpg', outer: true, mul: false },
+            { name: 'blur', title: 'Blur Background', type: 'boolean', def: true },
+            { name: 'blur2', title: 'Blur More', type: 'boolean', def: false },
+            { name: 'darken', title: 'Darken Background', type: 'boolean', def: true },
+            { name: 'darken2', title: 'Darken more', type: 'boolean', def: false },
         ];
+        ConfKeeper.addCoolFilters = function () {
+            var list = [
+                'blackAndWhite',
+                'sepia',
+                'technicolor',
+                'polaroid',
+                'vintage',
+                'kodachrome',
+                'browni',
+                'lsd',
+                '',
+                '',
+                '',
+                '',
+                '',
+            ];
+            var d = ConfKeeper.dataType;
+            var capitalize = function (s) {
+                var a = s.substr(0, 1).toUpperCase() + s.substr(1);
+                var r = '';
+                for (var i = 0; i < a.length; ++i) {
+                    var c = a.charAt(i);
+                    if (c == c.toUpperCase())
+                        r += ' ';
+                    r += c;
+                }
+                return r;
+            };
+            for (var i = 0; i < list.length; ++i) {
+                var n = list[i];
+                if (n != '')
+                    d.push({ name: n, title: capitalize(n), type: 'boolean', filter: n, mul: false, def: false });
+            }
+        };
         ConfKeeper.keyExists = function (keyName) { return ConfKeeper.getDataTypeEntryByKey(keyName) != null; };
         ConfKeeper.typeOf = function (keyName) {
             var entry = ConfKeeper.getDataTypeEntryByKey(keyName);
@@ -79,8 +119,14 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
             return null;
         };
         ConfKeeper.conf = null;
+        ConfKeeper.get = function (settingName) {
+            if (!ConfKeeper.keyExists(settingName))
+                throw "Unknown key " + settingName + " for setting!";
+            return ConfKeeper.conf[settingName];
+        };
         ConfKeeper.init = function () {
             if (ConfKeeper.conf == null) {
+                ConfKeeper.addCoolFilters();
                 var d = ConfKeeper.dataType;
                 var conf = ConfKeeper.conf = [];
                 for (var i = 0; i < d.length; ++i) {
@@ -91,12 +137,11 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
         };
         ConfKeeper.setConf = function (settingsKey, value) {
             if (!ConfKeeper.keyExists(settingsKey))
-                throw 'Unknown key for setting!';
+                throw "Unknown key " + settingsKey + " for setting!";
             if (ConfKeeper.typeOf(settingsKey) != typeof value)
                 throw "Wrong type for setting " + settingsKey;
             ConfKeeper.conf[settingsKey] = value;
             Stor_1.Stor.set(settingsKey, value);
-            console.log(ConfKeeper.conf);
         };
         return ConfKeeper;
     }());
@@ -109,14 +154,27 @@ define("Settings", ["require", "exports", "ConfKeeper"], function (require, expo
         function Settings() {
             var elements = [];
             var i = 0;
+            var win = window;
+            win.settingsChUpd = function (name, value) {
+                var entry = ConfKeeper_1.ConfKeeper.getDataTypeEntryByKey(name);
+                if (typeof entry.filter != 'undefined')
+                    ConfKeeper_1.ConfKeeper.dataType.forEach(function (t) {
+                        if (t.name != name && typeof t.filter != 'undefined') {
+                            $('#st_chb' + t.name).attr('checked', false);
+                            win.qrGenUpdate(t.name, false);
+                        }
+                    });
+                win.qrGenUpdate(name, value);
+            };
             ConfKeeper_1.ConfKeeper.dataType.forEach(function (t) {
                 if (!t.outer) {
-                    var id = 'chbx' + (i++);
+                    var id = 'st_chb' + t.name;
                     var on = ConfKeeper_1.ConfKeeper.conf[t.name];
-                    elements.push("<input onclick=\"qrGenUpdate('" + t.name + "', this.checked)\" type=\"checkbox\" id=\"" + id + "\" " + (on ? 'checked' : '') + ">&nbsp;&nbsp;<label for=\"" + id + "\">" + t.title + "</label>");
+                    elements.push((t.title.toLowerCase().indexOf('more') != -1 ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '')
+                        + ("<input onclick=\"settingsChUpd('" + t.name + "', this.checked)\" type=\"checkbox\" id=\"" + id + "\" " + (on ? 'checked' : '') + ">&nbsp;&nbsp;<label for=\"" + id + "\">" + t.title + "</label>"));
                 }
             });
-            $('#settings').html('<h1>QR SETTINGS:</h1>' + elements.join('<br>'));
+            $('#settings').html('<b>QR SETTINGS</b><br>' + elements.join('<br>'));
         }
         return Settings;
     }());
@@ -133,7 +191,7 @@ define("BgImage", ["require", "exports"], function (require, exports) {
                 var path = "assets/bg/" + i + ".jpg";
                 elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
             }
-            $('#bg-image').html('BG Image:<br>' +
+            $('#bg-image').html('<b>BG Image</b><br>' +
                 '<div class="bg-scroll-pane">' + elements.join('<br>') + '</div>');
         }
         return BgImage;
@@ -147,6 +205,7 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
         function QRGen(vars) {
             var _this = this;
             this.vars = vars;
+            this.size = { w: 0, h: 0 };
             this.doUpdate = function (settingsKey, value) {
                 ConfKeeper_2.ConfKeeper.setConf(settingsKey, value);
                 _this.generate();
@@ -154,8 +213,52 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
             this.generate = function () {
                 console.log('generating!');
                 console.log(ConfKeeper_2.ConfKeeper.conf);
+                var all = _this.all;
+                var setting = ConfKeeper_2.ConfKeeper.get;
+                all.removeChildren();
+                var bg = new PIXI.Sprite(PIXI.Texture.from(setting('bgPath')));
+                bg.width = _this.size.w;
+                bg.height = _this.size.h;
+                all.addChild(bg);
+                var filters = [];
+                var addMatrixFn = function (proc) {
+                    var f = new PIXI.filters.ColorMatrixFilter();
+                    proc(f);
+                    filters.push(f);
+                };
+                var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
+                var dark = .6;
+                if (setting('blur'))
+                    filters.push(new PIXI.filters.BlurFilter(4 * (setting('blur2') ? 2 : 1)));
+                if (setting('darken')) {
+                    brightness(dark);
+                    if (setting('darken2'))
+                        brightness(dark);
+                }
+                var d = ConfKeeper_2.ConfKeeper.dataType;
+                var _loop_1 = function (i) {
+                    var t = d[i];
+                    if (typeof t.filter != 'undefined' && setting(t.name))
+                        addMatrixFn(function (f) { return f[t.filter](t.mul ? t.mul : null); });
+                };
+                for (var i = 0; i < d.length; ++i) {
+                    _loop_1(i);
+                }
+                bg.filters = filters;
+                setTimeout(function () { return $(_this.app.view).show(); }, 800);
             };
             window.qrGenUpdate = this.doUpdate;
+            var height = document.body.clientHeight * .85, width = height / Math.pow(2, .5);
+            this.size = { w: width, h: height };
+            this.app = new PIXI.Application({
+                width: width, height: height,
+                backgroundColor: 0xffffff,
+                resolution: 1,
+            });
+            $(this.app.view).hide();
+            document.getElementById('preview').appendChild(this.app.view);
+            this.all = new PIXI.Container();
+            this.app.stage.addChild(this.all);
         }
         return QRGen;
     }());
@@ -173,7 +276,7 @@ define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "Q
                 new Settings_1.Settings();
                 new BgImage_1.BgImage();
                 var gen = new QRGen_1.QRGen(_this.vars);
-                setTimeout(function () { return gen.generate(); }, 300);
+                gen.generate();
             };
             $(document).ready(this.run);
         }

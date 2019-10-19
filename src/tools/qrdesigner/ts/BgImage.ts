@@ -7,7 +7,7 @@ export class BgImage{
             elements.push(`<img onclick="qrGenUpdate('bgPath', '${path}')" src="${path}" width="100%"/><br>`);
         }
 
-        $('#bg-image').html('BG Image:<br>'+
+        $('#bg-image').html('<b>BG Image</b><br>'+
             '<div class="bg-scroll-pane">'+elements.join('<br>')+'</div>');
     }
 }
