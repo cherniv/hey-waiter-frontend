@@ -201,6 +201,7 @@ define("BgImage", ["require", "exports"], function (require, exports) {
 define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports, ConfKeeper_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var Point = PIXI.Point;
     var QRGen = (function () {
         function QRGen(vars) {
             var _this = this;
@@ -212,66 +213,83 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
             };
             this.generate = function (urlIndex) {
                 if (urlIndex === void 0) { urlIndex = 0; }
-                var scaleSprite = function (sprite, sc) {
-                    var ow = sprite.width;
-                    sprite.width *= sc;
-                    sprite.x = (ow - sprite.width) / 2;
-                    var oh = sprite.height;
-                    sprite.height *= sc;
-                    sprite.y = (oh - sprite.height) / 2;
-                };
-                console.log('generating!');
-                console.log(ConfKeeper_2.ConfKeeper.conf);
-                var all = _this.all;
-                var setting = ConfKeeper_2.ConfKeeper.get;
+                var all = _this.app.stage;
                 all.removeChildren();
-                var bg = new PIXI.Sprite(PIXI.Texture.from(setting('bgPath')));
-                var sz = _this.size;
-                bg.width = sz.w;
-                bg.height = sz.h;
-                all.addChild(bg);
-                var filters = [];
-                var addMatrixFn = function (proc) {
-                    var f = new PIXI.filters.ColorMatrixFilter();
-                    proc(f);
-                    filters.push(f);
+                var url = _this.vars.urls[urlIndex], round = Math.round, sz = _this.size, setting = ConfKeeper_2.ConfKeeper.get;
+                var BG = function () {
+                    var scaleSprite = function (sprite, sc) {
+                        var ow = sprite.width;
+                        sprite.width *= sc;
+                        sprite.x = (ow - sprite.width) / 2;
+                        var oh = sprite.height;
+                        sprite.height *= sc;
+                        sprite.y = (oh - sprite.height) / 2;
+                    };
+                    var bg = new PIXI.Sprite(PIXI.Texture.from(setting('bgPath')));
+                    bg.width = sz.w;
+                    bg.height = sz.h;
+                    all.addChild(bg);
+                    var filters = [];
+                    var addMatrixFn = function (proc) {
+                        var f = new PIXI.filters.ColorMatrixFilter();
+                        proc(f);
+                        filters.push(f);
+                    };
+                    var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
+                    if (setting('blur')) {
+                        var x2 = setting('blur2');
+                        filters.push(new PIXI.filters.BlurFilter(4 * (x2 ? 2 : 1)));
+                        scaleSprite(bg, x2 ? 1.1 : 1.05);
+                    }
+                    if (setting('darken')) {
+                        brightness(.5);
+                        if (setting('darken2'))
+                            brightness(.7);
+                    }
+                    var d = ConfKeeper_2.ConfKeeper.dataType;
+                    var _loop_1 = function (i) {
+                        var t = d[i];
+                        if (typeof t.filter != 'undefined' && setting(t.name))
+                            addMatrixFn(function (f) { return f[t.filter](t.mul ? t.mul : null); });
+                    };
+                    for (var i = 0; i < d.length; ++i) {
+                        _loop_1(i);
+                    }
+                    bg.filters = filters;
                 };
-                var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
-                if (setting('blur')) {
-                    var x2 = setting('blur2');
-                    filters.push(new PIXI.filters.BlurFilter(4 * (x2 ? 2 : 1)));
-                    scaleSprite(bg, x2 ? 1.1 : 1.05);
-                }
-                if (setting('darken')) {
-                    brightness(.5);
-                    if (setting('darken2'))
-                        brightness(.7);
-                }
-                var d = ConfKeeper_2.ConfKeeper.dataType;
-                var _loop_1 = function (i) {
-                    var t = d[i];
-                    if (typeof t.filter != 'undefined' && setting(t.name))
-                        addMatrixFn(function (f) { return f[t.filter](t.mul ? t.mul : null); });
+                BG();
+                var QR = function () {
+                    var qrCanvas = document.getElementById('qr'), qrSizeRatio = .5;
+                    var qrSize = round(sz.w * qrSizeRatio);
+                    var qrSzHalf = qrSize / 2;
+                    var qrious = new QRious({
+                        element: qrCanvas,
+                        value: url,
+                        level: 'M',
+                        size: qrSize,
+                        padding: round(sz.w * .03),
+                    });
+                    var qr = new PIXI.projection.Sprite2d(PIXI.Texture.from(qrious.toDataURL()));
+                    qr.anchor.set(.5);
+                    qr.visible = false;
+                    var pos = { x: sz.w * .5, y: sz.h * .6 };
+                    all.addChild(qr);
+                    var Q = .2;
+                    var D = 1 + (setting('distort') ? Q * 2 : 0);
+                    var E = 1 - (setting('distort') ? Q / 2 : 0);
+                    var points = [
+                        new Point(-E, -1),
+                        new Point(E, -1),
+                        new Point(D, 1),
+                        new Point(-D, 1),
+                    ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
+                    for (var i = 0; i < 2; ++i)
+                        setTimeout(function () {
+                            qr.proj.mapSprite(qr, points);
+                            qr.visible = true;
+                        }, 1 / 60);
                 };
-                for (var i = 0; i < d.length; ++i) {
-                    _loop_1(i);
-                }
-                bg.filters = filters;
-                var url = _this.vars.urls[urlIndex], round = Math.round;
-                var qrCanvas = document.getElementById('qr'), qrSizeRatio = .5;
-                var qrious = new QRious({
-                    element: qrCanvas,
-                    value: url,
-                    level: 'M',
-                    size: round(sz.w * qrSizeRatio),
-                    padding: round(sz.w * .03),
-                });
-                var qr = new PIXI.Sprite(PIXI.Texture.from(qrious.toDataURL()));
-                qr.anchor.x = .5;
-                qr.anchor.y = .5;
-                qr.x = sz.w * .5;
-                qr.y = sz.h * .6;
-                all.addChild(qr);
+                QR();
                 setTimeout(function () { return $(_this.app.view).show(); }, 800);
             };
             window.qrGenUpdate = this.doUpdate;
@@ -281,11 +299,10 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                 width: width, height: height,
                 backgroundColor: 0xffffff,
                 resolution: 1,
+                antialias: true,
             });
             $(this.app.view).hide();
             document.getElementById('preview').appendChild(this.app.view);
-            this.all = new PIXI.Container();
-            this.app.stage.addChild(this.all);
         }
         return QRGen;
     }());

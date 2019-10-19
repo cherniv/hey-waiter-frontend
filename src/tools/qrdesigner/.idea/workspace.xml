@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ts/QRGen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QRGen.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/_declare/pixi.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/_declare/pixi.d.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,8 +23,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" column="6" lean-forward="true" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+            <state relative-caret-position="405">
+              <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
               <folding>
                 <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -35,11 +36,21 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="68" column="25" selection-start-line="68" selection-start-column="25" selection-end-line="68" selection-end-column="25" />
+            <state relative-caret-position="285">
+              <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
+                <element signature="e#1150#3007#0" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libs/pixi/pixi-projection.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="67">
+              <caret line="3114" column="28" selection-start-line="3114" selection-start-column="28" selection-end-line="3114" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -68,8 +79,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ts/_declare/pixi.d.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="3147" column="13" lean-forward="true" selection-start-line="3147" selection-start-column="13" selection-end-line="3147" selection-end-column="13" />
+            <state relative-caret-position="15">
+              <caret line="3090" lean-forward="true" selection-start-line="3090" selection-end-line="3090" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -97,7 +108,16 @@
       <find>capit</find>
       <find>class</find>
       <find>toDataUrl</find>
+      <find>filters</find>
+      <find>namespace filters</find>
+      <find>mapSprite</find>
+      <find>position.z</find>
+      <find>.IPoint</find>
+      <find>rotation</find>
     </findStrings>
+    <replaceStrings>
+      <replace>.Point</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
@@ -112,13 +132,15 @@
         <option value="$PROJECT_DIR$/ts/_declare/Glob.d.ts" />
         <option value="$PROJECT_DIR$/ts/BgImage.ts" />
         <option value="$PROJECT_DIR$/ts/Settings.ts" />
-        <option value="$PROJECT_DIR$/ts/_declare/pixi.d.ts" />
         <option value="$PROJECT_DIR$/ts/Stor.ts" />
         <option value="$PROJECT_DIR$/ts/ConfKeeper.ts" />
         <option value="$PROJECT_DIR$/libs/qrious.js" />
         <option value="$PROJECT_DIR$/ts/Main.ts" />
         <option value="$PROJECT_DIR$/ts/_declare/qrious.d.ts" />
+        <option value="$PROJECT_DIR$/libs/pixi/pixi-projection.js" />
         <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/ts/_declare/pixi-projection.d.ts" />
+        <option value="$PROJECT_DIR$/ts/_declare/pixi.d.ts" />
         <option value="$PROJECT_DIR$/ts/QRGen.ts" />
       </list>
     </option>
@@ -154,6 +176,12 @@
               <item name="qrdesigner" type="b2602c69:ProjectViewProjectNode" />
               <item name="qrdesigner" type="462c0819:PsiDirectoryNode" />
               <item name="libs" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="qrdesigner" type="b2602c69:ProjectViewProjectNode" />
+              <item name="qrdesigner" type="462c0819:PsiDirectoryNode" />
+              <item name="libs" type="462c0819:PsiDirectoryNode" />
+              <item name="pixi" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="qrdesigner" type="b2602c69:ProjectViewProjectNode" />
@@ -203,12 +231,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1571429879981</updated>
-      <workItem from="1571429881784" duration="25174000" />
+      <workItem from="1571429881784" duration="30353000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25174000" />
+    <option name="totallyTimeSpent" value="30353000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1293" height="702" extended-state="6" />
@@ -336,10 +364,31 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Roaming/npm/node_modules/typescript/lib/lib.es5.d.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="1277" column="4" selection-start-line="1277" selection-start-column="4" selection-end-line="1277" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="34" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ts/_declare/pixi-projection.d.ts">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/ts/_declare/pixi.d.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="3147" column="13" lean-forward="true" selection-start-line="3147" selection-start-column="13" selection-end-line="3147" selection-end-column="13" />
+        <state relative-caret-position="15">
+          <caret line="3090" lean-forward="true" selection-start-line="3090" selection-end-line="3090" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -363,23 +412,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/libs/pixi/pixi-projection.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" column="6" lean-forward="true" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-          <folding>
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="67">
+          <caret line="3114" column="28" selection-start-line="3114" selection-start-column="28" selection-end-line="3114" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="68" column="25" selection-start-line="68" selection-start-column="25" selection-end-line="68" selection-end-column="25" />
+        <state relative-caret-position="285">
+          <caret line="19" column="27" selection-start-line="19" selection-start-column="27" selection-end-line="19" selection-end-column="27" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
+            <element signature="e#1150#3007#0" />
           </folding>
         </state>
       </provider>
