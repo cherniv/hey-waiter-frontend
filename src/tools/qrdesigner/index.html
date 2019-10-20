@@ -4,21 +4,44 @@
 	<meta charset="UTF-8">
 	<title>QR: Create Prints</title>
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">-->
 	<link rel="stylesheet" href="assets/style/style.css">
 	<link rel="stylesheet" href="libs/jquery-ui-1.12.1.custom/jquery-ui.css">
 
 
 </head>
 <body>
+<script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+<script>
+  function calcIsMobile(){
+    if(sessionStorage.desktop) return false;
+    else if(localStorage.mobile) return true;
+    var ua = navigator.userAgent.toLowerCase();
+    var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile'];
+    for(var i in mobile) if(ua.indexOf(mobile[i].toLowerCase()) >= 0) return true;
+    return false;
+  }
+
+  var isMobile = calcIsMobile();
+  richFont = !isMobile;
+
+  //var globalFontFaceName='Gugi';
+  //var globalFontFaceName='Press Start 2P';
+  var globalFontFaceName = 'Audiowide';
+  if(isMobile)
+    alert('please use QR Designer on a PC - it is not adapted to mobile devices');
+  if(richFont)
+    setTimeout(function(){ WebFont.load({google:{families:[globalFontFaceName]}}); }, 10);
+</script>
 
 <div>
 	<div class="col_3 column" id="settings"></div>
 	<div class="col_2 column" id="bg-image"></div>
-	<div class="col_7 column" id="preview" style="padding-left: 1px;"><b>Preview</b><br></div>
-	<div style="display: none;">
-		<canvas id="qr"></canvas>
+	<div class="col_7 column" id="preview" style="padding-left: 1px;"><b>Preview</b><br>
+		<img src="" id='preview-image' alt=""/>
 	</div>
+	<canvas id="preview-temp" style="display: none;"></canvas>
+	<canvas id="qr" style="display: none;"></canvas>
 </div>
 
 <hr>
@@ -28,14 +51,15 @@
 <script src="libs/pixi/pixi-legacy.js"></script>
 <script src="libs/pixi/pixi-extras-filters.min.js"></script>
 <script src="libs/pixi/pixi-projection.js"></script>
+<script src="libs/pixi/pixi-extras-filters.min.js"></script>
 <script src="libs/qrious.js"></script>
 
 <script src="libs/kk/js/kickstart.js"></script> <!-- KICKSTART -->
-<link rel="stylesheet" href="libs/kk/css/kickstart.css" media="all" /> <!-- KICKSTART -->
+<link rel="stylesheet" href="libs/kk/css/kickstart.css" media="all"/> <!-- KICKSTART -->
 
 <script src="libs/require.js"></script>
 <script src="bin/bin.js"></script>
-<script>require(['Main'], function(Main){	 });</script>
+<script>require(['Main'], function(Main){ });</script>
 
 </body>
 </html>

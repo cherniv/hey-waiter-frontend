@@ -3880,6 +3880,7 @@ var PIXI = (function (exports) {
 	        {
 	            var contextOptions = {
 	                stencil: true,
+	                preserveDrawingBuffer:true,
 	                failIfMajorPerformanceCaveat: settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT,
 	            };
 
@@ -17546,13 +17547,13 @@ var PIXI = (function (exports) {
 
 	        if (settings.PREFER_ENV >= ENV.WEBGL2)
 	        {
-	            gl = canvas.getContext('webgl2', {});
+	            gl = canvas.getContext('webgl2', {preserveDrawingBuffer:true});
 	        }
 
 	        if (!gl)
 	        {
-	            gl = canvas.getContext('webgl', {})
-	            || canvas.getContext('experimental-webgl', {});
+	            gl = canvas.getContext('webgl', {preserveDrawingBuffer:true})
+	            || canvas.getContext('experimental-webgl', {preserveDrawingBuffer:true});
 
 	            if (!gl)
 	            {
@@ -21515,6 +21516,7 @@ var PIXI = (function (exports) {
 	        }
 	        else
 	        {
+
 	            this.context.initFromOptions({
 	                alpha: this.transparent,
 	                antialias: options.antialias,

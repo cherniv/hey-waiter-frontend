@@ -3,45 +3,68 @@ import {ConfKeeper} from "./ConfKeeper";
 import Widget = JQueryUI.Widget;
 import {Stor} from "./Stor";
 import Point = PIXI.Point;
+import Texture = PIXI.Texture;
+import Sprite = PIXI.Sprite;
+import Sprite2d = PIXI.projection.Sprite2d;
+import GlowFilter = PIXI.filters.GlowFilter;
+import {BgImage} from "./BgImage";
+import {FontLoader} from "./FontLoader";
+
 
 export class QRGen {
     private app: PIXI.Application;
     private size = {w:0, h:0};
 
-    constructor(public vars: UrlVarsParser){
+    private getWidthByHeight = (height: number) => height / Math.pow(2, .5);
+
+    constructor(public vars: UrlVarsParser, public previewImageId: string, public initialHeight: number){
         (<any>window).qrGenUpdate = this.doUpdate;
         // alert(window.devicePixelRatio);
-        const height = document.body.clientHeight * .85, width = height / Math.pow(2, .5);
+        const height = initialHeight, width = this.getWidthByHeight(initialHeight);
         this.size = {w:width, h:height};
         this.app = new PIXI.Application({
             width:width, height:height,
             backgroundColor:0xffffff,
             resolution:1,
             antialias:true,
+            preserveDrawingBuffer:true,
+            // forceCanvas:true,
+            view:<HTMLCanvasElement>document.getElementById('preview-temp')
         });
         $(this.app.view).hide();
-        document.getElementById('preview').appendChild(this.app.view);
+        // document.getElementById('preview').appendChild(this.app.view);
+        (<any>window).previewCanvas = this.app.view;
 
 
     }
 
     doUpdate = (settingsKey: string, value: string) => {
         ConfKeeper.setConf(settingsKey, value);
-        this.generate(0);
+        this.preview();
     };
-    generate = (urlIndex = 0) => {
+    preview = () => {
+        this.generate(0, data => {
+            // console.log(data);
+            const img = $('#' + this.previewImageId);
+            img.attr("src", data);
+            img.height(BgImage.height);
+            img.width(this.getWidthByHeight(BgImage.height));
+        })
+    };
+    generate = (urlIndex: number, onDone: (dataURL: string) => void) => {
 
-        const all=this.app.stage;
+        const blurByFactor = (v: number) => this.initialHeight / (nominalHeight / v);
+        const all = this.app.stage;
         all.removeChildren();
         const
             url = this.vars.urls[urlIndex],
             round = Math.round,
             sz = this.size,
             setting = ConfKeeper.get;
-
+        const nominalHeight = 1024;/// the one I prewiev on
 
         const BG = () => {
-            const scaleSprite = (sprite: PIXI.Sprite, sc: number) => {
+            const scaleSprite = (sprite: Sprite, sc: number) => {
                 const ow = sprite.width;
                 sprite.width *= sc;
                 sprite.x = (ow - sprite.width) / 2;
@@ -50,7 +73,7 @@ export class QRGen {
                 sprite.height *= sc;
                 sprite.y = (oh - sprite.height) / 2;
             };
-            const bg = new PIXI.Sprite(PIXI.Texture.from(setting('bgPath')));
+            const bg = new Sprite(Texture.from(setting('bgPath')));
             bg.width = sz.w;
             bg.height = sz.h;
             all.addChild(bg);
@@ -63,7 +86,9 @@ export class QRGen {
             const brightness = (val: number) => addMatrixFn(f => f.brightness(val));
             if (setting('blur')){
                 const x2 = setting('blur2');
-                filters.push(new PIXI.filters.BlurFilter(4 * (x2 ? 2 : 1)));
+                filters.push(new PIXI.filters.BlurFilter(
+                    blurByFactor(8) * (x2 ? 3 : 1),
+                    6));
                 scaleSprite(bg, x2 ? 1.1 : 1.05);
             }
 
@@ -80,57 +105,93 @@ export class QRGen {
             }
 
             bg.filters = filters;
-        };BG();
+        };
+        BG();
 
-
+        let qrSprite: Sprite2d, qrPos: Point;
+        const qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
         const QR = () => {
-            const qrCanvas = document.getElementById('qr'), qrSizeRatio = .5;
-            const qrSize = round(sz.w * qrSizeRatio);
-            const qrSzHalf = qrSize/2;
+            const qrCanvas = <HTMLCanvasElement>document.getElementById('qr');
             const qrious = new QRious({
                 element:qrCanvas,
                 value:url,
-                level:'M',
-                size:qrSize,
-                padding:round(sz.w * .03),
+                level:'H',
+                size:512,
+                // padding:round(sz.w * .03),
             });
 
-            const qr = new PIXI.projection.Sprite2d(PIXI.Texture.from(qrious.toDataURL()));
+
+            const dataURL = qrCanvas.toDataURL();
+            // console.log(dataURL);
+            const qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
             qr.anchor.set(.5);
-            qr.visible=false;
-            const pos = {x:sz.w*.5, y:sz.h*.6};
+            qr.visible = false;
+            const pos = qrPos = new Point(sz.w * .5, sz.h * .6);
             all.addChild(qr);
 
             /// make points
-            const Q=.2;
-            const D=1+(setting('distort')?Q*2:0);
-            const E=1-(setting('distort')?Q/2:0);
-            const points:Point[] = [
+            const Q = .2;
+            const D = 1 + (setting('distort') ? Q * 2 : 0);
+            const E = 1 - (setting('distort') ? Q / 2 : 0);
+            const points: Point[] = [
                 new Point(-E, -1),
                 new Point(E, -1),
-                new Point( D,  1),
-                new Point(-D,  1),
-            ].map(p=>new Point(
-                pos.x + qrSzHalf*p.x,
-                pos.y + qrSzHalf*p.y,
+                new Point(D, 1),
+                new Point(-D, 1),
+            ].map(p => new Point(
+                pos.x + qrSzHalf * p.x,
+                pos.y + qrSzHalf * p.y,
             ));
 
             // this.app.ticker.add(d=>qr.proj.mapSprite(qr, points));
-            for(let i=0;i<2;++i)
-                setTimeout(()=>{
-                    qr.proj.mapSprite(qr, points);
-                    qr.visible=true;
-                }, 1/60
+            const delay = round(1 / 60), times = 3;
+            for (let i = 0; i < times; ++i)
+                setTimeout(() => {
+                        qr.proj.mapSprite(qr, points);
+                        qr.visible = true;
+                    }, delay
                 );
+            setTimeout(() => {
+                    // const renderer = this.app.renderer;
+                    // const renderTexture = PIXI.RenderTexture.create(renderer.width, renderer.height);
+                    // renderer.render(qrSprite, renderTexture);
+                    // window.open(renderer.extract.base64());
+                    // onDone(renderer.extract.base64());
+                    // onDone(this.app.renderer.extract.base64());
+                    const canv = this.app.view;
+                    // const cont = canv.getContext('webgl', {preserveDrawingBuffer:true});
+
+                    onDone(canv.toDataURL('image/jpeg', this.initialHeight < 1300 ? .75 : .85));
+                    // onDone(canv.toDataURL('image/png'));
+                },
+                (delay * (times + 2)) + (this.firstToDataURL ? 800 : 200)
+            );
+            this.firstToDataURL = false;
+
         };
         QR();
 
+        const buttonQRCover = () => {
+            const button = new Sprite(Texture.from('assets/pics/physical_button.png'));
+            const bSize = sz.w * .51;
+            button.width = button.height = bSize;
+            button.anchor.set(.5);
+            button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
+            button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+            all.addChild(button);
+        };
+        buttonQRCover();
 
 
+        const allTexts = () => {
+
+        };
+        if (this.fontLoader == null) this.fontLoader = new FontLoader();
+        this.fontLoader.init(allTexts);
 
 
-
-
-        setTimeout(() => $(this.app.view).show(), 800);
-    }
+        // setTimeout(() => $(this.app.view).show(), 800);
+    };
+    private fontLoader: FontLoader = null;
+    private firstToDataURL = true;
 }

@@ -1,36 +1,25 @@
-define("UrlVarsParser", ["require", "exports"], function (require, exports) {
+define("BgImage", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var UrlVarsParser = (function () {
-        function UrlVarsParser() {
-            var _this = this;
-            this.has = function (name) { return typeof _this.vars[name] != 'undefined'; };
-            this.get = function (name) { return decodeURIComponent(_this.vars[name]); };
-            this.vars = {};
-            var l = location.href;
-            if (l.indexOf('?') >= 0) {
-                var search = l.split('?').pop();
-                var definitions = search.split('&');
-                definitions.forEach(function (val, key) {
-                    var parts = val.split('=', 2);
-                    _this.vars[parts[0]] = parts[1];
-                });
+    var BgImage = (function () {
+        function BgImage(onInit) {
+            var elements = [];
+            var total = 70;
+            for (var i = 1; i < total + 1; ++i) {
+                var path = "assets/bg/" + i + ".jpg";
+                elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
             }
-            if (!this.has('company') || !this.has('urls'))
-                location.href = '?company=' + encodeURIComponent('A good company')
-                    + '&urls=' + encodeURIComponent(JSON.stringify([
-                    'https://waiter.live#q23432',
-                    'https://waiter.live#q76543',
-                    'https://waiter.live#q09846',
-                ]));
-            else {
-                this.company = this.get('company');
-                this.urls = JSON.parse(this.get('urls'));
-            }
+            $('#bg-image').html('<b>BG Image</b><br>' +
+                '<div class="bg-scroll-pane">' + elements.join('<br>') + '</div>');
+            var pane = $('.bg-scroll-pane');
+            BgImage.height = $(window).height() - 4 - pane.offset().top;
+            pane.css('height', Math.round(BgImage.height) + 'px');
+            setTimeout(onInit, 200);
         }
-        return UrlVarsParser;
+        BgImage.height = 0;
+        return BgImage;
     }());
-    exports.UrlVarsParser = UrlVarsParser;
+    exports.BgImage = BgImage;
 });
 define("Stor", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -147,6 +136,40 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
     }());
     exports.ConfKeeper = ConfKeeper;
 });
+define("UrlVarsParser", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UrlVarsParser = (function () {
+        function UrlVarsParser() {
+            var _this = this;
+            this.has = function (name) { return typeof _this.vars[name] != 'undefined'; };
+            this.get = function (name) { return decodeURIComponent(_this.vars[name]); };
+            this.vars = {};
+            var l = location.href;
+            if (l.indexOf('?') >= 0) {
+                var search = l.split('?').pop();
+                var definitions = search.split('&');
+                definitions.forEach(function (val, key) {
+                    var parts = val.split('=', 2);
+                    _this.vars[parts[0]] = parts[1];
+                });
+            }
+            if (!this.has('company') || !this.has('urls'))
+                location.href = '?company=' + encodeURIComponent('A good company')
+                    + '&urls=' + encodeURIComponent(JSON.stringify([
+                    'https://waiter.live/#q23432',
+                    'https://waiter.live/#q76543',
+                    'https://waiter.live/#q09846',
+                ]));
+            else {
+                this.company = this.get('company');
+                this.urls = JSON.parse(this.get('urls'));
+            }
+        }
+        return UrlVarsParser;
+    }());
+    exports.UrlVarsParser = UrlVarsParser;
+});
 define("Settings", ["require", "exports", "ConfKeeper"], function (require, exports, ConfKeeper_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -180,42 +203,64 @@ define("Settings", ["require", "exports", "ConfKeeper"], function (require, expo
     }());
     exports.Settings = Settings;
 });
-define("BgImage", ["require", "exports"], function (require, exports) {
+define("FontLoader", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    var BgImage = (function () {
-        function BgImage() {
-            var elements = [];
-            var total = 70;
-            for (var i = 1; i < total + 1; ++i) {
-                var path = "assets/bg/" + i + ".jpg";
-                elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
-            }
-            $('#bg-image').html('<b>BG Image</b><br>' +
-                '<div class="bg-scroll-pane">' + elements.join('<br>') + '</div>');
+    var FontLoader = (function () {
+        function FontLoader() {
+            this.wasAlreadyInit = false;
         }
-        return BgImage;
+        Object.defineProperty(FontLoader.prototype, "richFont", {
+            get: function () {
+                return window.richFont;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        FontLoader.prototype.init = function (onDone) {
+            if (!this.richFont || this.wasAlreadyInit) {
+                onDone();
+            }
+            this.wasAlreadyInit = true;
+        };
+        return FontLoader;
     }());
-    exports.BgImage = BgImage;
+    exports.FontLoader = FontLoader;
 });
-define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports, ConfKeeper_2) {
+define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], function (require, exports, ConfKeeper_2, BgImage_1, FontLoader_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Point = PIXI.Point;
+    var Texture = PIXI.Texture;
+    var Sprite = PIXI.Sprite;
+    var Sprite2d = PIXI.projection.Sprite2d;
+    var GlowFilter = PIXI.filters.GlowFilter;
     var QRGen = (function () {
-        function QRGen(vars) {
+        function QRGen(vars, previewImageId, initialHeight) {
             var _this = this;
             this.vars = vars;
+            this.previewImageId = previewImageId;
+            this.initialHeight = initialHeight;
             this.size = { w: 0, h: 0 };
+            this.getWidthByHeight = function (height) { return height / Math.pow(2, .5); };
             this.doUpdate = function (settingsKey, value) {
                 ConfKeeper_2.ConfKeeper.setConf(settingsKey, value);
-                _this.generate(0);
+                _this.preview();
             };
-            this.generate = function (urlIndex) {
-                if (urlIndex === void 0) { urlIndex = 0; }
+            this.preview = function () {
+                _this.generate(0, function (data) {
+                    var img = $('#' + _this.previewImageId);
+                    img.attr("src", data);
+                    img.height(BgImage_1.BgImage.height);
+                    img.width(_this.getWidthByHeight(BgImage_1.BgImage.height));
+                });
+            };
+            this.generate = function (urlIndex, onDone) {
+                var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
                 var all = _this.app.stage;
                 all.removeChildren();
                 var url = _this.vars.urls[urlIndex], round = Math.round, sz = _this.size, setting = ConfKeeper_2.ConfKeeper.get;
+                var nominalHeight = 1024;
                 var BG = function () {
                     var scaleSprite = function (sprite, sc) {
                         var ow = sprite.width;
@@ -225,7 +270,7 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                         sprite.height *= sc;
                         sprite.y = (oh - sprite.height) / 2;
                     };
-                    var bg = new PIXI.Sprite(PIXI.Texture.from(setting('bgPath')));
+                    var bg = new Sprite(Texture.from(setting('bgPath')));
                     bg.width = sz.w;
                     bg.height = sz.h;
                     all.addChild(bg);
@@ -238,7 +283,7 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                     var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
                     if (setting('blur')) {
                         var x2 = setting('blur2');
-                        filters.push(new PIXI.filters.BlurFilter(4 * (x2 ? 2 : 1)));
+                        filters.push(new PIXI.filters.BlurFilter(blurByFactor(8) * (x2 ? 3 : 1), 6));
                         scaleSprite(bg, x2 ? 1.1 : 1.05);
                     }
                     if (setting('darken')) {
@@ -258,21 +303,21 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                     bg.filters = filters;
                 };
                 BG();
+                var qrSprite, qrPos;
+                var qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
                 var QR = function () {
-                    var qrCanvas = document.getElementById('qr'), qrSizeRatio = .5;
-                    var qrSize = round(sz.w * qrSizeRatio);
-                    var qrSzHalf = qrSize / 2;
+                    var qrCanvas = document.getElementById('qr');
                     var qrious = new QRious({
                         element: qrCanvas,
                         value: url,
-                        level: 'M',
-                        size: qrSize,
-                        padding: round(sz.w * .03),
+                        level: 'H',
+                        size: 512,
                     });
-                    var qr = new PIXI.projection.Sprite2d(PIXI.Texture.from(qrious.toDataURL()));
+                    var dataURL = qrCanvas.toDataURL();
+                    var qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
                     qr.anchor.set(.5);
                     qr.visible = false;
-                    var pos = { x: sz.w * .5, y: sz.h * .6 };
+                    var pos = qrPos = new Point(sz.w * .5, sz.h * .6);
                     all.addChild(qr);
                     var Q = .2;
                     var D = 1 + (setting('distort') ? Q * 2 : 0);
@@ -283,32 +328,56 @@ define("QRGen", ["require", "exports", "ConfKeeper"], function (require, exports
                         new Point(D, 1),
                         new Point(-D, 1),
                     ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
-                    for (var i = 0; i < 2; ++i)
+                    var delay = round(1 / 60), times = 3;
+                    for (var i = 0; i < times; ++i)
                         setTimeout(function () {
                             qr.proj.mapSprite(qr, points);
                             qr.visible = true;
-                        }, 1 / 60);
+                        }, delay);
+                    setTimeout(function () {
+                        var canv = _this.app.view;
+                        onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
+                    }, (delay * (times + 2)) + (_this.firstToDataURL ? 800 : 200));
+                    _this.firstToDataURL = false;
                 };
                 QR();
-                setTimeout(function () { return $(_this.app.view).show(); }, 800);
+                var buttonQRCover = function () {
+                    var button = new Sprite(Texture.from('assets/pics/physical_button.png'));
+                    var bSize = sz.w * .51;
+                    button.width = button.height = bSize;
+                    button.anchor.set(.5);
+                    button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
+                    button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+                    all.addChild(button);
+                };
+                buttonQRCover();
+                var allTexts = function () {
+                };
+                if (_this.fontLoader == null)
+                    _this.fontLoader = new FontLoader_1.FontLoader();
+                _this.fontLoader.init(allTexts);
             };
+            this.fontLoader = null;
+            this.firstToDataURL = true;
             window.qrGenUpdate = this.doUpdate;
-            var height = document.body.clientHeight * .85, width = height / Math.pow(2, .5);
+            var height = initialHeight, width = this.getWidthByHeight(initialHeight);
             this.size = { w: width, h: height };
             this.app = new PIXI.Application({
                 width: width, height: height,
                 backgroundColor: 0xffffff,
                 resolution: 1,
                 antialias: true,
+                preserveDrawingBuffer: true,
+                view: document.getElementById('preview-temp')
             });
             $(this.app.view).hide();
-            document.getElementById('preview').appendChild(this.app.view);
+            window.previewCanvas = this.app.view;
         }
         return QRGen;
     }());
     exports.QRGen = QRGen;
 });
-define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "QRGen", "ConfKeeper"], function (require, exports, UrlVarsParser_1, Settings_1, BgImage_1, QRGen_1, ConfKeeper_3) {
+define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "QRGen", "ConfKeeper"], function (require, exports, UrlVarsParser_1, Settings_1, BgImage_2, QRGen_1, ConfKeeper_3) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
@@ -318,9 +387,10 @@ define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "Q
                 _this.vars = new UrlVarsParser_1.UrlVarsParser();
                 ConfKeeper_3.ConfKeeper.init();
                 new Settings_1.Settings();
-                new BgImage_1.BgImage();
-                var gen = new QRGen_1.QRGen(_this.vars);
-                gen.generate(0);
+                new BgImage_2.BgImage(function () {
+                    var gen = new QRGen_1.QRGen(_this.vars, 'preview-image', 1024);
+                    gen.preview();
+                });
             };
             $(document).ready(this.run);
         }

@@ -14,10 +14,12 @@ class Main {
         this.vars = new UrlVarsParser();
         ConfKeeper.init();
         new Settings();
-        new BgImage();
-        const gen = new QRGen(this.vars);
-        gen.generate(0);
+        new BgImage(() => {
+            const gen = new QRGen(this.vars, 'preview-image', 1024);
+            gen.preview();
+        });
     };
+
     vars: UrlVarsParser;
 }
 
