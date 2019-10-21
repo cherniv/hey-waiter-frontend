@@ -17,12 +17,12 @@ jobs: # a collection of steps
           command: 'sudo npm install -g npm@latest'
       - restore_cache: # special step to restore the dependency cache
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          key: npm-cache-v1-{{ checksum "manager/package-lock.json" }}
       - run:
           name: Install Dependencies
           command: npm ci
       - save_cache: # special step to save the dependency cache
-          key: npm-cache-v1-{{ checksum "package-lock.json" }}
+          key: npm-cache-v1-{{ checksum "manager/package-lock.json" }}
           paths:
             - /home/circleci/.npm
       # - run: # run tests
