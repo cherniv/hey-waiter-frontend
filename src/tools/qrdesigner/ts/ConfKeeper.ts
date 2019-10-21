@@ -6,7 +6,7 @@ type DataEntry =
 export class ConfKeeper {
     static dataType: DataEntry[] = [
 
-        {name:'distort', title:'Perspective distortion', type:'boolean', def:true},
+        // {name:'distort', title:'Perspective distortion', type:'boolean', def:true},
         {name:'bgPath', type:'string', def:'assets/bg/1.jpg', outer:true, mul:0},
 
         {name:'blur', title:'Blur Background', type:'boolean', def:true},

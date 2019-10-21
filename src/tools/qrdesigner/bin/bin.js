@@ -52,7 +52,6 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
         function ConfKeeper() {
         }
         ConfKeeper.dataType = [
-            { name: 'distort', title: 'Perspective distortion', type: 'boolean', def: true },
             { name: 'bgPath', type: 'string', def: 'assets/bg/1.jpg', outer: true, mul: 0 },
             { name: 'blur', title: 'Blur Background', type: 'boolean', def: true },
             { name: 'blur2', title: 'Blur More', type: 'boolean', def: false },
@@ -179,7 +178,7 @@ define("FontLoader", ["require", "exports"], function (require, exports) {
             onDone();
         };
         FontLoader.makeText = function (s, fontSz, blur, dist) {
-            return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#cccccc', blur, dist);
+            return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#dddddd', blur, dist);
         };
         return FontLoader;
     }());
@@ -356,8 +355,9 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         var pos = qrPos = new Point(sz.w * .5, sz.h * .6);
                         all.addChild(qr);
                         var Q = .2;
-                        var D = 1 + (setting('distort') ? Q * 2 : 0);
-                        var E = 1 - (setting('distort') ? Q / 2 : 0);
+                        var distort = true;
+                        var D = 1 + (distort ? Q * 2 : 0);
+                        var E = 1 - (distort ? Q / 2 : 0);
                         var points = [
                             new Point(-E, -1),
                             new Point(E, -1),
@@ -390,7 +390,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     };
                     buttonQRCover();
                     var allTexts = function () {
-                        var currY = 0, ySpacing = .06;
+                        var currY = 0, ySpacing = .051;
                         var txt = function (s, szRel, relX) {
                             var t = FontLoader_1.FontLoader.makeText(s, sz.w * .08 * szRel, blurByFactor(16), blurByFactor(4));
                             all.addChild(t);
@@ -401,11 +401,15 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                             return t;
                         };
                         var dispURL = url.split('/#').join('#').split('http://').join('').split('https://').join('');
-                        currY = .15;
+                        currY = .19;
                         txt('To call a waiter,', 1, .5);
-                        txt('Either scan this code', 1, .5);
-                        txt('Or visit', 1, .5);
+                        txt('either scan this code', 1, .5);
+                        txt('or visit', 1, .5);
                         txt(dispURL, .9, .5);
+                        currY = .02;
+                        txt(_this.vars.company, 1.5, .5);
+                        currY = .87;
+                        txt('No APP required!', 1.6, .5);
                     };
                     if (_this.fontLoader == null)
                         _this.fontLoader = new FontLoader_1.FontLoader();

@@ -8,7 +8,7 @@ export class FontLoader {
     }
 
     static makeText = (s: string, fontSz: number, blur: number, dist: number) =>
-        FontLoader.makeTextClr(` ${s} `, fontSz, '#ffffff', '#cccccc', blur, dist);
+        FontLoader.makeTextClr(` ${s} `, fontSz, '#ffffff', '#dddddd', blur, dist);
 
 
     static makeTextClr(s: string, fontSz: number, clrA: string, clrB: string, blur: number, dist: number){

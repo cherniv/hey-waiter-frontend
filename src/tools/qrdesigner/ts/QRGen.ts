@@ -146,8 +146,10 @@ export class QRGen {
 
                 /// make points
                 const Q = .2;
-                const D = 1 + (setting('distort') ? Q * 2 : 0);
-                const E = 1 - (setting('distort') ? Q / 2 : 0);
+                const distort = true;//setting('distort');
+
+                const D = 1 + (distort ? Q * 2 : 0);
+                const E = 1 - (distort ? Q / 2 : 0);
                 const points: Point[] = [
                     new Point(-E, -1),
                     new Point(E, -1),
@@ -201,7 +203,7 @@ export class QRGen {
 
 
             const allTexts = () => {
-                let currY = 0, ySpacing = .06;
+                let currY = 0, ySpacing = .051;
                 const txt = (s: string, szRel: number, relX: number) => {
 
                     const t = FontLoader.makeText(s, sz.w * .08 * szRel, blurByFactor(16), blurByFactor(4));
@@ -213,13 +215,19 @@ export class QRGen {
                     return t;
                 };
                 const dispURL = url.split('/#').join('#').split('http://').join('').split('https://').join('')
-                currY = .15;
+                currY = .19;
                 txt('To call a waiter,', 1, .5);
-                txt('Either scan this code', 1, .5);
-                txt('Or visit', 1, .5);
+                txt('either scan this code', 1, .5);
+                txt('or visit', 1, .5);
                 txt(dispURL, .9, .5);
-                // txt.anchor.set(.5);
-                // txt.position.set(sz.w / 2, sz.h / 2);
+
+
+                currY = .02;
+                txt(this.vars.company, 1.5, .5);
+
+                currY = .87;
+                txt('No APP required!', 1.6, .5);
+
             };
             if (this.fontLoader == null) this.fontLoader = new FontLoader();
             this.fontLoader.init(allTexts);
