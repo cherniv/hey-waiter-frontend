@@ -2,20 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/63.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/63.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/pixi/pixi-extras-filters.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/libs/pixi/pixi-extras-filters.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/pixi/pixi-legacy.js" beforeDir="false" afterPath="$PROJECT_DIR$/libs/pixi/pixi-legacy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/BgImage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/BgImage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/FontLoader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/FontLoader.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ts/QRGen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QRGen.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/UrlVarsParser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/UrlVarsParser.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/_declare/pixi.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/_declare/pixi.d.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,11 +23,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="10" />
+            <state relative-caret-position="187">
+              <caret line="42" column="44" lean-forward="true" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="48" />
               <folding>
                 <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#canvas#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#canvas#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
             </state>
@@ -45,26 +36,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ts/FontLoader.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/assets/style/style.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
-              <caret line="44" column="1" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
+            <state relative-caret-position="435">
+              <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
+        <entry file="file://$PROJECT_DIR$/ts/Main.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="427">
-              <caret line="189" column="39" selection-start-line="189" selection-start-column="39" selection-end-line="189" selection-end-column="39" />
+            <state relative-caret-position="255">
+              <caret line="17" column="66" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
               <folding>
                 <element signature="e#0#46#0" expanded="true" />
               </folding>
@@ -76,9 +58,21 @@
         <entry file="file://$PROJECT_DIR$/ts/_declare/pixi.d.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="182">
-              <caret line="3655" column="14" selection-start-line="3655" selection-start-column="14" selection-end-line="3655" selection-end-column="14" />
+              <caret line="4123" column="18" selection-start-line="4123" selection-start-column="18" selection-end-line="4123" selection-end-column="18" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="193" column="104" selection-start-line="193" selection-start-column="104" selection-end-line="193" selection-end-column="104" />
+              <folding>
+                <element signature="e#0#46#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -125,6 +119,8 @@
       <find>glowf</find>
       <find>blur</find>
       <find>glow</find>
+      <find>assignSlot</find>
+      <find>setting</find>
     </findStrings>
     <replaceStrings>
       <replace>.Point</replace>
@@ -151,11 +147,11 @@
         <option value="$PROJECT_DIR$/ts/UrlVarsParser.ts" />
         <option value="$PROJECT_DIR$/ts/BgImage.ts" />
         <option value="$PROJECT_DIR$/ts/_declare/pixi.d.ts" />
-        <option value="$PROJECT_DIR$/ts/Main.ts" />
+        <option value="$PROJECT_DIR$/assets/style/style.css" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/ts/FontLoader.ts" />
-        <option value="$PROJECT_DIR$/assets/style/style.css" />
         <option value="$PROJECT_DIR$/ts/QRGen.ts" />
+        <option value="$PROJECT_DIR$/ts/Main.ts" />
       </list>
     </option>
   </component>
@@ -213,7 +209,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="Errors" />
     <property name="ts.external.directory.path" value="C:\Users\rigondo\AppData\Roaming\npm\node_modules\typescript\lib" />
   </component>
   <component name="RunDashboard">
@@ -241,20 +237,20 @@
       <workItem from="1571429881784" duration="32084000" />
       <workItem from="1571592270091" duration="107000" />
       <workItem from="1571592487109" duration="209000" />
-      <workItem from="1571592836349" duration="15755000" />
+      <workItem from="1571592836349" duration="20121000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48155000" />
+    <option name="totallyTimeSpent" value="52521000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-6" y="-6" width="1293" height="702" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.64685315" visible="true" weight="0.24960254" />
-      <window_info id="TypeScript" order="2" sideWeight="0.35314685" side_tool="true" visible="true" weight="0.24960254" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.64685315" visible="true" weight="0.24960254" />
+      <window_info active="true" id="TypeScript" order="2" sideWeight="0.35314685" side_tool="true" visible="true" weight="0.24960254" />
       <window_info id="Structure" order="3" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="1" />
@@ -389,32 +385,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="25" column="2" lean-forward="true" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="10" />
-          <folding>
-            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#canvas#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ts/BgImage.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="240">
           <caret line="16" column="21" selection-start-line="16" selection-start-column="21" selection-end-line="16" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ts/Main.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="66" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
-          <folding>
-            <element signature="e#0#46#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -432,34 +406,55 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/style/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="232">
+          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="193" column="104" selection-start-line="193" selection-start-column="104" selection-end-line="193" selection-end-column="104" />
+          <folding>
+            <element signature="e#0#46#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ts/_declare/pixi.d.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="182">
-          <caret line="3655" column="14" selection-start-line="3655" selection-start-column="14" selection-end-line="3655" selection-end-column="14" />
+          <caret line="4123" column="18" selection-start-line="4123" selection-start-column="18" selection-end-line="4123" selection-end-column="18" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="42" column="44" lean-forward="true" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="48" />
+          <folding>
+            <element signature="n#style#0;n#div#2;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#canvas#0;n#div#3;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ts/FontLoader.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="18" selection-start-line="5" selection-start-column="18" selection-end-line="5" selection-end-column="18" />
+        <state relative-caret-position="435">
+          <caret line="29" column="40" selection-start-line="29" selection-start-column="40" selection-end-line="29" selection-end-column="40" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/style/style.css">
+    <entry file="file://$PROJECT_DIR$/ts/Main.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="44" column="1" selection-start-line="44" selection-start-column="1" selection-end-line="44" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ts/QRGen.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="427">
-          <caret line="189" column="39" selection-start-line="189" selection-start-column="39" selection-end-line="189" selection-end-column="39" />
+        <state relative-caret-position="255">
+          <caret line="17" column="66" selection-start-line="17" selection-start-column="66" selection-end-line="17" selection-end-column="66" />
           <folding>
             <element signature="e#0#46#0" expanded="true" />
           </folding>

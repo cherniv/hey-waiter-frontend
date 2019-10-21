@@ -136,6 +136,56 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
     }());
     exports.ConfKeeper = ConfKeeper;
 });
+define("FontLoader", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FontLoader = (function () {
+        function FontLoader() {
+            this.wasAlreadyInit = false;
+        }
+        Object.defineProperty(FontLoader, "richFont", {
+            get: function () {
+                return window.richFont;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FontLoader, "globalFontFaceName", {
+            get: function () {
+                return window.globalFontFaceName;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        FontLoader.makeTextClr = function (s, fontSz, clrA, clrB, blur, dist) {
+            return new PIXI.Text(s, ({
+                fontFamily: (!FontLoader.richFont) ? '_sans' : FontLoader.globalFontFaceName,
+                fontSize: fontSz,
+                fontWeight: 'bold',
+                fill: [clrA, clrB],
+                stroke: '#000000',
+                strokeThickness: 4,
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: blur,
+                dropShadowAngle: Math.PI * .5,
+                dropShadowDistance: dist,
+                dropShadowAlpha: .5
+            }));
+        };
+        FontLoader.prototype.init = function (onDone) {
+            if (!FontLoader.richFont || this.wasAlreadyInit)
+                onDone();
+            this.wasAlreadyInit = true;
+            onDone();
+        };
+        FontLoader.makeText = function (s, fontSz, blur, dist) {
+            return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#bbbbbb', blur, dist);
+        };
+        return FontLoader;
+    }());
+    exports.FontLoader = FontLoader;
+});
 define("UrlVarsParser", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -203,38 +253,14 @@ define("Settings", ["require", "exports", "ConfKeeper"], function (require, expo
     }());
     exports.Settings = Settings;
 });
-define("FontLoader", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FontLoader = (function () {
-        function FontLoader() {
-            this.wasAlreadyInit = false;
-        }
-        Object.defineProperty(FontLoader.prototype, "richFont", {
-            get: function () {
-                return window.richFont;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        FontLoader.prototype.init = function (onDone) {
-            if (!this.richFont || this.wasAlreadyInit) {
-                onDone();
-            }
-            this.wasAlreadyInit = true;
-        };
-        return FontLoader;
-    }());
-    exports.FontLoader = FontLoader;
-});
 define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], function (require, exports, ConfKeeper_2, BgImage_1, FontLoader_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Point = PIXI.Point;
-    var Texture = PIXI.Texture;
     var Sprite = PIXI.Sprite;
     var Sprite2d = PIXI.projection.Sprite2d;
     var GlowFilter = PIXI.filters.GlowFilter;
+    var Loader = PIXI.loaders.Loader;
     var QRGen = (function () {
         function QRGen(vars, previewImageId, initialHeight) {
             var _this = this;
@@ -256,106 +282,117 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                 });
             };
             this.generate = function (urlIndex, onDone) {
-                var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
-                var all = _this.app.stage;
-                all.removeChildren();
-                var url = _this.vars.urls[urlIndex], round = Math.round, sz = _this.size, setting = ConfKeeper_2.ConfKeeper.get;
-                var nominalHeight = 1024;
-                var BG = function () {
-                    var scaleSprite = function (sprite, sc) {
-                        var ow = sprite.width;
-                        sprite.width *= sc;
-                        sprite.x = (ow - sprite.width) / 2;
-                        var oh = sprite.height;
-                        sprite.height *= sc;
-                        sprite.y = (oh - sprite.height) / 2;
+                var loader = new Loader(), setting = ConfKeeper_2.ConfKeeper.get;
+                var doItAll = function () {
+                    var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
+                    var all = _this.app.stage;
+                    all.removeChildren();
+                    var url = _this.vars.urls[urlIndex], round = Math.round, sz = _this.size;
+                    var nominalHeight = 1024;
+                    var BG = function () {
+                        var scaleSprite = function (sprite, sc) {
+                            var ow = sprite.width;
+                            sprite.width *= sc;
+                            var oh = sprite.height;
+                            sprite.height *= sc;
+                        };
+                        var bg = new Sprite(loader.resources['bg'].texture);
+                        bg.anchor.set(.5);
+                        var ratio = bg.width / bg.height;
+                        bg.height = sz.h;
+                        bg.width = sz.h * ratio;
+                        bg.position.set(sz.w / 2, sz.h / 2);
+                        all.addChild(bg);
+                        var filters = [];
+                        var addMatrixFn = function (proc) {
+                            var f = new PIXI.filters.ColorMatrixFilter();
+                            proc(f);
+                            filters.push(f);
+                        };
+                        var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
+                        if (setting('blur')) {
+                            var x2 = setting('blur2');
+                            filters.push(new PIXI.filters.BlurFilter(blurByFactor(8) * (x2 ? 3 : 1), 6));
+                            scaleSprite(bg, x2 ? 1.1 : 1.05);
+                        }
+                        if (setting('darken')) {
+                            brightness(.5);
+                            if (setting('darken2'))
+                                brightness(.7);
+                        }
+                        var d = ConfKeeper_2.ConfKeeper.dataType;
+                        var _loop_1 = function (i) {
+                            var t = d[i];
+                            if (typeof t.filter != 'undefined' && setting(t.name))
+                                addMatrixFn(function (f) { return f[t.filter](t.mul ? t.mul : null); });
+                        };
+                        for (var i = 0; i < d.length; ++i) {
+                            _loop_1(i);
+                        }
+                        bg.filters = filters;
                     };
-                    var bg = new Sprite(Texture.from(setting('bgPath')));
-                    bg.width = sz.w;
-                    bg.height = sz.h;
-                    all.addChild(bg);
-                    var filters = [];
-                    var addMatrixFn = function (proc) {
-                        var f = new PIXI.filters.ColorMatrixFilter();
-                        proc(f);
-                        filters.push(f);
-                    };
-                    var brightness = function (val) { return addMatrixFn(function (f) { return f.brightness(val); }); };
-                    if (setting('blur')) {
-                        var x2 = setting('blur2');
-                        filters.push(new PIXI.filters.BlurFilter(blurByFactor(8) * (x2 ? 3 : 1), 6));
-                        scaleSprite(bg, x2 ? 1.1 : 1.05);
-                    }
-                    if (setting('darken')) {
-                        brightness(.5);
-                        if (setting('darken2'))
-                            brightness(.7);
-                    }
-                    var d = ConfKeeper_2.ConfKeeper.dataType;
-                    var _loop_1 = function (i) {
-                        var t = d[i];
-                        if (typeof t.filter != 'undefined' && setting(t.name))
-                            addMatrixFn(function (f) { return f[t.filter](t.mul ? t.mul : null); });
-                    };
-                    for (var i = 0; i < d.length; ++i) {
-                        _loop_1(i);
-                    }
-                    bg.filters = filters;
-                };
-                BG();
-                var qrSprite, qrPos;
-                var qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
-                var QR = function () {
-                    var qrCanvas = document.getElementById('qr');
-                    var qrious = new QRious({
-                        element: qrCanvas,
-                        value: url,
-                        level: 'H',
-                        size: 512,
-                    });
-                    var dataURL = qrCanvas.toDataURL();
-                    var qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
-                    qr.anchor.set(.5);
-                    qr.visible = false;
-                    var pos = qrPos = new Point(sz.w * .5, sz.h * .6);
-                    all.addChild(qr);
-                    var Q = .2;
-                    var D = 1 + (setting('distort') ? Q * 2 : 0);
-                    var E = 1 - (setting('distort') ? Q / 2 : 0);
-                    var points = [
-                        new Point(-E, -1),
-                        new Point(E, -1),
-                        new Point(D, 1),
-                        new Point(-D, 1),
-                    ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
-                    var delay = round(1 / 60), times = 3;
-                    for (var i = 0; i < times; ++i)
+                    BG();
+                    var qrSprite, qrPos;
+                    var qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
+                    var QR = function () {
+                        var qrCanvas = document.getElementById('qr');
+                        var qrious = new QRious({
+                            element: qrCanvas,
+                            value: url,
+                            level: 'H',
+                            size: 512,
+                        });
+                        var dataURL = qrCanvas.toDataURL();
+                        var qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
+                        qr.anchor.set(.5);
+                        qr.visible = false;
+                        var pos = qrPos = new Point(sz.w * .5, sz.h * .6);
+                        all.addChild(qr);
+                        var Q = .2;
+                        var D = 1 + (setting('distort') ? Q * 2 : 0);
+                        var E = 1 - (setting('distort') ? Q / 2 : 0);
+                        var points = [
+                            new Point(-E, -1),
+                            new Point(E, -1),
+                            new Point(D, 1),
+                            new Point(-D, 1),
+                        ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
+                        var delay = round(1 / 60), times = 3;
+                        for (var i = 0; i < times; ++i)
+                            setTimeout(function () {
+                                _this.app.render();
+                                qr.proj.mapSprite(qr, points);
+                                qr.visible = true;
+                            }, delay);
                         setTimeout(function () {
-                            qr.proj.mapSprite(qr, points);
-                            qr.visible = true;
-                        }, delay);
-                    setTimeout(function () {
-                        var canv = _this.app.view;
-                        onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
-                    }, (delay * (times + 2)) + (_this.firstToDataURL ? 800 : 200));
-                    _this.firstToDataURL = false;
+                            var canv = _this.app.view;
+                            onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
+                        }, (delay * (times + 2)) + (_this.firstToDataURL ? 100 : 100));
+                        _this.firstToDataURL = false;
+                    };
+                    QR();
+                    var buttonQRCover = function () {
+                        var button = new Sprite(loader.resources['button'].texture);
+                        var bSize = sz.w * .51;
+                        button.width = button.height = bSize;
+                        button.anchor.set(.5);
+                        button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
+                        button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+                        all.addChild(button);
+                    };
+                    buttonQRCover();
+                    var allTexts = function () {
+                        var txt = FontLoader_1.FontLoader.makeText('hello!', sz.w * .1, blurByFactor(16), blurByFactor(4));
+                        txt.x = txt.y = 0;
+                        all.addChild(txt);
+                    };
+                    if (_this.fontLoader == null)
+                        _this.fontLoader = new FontLoader_1.FontLoader();
+                    _this.fontLoader.init(allTexts);
                 };
-                QR();
-                var buttonQRCover = function () {
-                    var button = new Sprite(Texture.from('assets/pics/physical_button.png'));
-                    var bSize = sz.w * .51;
-                    button.width = button.height = bSize;
-                    button.anchor.set(.5);
-                    button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
-                    button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
-                    all.addChild(button);
-                };
-                buttonQRCover();
-                var allTexts = function () {
-                };
-                if (_this.fontLoader == null)
-                    _this.fontLoader = new FontLoader_1.FontLoader();
-                _this.fontLoader.init(allTexts);
+                loader.add('bg', setting('bgPath'));
+                loader.add('button', 'assets/pics/physical_button.png');
+                loader.load(function () { return doItAll(); });
             };
             this.fontLoader = null;
             this.firstToDataURL = true;
@@ -363,6 +400,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
             var height = initialHeight, width = this.getWidthByHeight(initialHeight);
             this.size = { w: width, h: height };
             this.app = new PIXI.Application({
+                autoStart: false,
                 width: width, height: height,
                 backgroundColor: 0xffffff,
                 resolution: 1,
@@ -370,7 +408,6 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                 preserveDrawingBuffer: true,
                 view: document.getElementById('preview-temp')
             });
-            $(this.app.view).hide();
             window.previewCanvas = this.app.view;
         }
         return QRGen;
