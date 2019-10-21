@@ -20,7 +20,7 @@ jobs: # a collection of steps
           key: npm-cache-v1-{{ checksum "manager/package-lock.json" }}
       - run:
           name: Install Dependencies
-          command: npm ci
+          command: npm ci --prefix manager
       - save_cache: # special step to save the dependency cache
           key: npm-cache-v1-{{ checksum "manager/package-lock.json" }}
           paths:
