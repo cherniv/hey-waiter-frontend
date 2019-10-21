@@ -34,7 +34,7 @@ jobs: # a collection of steps
       # PUBLISHING
       - run:
           name: React Scripts Build
-          command: npm run build
+          command: npm run build --prefix=manager
       - run:
           name: Install Firebase Tools
           command: npm install --prefix=./firebase-deploy firebase-tools
