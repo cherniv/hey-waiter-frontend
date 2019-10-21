@@ -9,7 +9,8 @@ import Sprite2d = PIXI.projection.Sprite2d;
 import GlowFilter = PIXI.filters.GlowFilter;
 import {BgImage} from "./BgImage";
 import {FontLoader} from "./FontLoader";
-import Loader = PIXI.loaders.Loader;
+import Loader = PIXI.Loader;
+import Rectangle = PIXI.Rectangle;
 
 
 export class QRGen {
@@ -54,7 +55,14 @@ export class QRGen {
         })
     };
     generate = (urlIndex: number, onDone: (dataURL: string) => void) => {
-
+        const expandForFilter = (s: Sprite, size: number) => {
+            const rect = s.getBounds();
+            rect.x -= size;
+            rect.y -= size;
+            rect.width += size * 2;
+            rect.height += size * 2;
+            s.filterArea = rect;
+        };
         const loader = new Loader(), setting = ConfKeeper.get;
         const doItAll = () => {
             const blurByFactor = (v: number) => this.initialHeight / (nominalHeight / v);
@@ -133,6 +141,7 @@ export class QRGen {
                 qr.anchor.set(.5);
                 qr.visible = false;
                 const pos = qrPos = new Point(sz.w * .5, sz.h * .6);
+                // qr.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, 1)];
                 all.addChild(qr);
 
                 /// make points
@@ -171,7 +180,7 @@ export class QRGen {
                         onDone(canv.toDataURL('image/jpeg', this.initialHeight < 1300 ? .75 : .85));
                         // onDone(canv.toDataURL('image/png'));
                     },
-                    (delay * (times + 2)) + (this.firstToDataURL ? 100 : 100)
+                    (delay * (times + 2)) + (this.firstToDataURL ? 100 : 50)
                 );
                 this.firstToDataURL = false;
 
@@ -180,22 +189,37 @@ export class QRGen {
 
             const buttonQRCover = () => {
                 const button = new Sprite(loader.resources['button'].texture);
-                const bSize = sz.w * .51;
+                const bSize = sz.w * .45;
                 button.width = button.height = bSize;
                 button.anchor.set(.5);
                 button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
                 button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+                expandForFilter(button, blurByFactor(16));
                 all.addChild(button);
             };
             buttonQRCover();
 
 
             const allTexts = () => {
-                const txt = FontLoader.makeText('hello!', sz.w * .1, blurByFactor(16), blurByFactor(4));
+                let currY = 0, ySpacing = .06;
+                const txt = (s: string, szRel: number, relX: number) => {
+
+                    const t = FontLoader.makeText(s, sz.w * .08 * szRel, blurByFactor(16), blurByFactor(4));
+                    all.addChild(t);
+                    t.anchor.set(.5);
+                    t.x = relX * sz.w;
+                    currY += ySpacing;
+                    t.y = currY * sz.h;
+                    return t;
+                };
+                const dispURL = url.split('/#').join('#').split('http://').join('').split('https://').join('')
+                currY = .15;
+                txt('To call a waiter,', 1, .5);
+                txt('Either scan this code', 1, .5);
+                txt('Or visit', 1, .5);
+                txt(dispURL, .9, .5);
                 // txt.anchor.set(.5);
                 // txt.position.set(sz.w / 2, sz.h / 2);
-                txt.x = txt.y = 0;
-                all.addChild(txt);
             };
             if (this.fontLoader == null) this.fontLoader = new FontLoader();
             this.fontLoader.init(allTexts);

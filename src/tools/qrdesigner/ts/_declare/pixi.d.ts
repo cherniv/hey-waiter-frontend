@@ -4092,6 +4092,10 @@ declare namespace PIXI {
         dispatch: CbType;
     }
 
+    class Loader extends PIXI.loaders.Loader {
+
+    }
+
     namespace loaders {
         /**
          * Options for a call to `.add()`.

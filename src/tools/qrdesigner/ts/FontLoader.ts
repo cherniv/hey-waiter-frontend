@@ -8,7 +8,7 @@ export class FontLoader {
     }
 
     static makeText = (s: string, fontSz: number, blur: number, dist: number) =>
-        FontLoader.makeTextClr(` ${s} `, fontSz, '#ffffff', '#bbbbbb', blur, dist);
+        FontLoader.makeTextClr(` ${s} `, fontSz, '#ffffff', '#cccccc', blur, dist);
 
 
     static makeTextClr(s: string, fontSz: number, clrA: string, clrB: string, blur: number, dist: number){
@@ -18,11 +18,11 @@ export class FontLoader {
                 fontFamily:(!FontLoader.richFont) ? '_sans' : FontLoader.globalFontFaceName, /// also seen in "index.html"!
                 fontSize:fontSz,
                 //fontStyle: 'italic',
-                fontWeight:'bold',
+                // fontWeight:'bold',
                 fill:[clrA, clrB], // gradient
                 stroke:'#000000',
                 //letterSpacing:3,
-                strokeThickness:4,
+                strokeThickness:Math.round(blur * .4),
                 dropShadow:true,
                 dropShadowColor:'#000000',
                 dropShadowBlur:blur,

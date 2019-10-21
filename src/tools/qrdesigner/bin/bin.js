@@ -161,10 +161,9 @@ define("FontLoader", ["require", "exports"], function (require, exports) {
             return new PIXI.Text(s, ({
                 fontFamily: (!FontLoader.richFont) ? '_sans' : FontLoader.globalFontFaceName,
                 fontSize: fontSz,
-                fontWeight: 'bold',
                 fill: [clrA, clrB],
                 stroke: '#000000',
-                strokeThickness: 4,
+                strokeThickness: Math.round(blur * .4),
                 dropShadow: true,
                 dropShadowColor: '#000000',
                 dropShadowBlur: blur,
@@ -180,7 +179,7 @@ define("FontLoader", ["require", "exports"], function (require, exports) {
             onDone();
         };
         FontLoader.makeText = function (s, fontSz, blur, dist) {
-            return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#bbbbbb', blur, dist);
+            return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#cccccc', blur, dist);
         };
         return FontLoader;
     }());
@@ -260,7 +259,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
     var Sprite = PIXI.Sprite;
     var Sprite2d = PIXI.projection.Sprite2d;
     var GlowFilter = PIXI.filters.GlowFilter;
-    var Loader = PIXI.loaders.Loader;
+    var Loader = PIXI.Loader;
     var QRGen = (function () {
         function QRGen(vars, previewImageId, initialHeight) {
             var _this = this;
@@ -282,6 +281,14 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                 });
             };
             this.generate = function (urlIndex, onDone) {
+                var expandForFilter = function (s, size) {
+                    var rect = s.getBounds();
+                    rect.x -= size;
+                    rect.y -= size;
+                    rect.width += size * 2;
+                    rect.height += size * 2;
+                    s.filterArea = rect;
+                };
                 var loader = new Loader(), setting = ConfKeeper_2.ConfKeeper.get;
                 var doItAll = function () {
                     var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
@@ -367,24 +374,38 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         setTimeout(function () {
                             var canv = _this.app.view;
                             onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
-                        }, (delay * (times + 2)) + (_this.firstToDataURL ? 100 : 100));
+                        }, (delay * (times + 2)) + (_this.firstToDataURL ? 100 : 50));
                         _this.firstToDataURL = false;
                     };
                     QR();
                     var buttonQRCover = function () {
                         var button = new Sprite(loader.resources['button'].texture);
-                        var bSize = sz.w * .51;
+                        var bSize = sz.w * .45;
                         button.width = button.height = bSize;
                         button.anchor.set(.5);
                         button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
                         button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+                        expandForFilter(button, blurByFactor(16));
                         all.addChild(button);
                     };
                     buttonQRCover();
                     var allTexts = function () {
-                        var txt = FontLoader_1.FontLoader.makeText('hello!', sz.w * .1, blurByFactor(16), blurByFactor(4));
-                        txt.x = txt.y = 0;
-                        all.addChild(txt);
+                        var currY = 0, ySpacing = .06;
+                        var txt = function (s, szRel, relX) {
+                            var t = FontLoader_1.FontLoader.makeText(s, sz.w * .08 * szRel, blurByFactor(16), blurByFactor(4));
+                            all.addChild(t);
+                            t.anchor.set(.5);
+                            t.x = relX * sz.w;
+                            currY += ySpacing;
+                            t.y = currY * sz.h;
+                            return t;
+                        };
+                        var dispURL = url.split('/#').join('#').split('http://').join('').split('https://').join('');
+                        currY = .15;
+                        txt('To call a waiter,', 1, .5);
+                        txt('Either scan this code', 1, .5);
+                        txt('Or visit', 1, .5);
+                        txt(dispURL, .9, .5);
                     };
                     if (_this.fontLoader == null)
                         _this.fontLoader = new FontLoader_1.FontLoader();
