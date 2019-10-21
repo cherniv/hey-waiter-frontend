@@ -14,7 +14,7 @@ export class ConfKeeper {
 
         {name:'darken', title:'Darken Background', type:'boolean', def:true},
         {name:'darken2', title:'Darken more', type:'boolean', def:false},
-
+   
         // {name:'bw', title:'B/W', type:'boolean', filter:'blackAndWhite', def:false},
 
 
