@@ -292,6 +292,17 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                 var doItAll = function () {
                     var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
                     var all = _this.app.stage;
+                    var addPic = function (tex, x, y, wid, hei) {
+                        if (hei === void 0) { hei = null; }
+                        var pic = new Sprite(tex);
+                        var w = pic.width;
+                        pic.width = wid;
+                        pic.height = hei !== null ? hei : pic.height / w * wid;
+                        pic.anchor.set(.5);
+                        pic.position.set(x, y);
+                        all.addChild(pic);
+                        return pic;
+                    };
                     all.removeChildren();
                     var url = _this.vars.urls[urlIndex], round = Math.round, sz = _this.size;
                     var nominalHeight = 1024;
@@ -379,14 +390,10 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     };
                     QR();
                     var buttonQRCover = function () {
-                        var button = new Sprite(loader.resources['button'].texture);
                         var bSize = sz.w * .45;
-                        button.width = button.height = bSize;
-                        button.anchor.set(.5);
-                        button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
+                        var button = addPic(loader.resources['button'].texture, qrPos.x, qrPos.y + qrSize * .6, bSize, bSize);
                         button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
                         expandForFilter(button, blurByFactor(16));
-                        all.addChild(button);
                     };
                     buttonQRCover();
                     var allTexts = function () {
@@ -414,9 +421,14 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     if (_this.fontLoader == null)
                         _this.fontLoader = new FontLoader_1.FontLoader();
                     _this.fontLoader.init(allTexts);
+                    var googleLogo = function () {
+                        var logo = addPic(loader.resources['google'].texture, sz.w * .1, sz.h * .9, sz.w * .1);
+                    };
+                    googleLogo();
                 };
                 loader.add('bg', setting('bgPath'));
                 loader.add('button', 'assets/pics/physical_button.png');
+                loader.add('google', 'assets/pics/google-infra-c.png');
                 loader.load(function () { return doItAll(); });
             };
             this.fontLoader = null;
