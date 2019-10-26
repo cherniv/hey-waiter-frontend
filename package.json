@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm run build --prefix manager ; mv manager/public/ public/"
+    "build": "npm run build --prefix manager ; mv manager/build public/manager"
   },
   "author": "",
   "license": "ISC",
