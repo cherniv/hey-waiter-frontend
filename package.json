@@ -7,5 +7,9 @@
     "build": "npm run build --prefix manager ; mv manager/public/ public/"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "mobx": "^5.14.2",
+    "mobx-react": "^6.1.4"
+  }
 }
