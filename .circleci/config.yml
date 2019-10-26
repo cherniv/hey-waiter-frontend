@@ -35,12 +35,11 @@ jobs: # a collection of steps
       - run:
           name: React Scripts Build
           command: npm run build
+          command: mkdir -p ./public/manager
+          command: cp -a ./manager/build/. ./public/manager/
       - run:
           name: Install Firebase Tools
           command: npm install --prefix=./firebase-deploy firebase-tools
       - run:
           name: Deploy to Firebase
-          # not deploying hosting for now; doing this manually, because expo's web production builder doesnt work for now
           command: ./firebase-deploy/node_modules/.bin/firebase deploy --only hosting --token $FIREBASE_CI_TOKEN --force
-# for dynamically setting expo release channels:        
-# https://docs.expo.io/versions/latest/guides/setting-up-continuous-integration/#publish-new-builds
