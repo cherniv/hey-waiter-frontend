@@ -57,6 +57,11 @@ html, body, #root, .App {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.sign-out {
+  color: #993333;
+}
+
 @keyframes slidein {
   from {
     opacity: 0;
