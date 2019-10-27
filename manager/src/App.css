@@ -38,8 +38,23 @@ html, body, #root, .App {
 .main-stage {
   flex: 1;
   padding: 10px;
+}
+
+.screen {
+  flex: 1;
+  animation-duration: 0.5s;
+  animation-name: slidein;
+}
 .link {
   text-decoration: underline;
   cursor: pointer;
 }
+@keyframes slidein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
