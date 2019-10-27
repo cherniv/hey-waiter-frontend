@@ -1,9 +1,6 @@
 import React from 'react';
 
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
   Link
 } from "react-router-dom";
 
@@ -12,7 +9,7 @@ import SidebarLogo from './images/sidebar-logo.png';
 const SideBar: React.FC = () => {
   return (
     <div className="sidebar" >
-      <img src={SidebarLogo} className="sidebar-logo" />
+      <img src={SidebarLogo} className="sidebar-logo" alt="Logo" />
       <ul style={{ listStyleType: "none", padding: 0 }}>
         <li>
           <Link to="/">Home</Link>
