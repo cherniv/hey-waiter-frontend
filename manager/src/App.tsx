@@ -8,6 +8,7 @@ import {
 
 import {ROUTES} from './config';
 import SideBar from './SideBar';
+import "./config/firebase";
 
 const App: React.FC = () => {
   return (
