@@ -1,4 +1,5 @@
 import React from 'react';
+import Account from '../components/Account'
 
 export const ROUTES = [
   {
@@ -11,8 +12,8 @@ export const ROUTES = [
     main: () => <h2>Bubblegum</h2>
   },
   {
-    path: "/shoelaces",
-    main: () => <h2>Shoelaces</h2>
+    path: "/account",
+    main: Account
   }
 ];
 

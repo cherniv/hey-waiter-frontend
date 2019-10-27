@@ -18,7 +18,7 @@ const SideBar: React.FC = () => {
           <Link to="/bubblegum">Bubblegum</Link>
         </li>
         <li>
-          <Link to="/shoelaces">Shoelaces</Link>
+          <Link to="/account">Account</Link>
         </li>
       </ul>
 

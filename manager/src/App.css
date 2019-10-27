@@ -45,6 +45,11 @@ html, body, #root, .App {
   animation-duration: 0.5s;
   animation-name: slidein;
 }
+
+.component-sign-in {
+  text-align: center;
+}
+
 .spinner {
   position: absolute;
   top: 50%;
