@@ -38,4 +38,8 @@ html, body, #root, .App {
 .main-stage {
   flex: 1;
   padding: 10px;
+.link {
+  text-decoration: underline;
+  cursor: pointer;
+}
 }
