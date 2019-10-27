@@ -1,10 +1,12 @@
 import React from 'react';
-import "../../src/spinner.css"
+import {Spinner} from 'react-bootstrap'
 
-const Spinner: React.FC = () => {
+const Spinr: React.FC = () => {
   return (
-    <div className="lds-roller spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    <Spinner animation="border" role="status" variant="danger" >
+      <span className="sr-only">Loading...</span>
+    </Spinner>
   )
 }
 
-export default Spinner;
+export default Spinr;

@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {
   BrowserRouter as Router,
   Switch,
@@ -15,6 +16,12 @@ import {observable} from 'mobx';
 import Auth from './services/Auth';
 import SignIn from './components/SignIn';
 import Spinner from './components/Spinner';
+
+import {
+  Container, 
+  Row, 
+  Col,
+} from 'react-bootstrap';
 
 @observer
 class App extends React.Component {
@@ -39,21 +46,24 @@ class App extends React.Component {
     }
     return (
       <Router>
-        <div className="App">
-          <SideBar />
-          <div className="main-stage">
-            <Switch>
-              {ROUTES.map((route, index) => (
-                <Route
-                  key={index}
-                  path={route.path}
-                  exact={route.exact}
-                  children={<route.main />}
-                />
-              ))}
-            </Switch>
-          </div>
-        </div>
+        <SideBar />
+        <Container fluid>
+          <Row>
+            <Col className="main-stage">
+              <br />
+              <Switch>
+                {ROUTES.map((route, index) => (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    exact={route.exact}
+                    children={<route.main />}
+                  />
+                ))}
+              </Switch>
+            </Col>
+          </Row>
+        </Container>
       </Router>
     );
   }

@@ -4,25 +4,25 @@ import {
   Link
 } from "react-router-dom";
 
+import {
+  Navbar,
+  Nav,
+} from 'react-bootstrap';
+
 import SidebarLogo from './images/sidebar-logo.png';
 
 const SideBar: React.FC = () => {
   return (
-    <div className="sidebar" >
-      <img src={SidebarLogo} className="sidebar-logo" alt="Logo" />
-      <ul style={{ listStyleType: "none", padding: 0 }}>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/bubblegum">Bubblegum</Link>
-        </li>
-        <li>
-          <Link to="/account">Account</Link>
-        </li>
-      </ul>
-
-    </div>
+    <Navbar >
+      <Navbar.Brand as={Link} to="/">
+        <img src={SidebarLogo} className="sidebar-logo d-inline-block" alt="Logo" />
+        {' Hey Waiter!'}
+      </Navbar.Brand>
+      <Nav className="mr-auto">
+        <Nav.Link as={Link} to="/account">Account</Nav.Link>
+        <Nav.Link as={Link} to="/live">Live</Nav.Link>
+      </Nav>
+    </Navbar>
   )
 }
 
