@@ -33,7 +33,7 @@ class App extends React.Component {
     this.ready = true;
   }
   render() {
-    if (!this.ready) return null;
+    if (!this.ready) return <div />;
     if (Auth.authStateLoading) {
       return (
         <Spinner />
@@ -47,7 +47,7 @@ class App extends React.Component {
     return (
       <Router>
         <SideBar />
-        <Container fluid>
+        <Container className="main-container">
           <Row>
             <Col className="main-stage">
               <br />
