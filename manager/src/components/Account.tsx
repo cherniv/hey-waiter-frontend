@@ -9,6 +9,8 @@ import Avatar from './Avatar';
 const AccountScreen: React.FC = () => {
   return (
     <div className="screen">
+      <h2>Account</h2>
+      <br />
       <Form>
         <Form.Group controlId="formGroupEmail">
           <Form.Label>Business Title</Form.Label>
@@ -16,7 +18,7 @@ const AccountScreen: React.FC = () => {
         </Form.Group>
       </Form>
       <br />
-      <br />
+      
       <Button onClick={Auth.signOut} variant="danger">
         <Avatar />
         {' '}

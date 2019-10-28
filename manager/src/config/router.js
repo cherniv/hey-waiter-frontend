@@ -1,11 +1,12 @@
 import React from 'react';
 import Account from '../components/Account'
+import Home from '../components/Home'
 
 export const ROUTES = [
   {
     path: "/",
     exact: true,
-    main: () => <h2>Home</h2>
+    main: Home,
   },
   {
     path: "/bubblegum",
