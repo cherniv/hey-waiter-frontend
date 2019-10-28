@@ -3,7 +3,6 @@ import Auth from '../services/Auth';
 import {
   Button,
   Form,
-  Image,
 } from 'react-bootstrap';
 import Avatar from './Avatar';
 
