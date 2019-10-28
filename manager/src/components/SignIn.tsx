@@ -4,6 +4,8 @@ import * as firebase from 'firebase/app';
 
 import SigninLogo from '../images/sidebar-logo.png';
 
+import Auth from '../services/Auth';
+
 const UI_CONFIG = {
   // Popup signin flow rather than redirect flow.
   signInFlow: 'popup',
@@ -15,7 +17,10 @@ const UI_CONFIG = {
   ],
   callbacks: {
     // Avoid redirects after sign-in.
-    signInSuccessWithAuthResult: () => false
+    signInSuccessWithAuthResult: (result:any) => {
+      Auth.justSignedUp = result.additionalUserInfo.isNewUser;
+      return false;
+    }
   }
 };
 

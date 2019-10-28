@@ -6,6 +6,7 @@ class Auth {
 
   @observable authStateLoading:boolean = false;
   @observable user:any; 
+  @observable justSignedUp:boolean = false;
   @computed get isLoggedIn () {
     return !!this.user;
   }
