@@ -32,40 +32,48 @@ class App extends React.Component {
 
     this.ready = true;
   }
+  
   render() {
     if (!this.ready) return <div />;
-    if (Auth.authStateLoading) {
-      return (
-        <Spinner />
-      );
-    }
-    if (!Auth.isLoggedIn) {
-      return (
-        <SignIn />
-      );
-    }
+    
     return (
       <Router>
-        <SideBar />
+        {Auth.isLoggedIn && <SideBar />}
         <Container className="main-container">
-          <Row>
-            <Col className="main-stage">
-              <br />
-              <Switch>
-                {ROUTES.map((route, index) => (
-                  <Route
-                    key={index}
-                    path={route.path}
-                    exact={route.exact}
-                    children={<route.main />}
-                  />
-                ))}
-              </Switch>
-            </Col>
+          <Row className="fill">
+            {this.renderContent()}
           </Row>
         </Container>
       </Router>
     );
+  }
+
+  renderContent() {
+    var el;
+    if (Auth.authStateLoading) {
+      el = (
+        <Spinner />
+      );
+    } else if (!Auth.isLoggedIn) {
+      el = (
+        <SignIn />
+      );
+    } else {
+      el = (
+        <Switch>
+          {ROUTES.map((route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              children={<route.main />}
+            />
+          ))}
+        </Switch>
+      );
+    }
+
+    return <Col>{el}</Col>;
   }
 }
 

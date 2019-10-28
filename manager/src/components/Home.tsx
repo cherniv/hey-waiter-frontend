@@ -2,7 +2,6 @@ import React from 'react';
 import Auth from '../services/Auth';
 import {
   Button,
-  Form,
 } from 'react-bootstrap';
 import { observer } from 'mobx-react';
 
