@@ -5,8 +5,8 @@ import { Image } from 'react-bootstrap';
 const AVATARS_API_PATH = "https://ui-avatars.com/api/?size=20&font-size=0.7&name=";
 
 const Avatar: React.FC = () => {
-  var {user} = Auth;
-  var path = (user && user.photoURL) || (AVATARS_API_PATH + user.displayName);
+  var {firebaseUser} = Auth;
+  var path = (firebaseUser && firebaseUser.photoURL) || (AVATARS_API_PATH + firebaseUser.displayName);
   return (
     <Image src={path} width={20} height={20} roundedCircle /> 
   )
