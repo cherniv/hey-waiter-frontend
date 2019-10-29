@@ -9,7 +9,6 @@ import { observer } from 'mobx-react';
 class NewUserGreeting extends React.Component {
   business = Business.new();
   render( ) {
-    console.log('BUSS', this.business)
     return (
       <div>
         <p>
