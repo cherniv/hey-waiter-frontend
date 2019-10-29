@@ -1,10 +1,10 @@
 import Api from 'axios';
 import {setApiVendor} from 'mobx-active-model';
 import Auth from '../services/Auth';
-
+import {projectId} from '../config/firebase';
 setApiVendor(Api);
 
-var API_PATH = "https://firestore.googleapis.com/v1/projects/hey-waiter-9d976/databases/(default)/documents/";
+var API_PATH = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/`;
 
 Api.defaults.baseURL = API_PATH;
     
