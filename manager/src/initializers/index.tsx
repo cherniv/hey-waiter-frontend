@@ -11,7 +11,7 @@ class Initializer {
     when(
       () => Auth.isLoggedIn,
       async () =>  {
-        console.log('WHEN', Auth.user.id);
+        //console.log('WHEN', Auth.user.id);
         //Business.fetchFromRemote();
       }
     )

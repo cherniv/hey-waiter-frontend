@@ -45,7 +45,7 @@ const TYPES = {
 // Turning {authorId: 12345} into {fields:{id:{integerValue:12345}}}
 function formatRequest (request:any) {
   var {data, method} = request;
-  if (method == "post") {
+  if (method === "post") {
     var newData = {fields: {}};
     for(var key in data) {
       var val = data[key];
