@@ -8,6 +8,12 @@ var API_PATH = `https://firestore.googleapis.com/v1/projects/${projectId}/databa
 
 Api.defaults.baseURL = API_PATH;
     
+// Setting Authorization token on the fly
+function setTokenHeaderOnTheFly(config:any) {
+  setTokenHeader(config);
+  return config;
+}
+
 function setTokenHeader (config:any) {
   var {token} = Auth;
   var {headers} = config;
@@ -16,23 +22,42 @@ function setTokenHeader (config:any) {
   }
 }
 
-function setTokenHeaderOnTheFly(config:any) {
-  setTokenHeader(config);
-  return config;
-}
-
-function formatData (response:any) {
-  var {data} = response;
+// Turning {fields:{id: {integerValue: 12345}}} into {id: 12345}
+function formatResponse (response:any): any {
+  var {data} = response;  
+  //var rawData = {...response.data.fields};
+  //console.log("RESPONSE RAW:", rawData);
   for(var key in data.fields) {
     var rawVal = data.fields[key];
     var val = rawVal[Object.keys(rawVal)[0]];
     data.fields[key] = val;
   }
-  return data.fields;
+  //console.log("RESPONSE FORMATTED:", data.fields);
+  return {data: data.fields};
 }
 
-// Setting Authorization token on the fly
-Api.interceptors.request.use(setTokenHeaderOnTheFly);
+const TYPES = {
+  "number": 'integerValue',
+  "string": 'stringValue',
+  "boolean": 'booleanValue',
+}
 
-// Turning {id: {integerValue: 12345}} into {id: 12345}
-Api.interceptors.response.use(formatData);  
+// Turning {authorId: 12345} into {fields:{id:{integerValue:12345}}}
+function formatRequest (request:any) {
+  var {data, method} = request;
+  if (method == "post") {
+    var newData = {fields: {}};
+    for(var key in data) {
+      var val = data[key];
+      var typeOfVal:string = typeof val;
+      var valType = (TYPES as any)[typeOfVal];
+      (newData as any).fields[key] = {[valType]:val};
+    }
+    request.data = newData;
+  }
+  return request;
+}
+
+Api.interceptors.request.use(setTokenHeaderOnTheFly);
+Api.interceptors.request.use(formatRequest);
+Api.interceptors.response.use(formatResponse);  
