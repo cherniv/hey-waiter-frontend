@@ -1,5 +1,7 @@
 import Auth from '../services/Auth';
 import { when } from 'mobx';
+//import Business from '../models/Business';
+import './api.initializer'
 
 class Initializer {
   async init () {
@@ -10,7 +12,6 @@ class Initializer {
       () => Auth.isLoggedIn,
       async () =>  {
         console.log('WHEN', Auth.user.id);
-        //User.fetchFromRemote(Auth.user.uid);
         //Business.fetchFromRemote();
       }
     )
