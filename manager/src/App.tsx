@@ -23,12 +23,14 @@ import {
   Col,
 } from 'react-bootstrap';
 
+import Initializer from './initializers'
+
 @observer
 class App extends React.Component {
   @observable ready = false;
   async componentDidMount() {
     
-    await Auth.init();
+    await Initializer.init();
 
     this.ready = true;
   }
