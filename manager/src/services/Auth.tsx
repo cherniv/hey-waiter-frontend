@@ -8,7 +8,9 @@ class Auth {
 
   @observable authStateLoading:boolean = false;
   @observable user:any; 
+  @observable firebaseUser:any; 
   @observable justSignedUp:boolean = !true;
+  @observable token:any;
   @computed get isLoggedIn () {
     return !!this.user;
   }
@@ -16,8 +18,11 @@ class Auth {
   init () {
     this.authStateLoading = true;
     
-    firebase.auth().onAuthStateChanged((firebaseUser: any) => {
+    firebase.auth().onAuthStateChanged(async (firebaseUser: any) => {
+      this.firebaseUser = firebaseUser;
       if (firebaseUser) {
+        var token = await firebaseUser.getIdToken()
+        this.token = token;
         this.loadUserDataAfterSignin(firebaseUser);
       } else {
         // logged out
