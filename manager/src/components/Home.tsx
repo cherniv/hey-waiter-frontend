@@ -1,21 +1,7 @@
 import React from 'react';
 import Auth from '../services/Auth';
-import {
-  Button,
-} from 'react-bootstrap';
 import { observer } from 'mobx-react';
-
-const JustSignedUp: React.FC = () => {
-  return (
-    <div>
-      Hey! Welcome
-      <br />
-      <Button onClick={()=>Auth.justSignedUp = false} variant="primary">
-        Done
-      </Button>
-    </div>
-  )
-}
+import NewUserGreeting from './NewUserGreeting';
 
 @observer
 class HomeScreen extends React.Component {
@@ -24,7 +10,7 @@ class HomeScreen extends React.Component {
       <div className="screen">
         <h2>Dashboard</h2>
         <br />
-        {Auth.justSignedUp && <JustSignedUp/>}
+        {Auth.justSignedUp && <NewUserGreeting />}
         {!Auth.justSignedUp && 'Nothing new'}
       </div>
     )
