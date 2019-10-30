@@ -67,6 +67,16 @@ export class QRGen {
         const doItAll = () => {
             const blurByFactor = (v: number) => this.initialHeight / (nominalHeight / v);
             const all = this.app.stage;
+            const addPic = (tex: Texture, x: number, y: number, wid: number, hei: number | null = null) => {
+                const pic = new Sprite(tex);
+                const w = pic.width;
+                pic.width = wid;
+                pic.height = hei !== null ? hei : pic.height / w * wid;
+                pic.anchor.set(.5);
+                pic.position.set(x, y);
+                all.addChild(pic);
+                return pic;
+            };
             all.removeChildren();
             const
                 url = this.vars.urls[urlIndex],
@@ -86,9 +96,17 @@ export class QRGen {
                 };
                 const bg = new Sprite(loader.resources['bg'].texture);
                 bg.anchor.set(.5);
-                const ratio = bg.width / bg.height;
-                bg.height = sz.h;
-                bg.width = sz.h * ratio;
+                /** correctly filling the screen with image*/
+                {
+                    const ratio = bg.width / bg.height;
+                    if (ratio > sz.w / sz.h){
+                        bg.height = sz.h;
+                        bg.width = sz.h * ratio;
+                    } else {
+                        bg.width = sz.w;
+                        bg.height = sz.w / ratio;
+                    }
+                }
                 bg.position.set(sz.w / 2, sz.h / 2);
                 all.addChild(bg);
                 const filters: any[] = [];
@@ -189,15 +207,15 @@ export class QRGen {
             };
             QR();
 
+
             const buttonQRCover = () => {
-                const button = new Sprite(loader.resources['button'].texture);
                 const bSize = sz.w * .45;
-                button.width = button.height = bSize;
-                button.anchor.set(.5);
-                button.position.set(qrPos.x + qrSize * .0, qrPos.y + qrSize * .6);
+                const button = addPic(loader.resources['button'].texture,
+                    qrPos.x, qrPos.y + qrSize * .6,
+                    bSize, bSize
+                );
                 button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
                 expandForFilter(button, blurByFactor(16));
-                all.addChild(button);
             };
             buttonQRCover();
 
@@ -232,11 +250,19 @@ export class QRGen {
             if (this.fontLoader == null) this.fontLoader = new FontLoader();
             this.fontLoader.init(allTexts);
 
+            const googleLogo = () => {
+                const logo = addPic(loader.resources['google'].texture,
+                    sz.w * .1, sz.h * .9, sz.w * .1
+                )
+            };
+            googleLogo();
+
 
             // setTimeout(() => $(this.app.view).show(), 800);
         };
         loader.add('bg', setting('bgPath'));
         loader.add('button', 'assets/pics/physical_button.png');
+        loader.add('google', 'assets/pics/google-infra-c.png');
         loader.load(() => doItAll());
     };
 
