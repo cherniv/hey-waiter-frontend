@@ -96,9 +96,17 @@ export class QRGen {
                 };
                 const bg = new Sprite(loader.resources['bg'].texture);
                 bg.anchor.set(.5);
-                const ratio = bg.width / bg.height;
-                bg.height = sz.h;
-                bg.width = sz.h * ratio;
+                /** correctly filling the screen with image*/
+                {
+                    const ratio = bg.width / bg.height;
+                    if (ratio > sz.w / sz.h){
+                        bg.height = sz.h;
+                        bg.width = sz.h * ratio;
+                    } else {
+                        bg.width = sz.w;
+                        bg.height = sz.w / ratio;
+                    }
+                }
                 bg.position.set(sz.w / 2, sz.h / 2);
                 all.addChild(bg);
                 const filters: any[] = [];
