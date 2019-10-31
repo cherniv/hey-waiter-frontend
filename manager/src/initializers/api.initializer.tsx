@@ -22,39 +22,77 @@ function setTokenHeader (config:any) {
   }
 }
 
+function getValue(node:any): any {
+  var val = node[Object.keys(node)[0]];
+  if (val.values) {
+    val = val.values.map((item:any) => {
+      return getValue(item);
+    })
+  }
+  return val;
+}
+
+function formatResponseDocument(data:any): any {
+  for(var key in data.fields) {
+    data.fields[key] = getValue(data.fields[key]);
+  }
+  var id = data.name.split('/').pop();
+  data.fields['id'] = id;
+  //console.log("RESPONSE FORMATTED:", data.fields);
+  return data.fields;
+}
+
 // Turning {fields:{id: {integerValue: 12345}}} into {id: 12345}
 function formatResponse (response:any): any {
   var {data} = response;  
-  //var rawData = {...response.data.fields};
-  //console.log("RESPONSE RAW:", rawData);
-  for(var key in data.fields) {
-    var rawVal = data.fields[key];
-    var val = rawVal[Object.keys(rawVal)[0]];
-    data.fields[key] = val;
-  }
-  //console.log("RESPONSE FORMATTED:", data.fields);
-  return {data: data.fields};
+  //console.log("RESPONSE RAW:", {...response});
+  // this type comes from :runQuery post request
+  if (data.length) {
+    return {data: data.map((document:any) => {
+      var formattedData = formatResponseDocument(document.document);
+      return formattedData;
+    })}
+  // this type comes from /:id get request
+  } else {
+    var document = data;
+    var formattedData = formatResponseDocument(document);
+    return {data: formattedData};
+  } 
 }
 
 const TYPES = {
   "number": 'integerValue',
   "string": 'stringValue',
   "boolean": 'booleanValue',
+  "array": 'arrayValue',
 }
 
 // Turning {authorId: 12345} into {fields:{id:{integerValue:12345}}}
 function formatRequest (request:any) {
-  var {data, method} = request;
-  if (method === "post") {
+  var {data, method, url} = request;
+  //console.log('REQUEST', request);
+  if ((method === "post" || method === "put") && !url.includes(":runQuery")) {
     var newData = {fields: {}};
     for(var key in data) {
       var val = data[key];
       var typeOfVal:string = typeof val;
-      var valType = (TYPES as any)[typeOfVal];
-      (newData as any).fields[key] = {[valType]:val};
+      var isArray = Array.isArray(val);
+      if (isArray) typeOfVal = "array";
+      var firestoreType = (TYPES as any)[typeOfVal];
+      if (!isArray) {
+        (newData as any).fields[key] = {[firestoreType]:val};
+      } else {
+        val = val.slice().map((item:any) => {
+          var typeOfVal:string = typeof item;
+          var firestoreType = (TYPES as any)[typeOfVal];
+          return {[firestoreType]:item};
+        });
+        (newData as any).fields[key] = {[firestoreType]:{values:val}};
+      }
     }
     request.data = newData;
   }
+  if (method === "put") request.method = "patch";
   return request;
 }
 
