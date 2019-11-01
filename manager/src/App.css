@@ -75,6 +75,20 @@ html, body, #root, .App, .fill {
   color: #993333;
 }
 
+.table-thumb-wrapper {
+  margin: 0px 1px 1px 0;
+  
+}
+
+.table-thumb {
+  height: 72px;
+  width: 90px;
+  padding: 6px;
+  
+  
+  
+}
+
 @keyframes slidein {
   from {
     opacity: 0;

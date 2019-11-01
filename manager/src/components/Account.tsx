@@ -12,6 +12,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import BusinessDetails from './BusinessDetails';
 import Business from '../models/Business';
 import {observer} from 'mobx-react';
+import Tables from './Tables';
 
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
@@ -44,17 +45,27 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         
         {Business.current && <BusinessDetails business={Business.current} />}
         <br />
+
+        {Business.current && <Tables business={Business.current} />
+        }
+
+        <br />
+        
         <Button 
           onClick={() => {
             Auth.signOut();
             this.props.history.push('/');
           }} 
           variant="danger"
+          size='sm'
         >
           <Avatar />
           {' '}
           {'Sign Out'}
         </Button>
+
+        
+        
       </div>
     )
   }

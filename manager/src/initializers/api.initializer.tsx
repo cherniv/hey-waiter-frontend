@@ -46,6 +46,10 @@ function formatResponseDocument(data:any): any {
 function formatResponse (response:any): any {
   var {data} = response;  
   //console.log("RESPONSE RAW:", {...response});
+
+  // this type comes from delete request
+  if (Object.entries(data).length === 0) return data;
+  
   // this type comes from :runQuery post request
   if (data.length) {
     return {data: data.map((document:any) => {

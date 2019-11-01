@@ -8,7 +8,7 @@ const Avatar: React.FC = () => {
   var {firebaseUser} = Auth;
   var path = (firebaseUser && firebaseUser.photoURL) || (AVATARS_API_PATH + firebaseUser.displayName);
   return (
-    <Image src={path} width={20} height={20} roundedCircle /> 
+    <Image src={path} width={18} height={18} roundedCircle /> 
   )
 }
 
