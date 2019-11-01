@@ -23,7 +23,7 @@ class Tables extends React.Component<props> {
     return (
       <ButtonToolbar>
         {business.tables.map((table:Table)=>
-          <TableComponent table={table} />
+          <TableComponent table={table} key={table.id} />
         )}
         <Button variant="primary" size="lg" 
           onClick={() => {
@@ -55,7 +55,6 @@ class TableComponent extends React.Component<tableProps> {
     } = table;
     return (
       <Dropdown 
-        key={id} 
         className="table-thumb-wrapper" 
       >
         <Dropdown.Toggle  id={"dropdown-basic"+id}>
