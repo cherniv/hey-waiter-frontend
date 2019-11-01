@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import BusinessDetails from './BusinessDetails';
 import Business from '../models/Business';
 import { observer } from 'mobx-react';
+import Auth from '../services/Auth';
 
 @observer
 class NewUserGreeting extends React.Component {
@@ -27,8 +28,8 @@ class NewUserGreeting extends React.Component {
         <Button 
           onClick={async () => {
             await this.business.save();
-            Auth.justSignedUp = false;
             Business.current = this.business;
+            Auth.justSignedUp = false;
           }} 
           variant="primary"
           disabled={!this.business.hasTitle}
