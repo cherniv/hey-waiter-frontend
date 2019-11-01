@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import Auth from '../services/Auth';
 import BusinessDetails from './BusinessDetails';
 import Business from '../models/Business';
 import { observer } from 'mobx-react';
@@ -21,6 +20,7 @@ class NewUserGreeting extends React.Component {
         <BusinessDetails 
           business={this.business} 
           showTitle={false}
+          autoSave={false}
         />
         
         <p>
@@ -28,6 +28,7 @@ class NewUserGreeting extends React.Component {
           onClick={async () => {
             await this.business.save();
             Auth.justSignedUp = false;
+            Business.current = this.business;
           }} 
           variant="primary"
           disabled={!this.business.hasTitle}
