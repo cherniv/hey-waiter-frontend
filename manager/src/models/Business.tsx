@@ -14,6 +14,8 @@ class Business extends Model {
     return !!this.title && !!this.title.length;
   }
 
+  @observable static current:any;
+
   static MY_BUSINESSES_QUERY:any = () => ({ 
     structuredQuery: { 
       from: [{ collectionId: 'business' }], 
