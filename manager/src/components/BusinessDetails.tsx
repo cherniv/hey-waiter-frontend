@@ -7,6 +7,7 @@ import { observer } from 'mobx-react';
 type props = {
   business: any,
   showTitle: boolean,
+  autoSave: boolean,
 }
 
 @observer
@@ -14,12 +15,14 @@ class BusinessDetails extends React.Component<props> {
 
   static defaultProps = {
     showTitle: true,
+    autoSave: true,
   }
 
   render() {
     const {
       business,
       showTitle,
+      autoSave,
     } = this.props;
     return (
       <Form>
@@ -27,7 +30,10 @@ class BusinessDetails extends React.Component<props> {
           {showTitle && <Form.Label>Business Title</Form.Label>}
           <Form.Control 
             type="name" placeholder="Type name here..." 
-            onChange={({target}: any) => business.title = target.value}
+            onChange={({target}: any) => {
+              business.title = target.value;
+              autoSave && business.save();
+            }}
             value={business.title}
           />
         </Form.Group>
