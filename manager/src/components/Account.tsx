@@ -20,7 +20,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
       <div className="screen">
         <h2>Account</h2>
         <br />
-        <Form.Label>Choose business</Form.Label>
+        <Form.Label>Choose Restaurant</Form.Label>
         <Form.Row>
           <Form.Group as={Col} md={10} controlId="formGridBusiness">
             <Form.Control as="select">
@@ -37,11 +37,11 @@ class AccountScreen extends React.Component<RouteComponentProps> {
               </Tooltip>
             }
           >
-            <Button variant="secondary">+ Add Business</Button>
+            <Button variant="secondary">+ Add Restaurant</Button>
           </OverlayTrigger>
           </Form.Group>
         </Form.Row>
-        <br />
+        
         {Business.current && <BusinessDetails business={Business.current} />}
         <br />
         <Button 

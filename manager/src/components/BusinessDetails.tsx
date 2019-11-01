@@ -27,7 +27,7 @@ class BusinessDetails extends React.Component<props> {
     return (
       <Form>
         <Form.Group controlId="formGroupEmail">
-          {showTitle && <Form.Label>Business Title</Form.Label>}
+          {showTitle && <Form.Label>Restaurant Title</Form.Label>}
           <Form.Control 
             type="name" placeholder="Type name here..." 
             onChange={({target}: any) => {

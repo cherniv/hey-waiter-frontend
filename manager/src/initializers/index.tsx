@@ -1,6 +1,6 @@
 import Auth from '../services/Auth';
 import { when } from 'mobx';
-//import Business from '../models/Business';
+import Business from '../models/Business';
 import './api.initializer'
 
 class Initializer {
@@ -12,7 +12,8 @@ class Initializer {
       () => Auth.isLoggedIn,
       async () =>  {
         //console.log('WHEN', Auth.user.id);
-        //Business.fetchFromRemote();
+        await Business.getMyBusinesses();
+        Business.current = Business.first; // @TODO
       }
     )
   }

@@ -6,7 +6,7 @@ import { observer } from 'mobx-react';
 
 @observer
 class NewUserGreeting extends React.Component {
-  business = Business.new();
+  business = Business.current || Business.new();
   render( ) {
     return (
       <div>
