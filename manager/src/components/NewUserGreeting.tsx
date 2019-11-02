@@ -12,8 +12,8 @@ class NewUserGreeting extends React.Component {
   business = Business.current || Business.new();
   @observable stage:number = 1;
   render( ) {
-    if (this.stage == 1) return this.renderStage1();
-    if (this.stage == 2) return this.renderStage2();
+    if (this.stage === 1) return this.renderStage1();
+    if (this.stage === 2) return this.renderStage2();
   }
 
   renderStage1() {
