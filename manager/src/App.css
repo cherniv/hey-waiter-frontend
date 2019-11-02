@@ -83,10 +83,11 @@ html, body, #root, .App, .fill {
 .table-thumb {
   height: 72px;
   width: 90px;
-  padding: 6px;
-  
-  
-  
+  padding: 6px; 
+}
+
+.table-passive {
+  opacity: 0.5;
 }
 
 @keyframes slidein {

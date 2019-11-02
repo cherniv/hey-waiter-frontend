@@ -22,7 +22,6 @@ const SideBar: React.FC = () => {
       </Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link as={Link} to="/account">Account</Nav.Link>
-        <Nav.Link as={Link} to="/live">Live</Nav.Link>
       </Nav>
       </Container>
     </Navbar>
