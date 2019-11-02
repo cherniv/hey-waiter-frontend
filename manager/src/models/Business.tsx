@@ -20,6 +20,10 @@ class Business extends Model {
   @computed get tables() {
     return Table.all.filter((table:Table) => table.businessId === this.id) || [];
   }
+
+  @computed get hasTables() {
+    return !!this.tables.length;
+  }
   
   static set current(val:Business) { 
     Business._current = val;
