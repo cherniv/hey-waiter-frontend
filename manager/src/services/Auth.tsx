@@ -9,7 +9,7 @@ class Auth {
   @observable authStateLoading:boolean = false;
   @observable user:any; 
   @observable firebaseUser:any; 
-  @observable justSignedUp:boolean = !true;
+  @observable justSignedUp:boolean = false;
   @observable token:any;
   @computed get isLoggedIn () {
     return !!this.user;
@@ -23,22 +23,22 @@ class Auth {
       if (firebaseUser) {
         var token = await firebaseUser.getIdToken()
         this.token = token;
-        this.loadUserDataAfterSignin(firebaseUser);
+        const {uid, displayName} = firebaseUser;
+        if (this.justSignedUp) {
+          await User.create({id: uid, name: displayName});
+        }
+        await User.fetchFromRemote(firebaseUser.uid);
+        this.user = User.first;
       } else {
         // logged out
         this.user = null;
-        this.authStateLoading = false;
       }
+      this.authStateLoading = false;
     });
   }
 
-  async loadUserDataAfterSignin(firebaseUser: any) {
-    await User.fetchFromRemote(firebaseUser.uid);
-    this.user = User.first;
-    this.authStateLoading = false;
-  }
-
   signOut () {
+    User.populate([])
     firebase.auth().signOut();
   }
 }

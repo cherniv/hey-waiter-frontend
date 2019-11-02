@@ -33,6 +33,7 @@ function getValue(node:any): any {
 }
 
 function formatResponseDocument(data:any): any {
+  data.fields = data.fields || {};
   for(var key in data.fields) {
     data.fields[key] = getValue(data.fields[key]);
   }

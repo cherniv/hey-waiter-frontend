@@ -11,7 +11,7 @@ class Initializer {
     when(
       () => Auth.isLoggedIn,
       async () =>  {
-        await Business.fetchMyBusinesses();
+        if (!Auth.justSignedUp) await Business.fetchMyBusinesses();
         if (Business.first) Business.current = Business.first;
       }
     )
