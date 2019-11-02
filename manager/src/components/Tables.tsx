@@ -1,5 +1,6 @@
 import React from 'react';
 import TableImg from "../images/dinner-table.png";
+import CallingImg from "../images/greeting-man.png";
 import { Figure, Button, Dropdown, ButtonToolbar, FormControl } from 'react-bootstrap';
 import Table from '../models/Table';
 import Business from '../models/Business';
@@ -68,6 +69,7 @@ class TableComponent extends React.Component<tableProps> {
     const {
       id,
       isActive,
+      isCalling,
       customName,
     } = table;
     return (
@@ -83,7 +85,7 @@ class TableComponent extends React.Component<tableProps> {
           >
             <Figure.Image
               alt={"Table " + id}
-              src={TableImg}
+              src={isCalling ? CallingImg : TableImg}
               className={!editing && !isActive && "table-passive"}
             />
             <Figure.Caption>
