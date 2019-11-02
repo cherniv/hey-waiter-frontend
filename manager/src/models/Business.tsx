@@ -6,7 +6,7 @@ import Table from '../models/Table';
 
 class Business extends Model {
 
-  static REMOTE_PATH:string = 'business/';
+  static REMOTE_PATH:string = 'businesses/';
   @observable static _current:Business = null;
 
   @observable title:string = '';
@@ -30,7 +30,7 @@ class Business extends Model {
 
   static MY_BUSINESSES_QUERY:any = () => ({ 
     structuredQuery: { 
-      from: [{ collectionId: 'business' }], 
+      from: [{ collectionId: 'businesses' }], 
       where: { 
         compositeFilter: { 
           filters: [{ 

@@ -7,6 +7,9 @@ class Table extends Model {
 
   static REMOTE_PATH:string = 'tables/';
   @observable businessId:any;
+  @observable isActive:boolean = false;
+  @observable isCalling:boolean = false;
+  @observable customName:string = "";
 
   static TABLES_QUERY:any = (businessId:string) => ({ 
     structuredQuery: { 

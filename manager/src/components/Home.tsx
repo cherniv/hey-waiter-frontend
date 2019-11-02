@@ -2,6 +2,7 @@ import React from 'react';
 import Auth from '../services/Auth';
 import { observer } from 'mobx-react';
 import NewUserGreeting from './NewUserGreeting';
+import Live from './Live';
 
 @observer
 class HomeScreen extends React.Component {
@@ -11,7 +12,7 @@ class HomeScreen extends React.Component {
         <h2>Dashboard</h2>
         <br />
         {Auth.justSignedUp && <NewUserGreeting />}
-        {!Auth.justSignedUp && 'Nothing new'}
+        {!Auth.justSignedUp && <Live />}
       </div>
     )
   }

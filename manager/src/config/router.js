@@ -9,10 +9,6 @@ export const ROUTES = [
     main: Home,
   },
   {
-    path: "/bubblegum",
-    main: () => <h2>Bubblegum</h2>
-  },
-  {
     path: "/account",
     main: Account
   }
