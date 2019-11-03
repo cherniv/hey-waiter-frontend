@@ -10,7 +10,6 @@ import GlowFilter = PIXI.filters.GlowFilter;
 import {BgImage} from "./BgImage";
 import {FontLoader} from "./FontLoader";
 import Loader = PIXI.Loader;
-import Rectangle = PIXI.Rectangle;
 
 
 export class QRGen {
@@ -252,7 +251,7 @@ export class QRGen {
 
             const googleLogo = () => {
                 const logo = addPic(loader.resources['google'].texture,
-                    sz.w * .1, sz.h * .9, sz.w * .1
+                    sz.w * .82, sz.h * .83, sz.w * .25
                 )
             };
             googleLogo();
