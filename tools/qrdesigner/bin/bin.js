@@ -430,7 +430,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         _this.fontLoader = new FontLoader_1.FontLoader();
                     _this.fontLoader.init(allTexts);
                     var googleLogo = function () {
-                        var logo = addPic(loader.resources['google'].texture, sz.w * .1, sz.h * .9, sz.w * .1);
+                        var logo = addPic(loader.resources['google'].texture, sz.w * .82, sz.h * .83, sz.w * .25);
                     };
                     googleLogo();
                 };

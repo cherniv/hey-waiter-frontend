@@ -81,7 +81,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.TypeScript" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="ts.external.directory.path" value="C:\Users\rigondo\AppData\Roaming\npm\node_modules\typescript\lib" />
   </component>
   <component name="RunDashboard">
@@ -111,6 +111,9 @@
       <workItem from="1571592487109" duration="209000" />
       <workItem from="1571592836349" duration="26205000" />
       <workItem from="1571818979769" duration="1521000" />
+      <workItem from="1572443972719" duration="1342000" />
+      <workItem from="1572460114063" duration="1526000" />
+      <workItem from="1572770609776" duration="507000" />
     </task>
     <servers />
   </component>
@@ -122,10 +125,17 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/../../.." />
+    </ignored-roots>
   </component>
 </project>
