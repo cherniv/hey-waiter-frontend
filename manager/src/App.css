@@ -1,22 +1,101 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+:root {
+  --main-bg-url: url(./images/bg.jpg); /* Steve Warren / Unsplash */
+  --main-font-family: 'Open Sans', sans-serif;
+  --main-bg-color: #F6ECE0 ;
+}
+
+body {
+  background-image: var(--main-bg-url); 
+  background-color: var(--main-bg-color) !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+html, body, #root, .App, .fill {
+  width: 100%;
+  height: 100%;
+  font-family: var(--main-font-family);
+}
+
 .App {
+  display: flex;
+}
+
+.navbar {
+  background: rgba(255,255,255,0.5);
+}
+
+.sidebar-logo {
+  height: 32px;
+  margin-right: 6px;
+}
+
+.signin-logo {
+  height: 112px;
+}
+
+.main-container {
+  background-color: #ffffff;
+  min-height: 100%;
+  height: 100%;
+}
+
+.main-stage {
+  flex: 1;
+}
+
+.screen {
+  flex: 1;
+  padding-top: 32px;
+  animation-duration: 0.5s;
+  animation-name: slidein;
+}
+
+.component-sign-in {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
+.spinner-border {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  filter: drop-shadow(0 0px 6px rgba(0,0,0,0.6));
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.link {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.App-link {
-  color: #09d3ac;
+.sign-out {
+  color: #993333;
+}
+
+.table-thumb-wrapper {
+  margin: 0px 1px 1px 0;
+  
+}
+
+.table-thumb {
+  height: 72px;
+  width: 90px;
+  padding: 6px; 
+}
+
+.table-passive {
+  opacity: 0.5;
+}
+
+@keyframes slidein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
