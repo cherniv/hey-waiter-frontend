@@ -39,7 +39,7 @@ class App extends React.Component {
     if (!this.ready) return <div />;
     
     return (
-      <Router>
+      <Router basename="/manager">
         {Auth.isLoggedIn && <SideBar />}
         <Container className="main-container">
           <Row className="fill">
