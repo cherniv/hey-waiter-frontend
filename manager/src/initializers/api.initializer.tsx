@@ -1,8 +1,12 @@
 import Api from 'axios';
-import {setApiVendor} from 'mobx-active-model';
+import User from '../models/User';
+import Business from '../models/Business';
 import Auth from '../services/Auth';
 import {projectId} from '../config/firebase';
-setApiVendor(Api);
+import Table from '../models/Table';
+User.Api = (Api);
+Business.Api = (Api);
+Table.Api = Api;
 
 var API_PATH = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/`;
 
