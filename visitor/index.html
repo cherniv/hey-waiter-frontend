@@ -5,29 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hey Waiter!</title>
+  <style>
+    html,body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Open Sans",Verdana,arial;
+      color: #333333;
+    }
+    button{
+      width: 50vw;
+      height: 50vw;
+      border-radius: 50%;
+      background-color: #0BAD05;
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 10vw;
+      box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+      display: inline-block;
+    }
+    #doneLabel {
+      animation: fadein 1s;
+      transform: perspective(1px) translateZ(0);
+    }
+    @keyframes fadein {
+      from { opacity: 0.1; }
+      to   { opacity: 1; }
+    }
+  </style>
   <script>
     var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/";
     var id = window.location.hash.substr(2);
     var xhr = new XMLHttpRequest();
-    var params = {id}
+    var params = {id};
 
-    var isActiveEndpoint = api + "table/active";
-    var isCallingEndpoint = api + "table/calling";
-
-    xhr.open('GET', isActiveEndpoint + '?'  + new URLSearchParams(params), true);
-    xhr.send(null);
-
-    function callWaiter() {
-      xhr.open('GET', isCallingEndpoint + '?'  + new URLSearchParams(params), true);
+    function callApi(endpoint) {
+      xhr.open('GET', api + endpoint + '?'  + new URLSearchParams(params), true);
       xhr.send(null);
+    }
 
+    function apiTableActive() {
+      callApi("table/active")
+    }
+
+    function apiTableCalling() {
+      callApi("table/calling");
+    }
+    
+    function callWaiter() {
+      apiTableCalling();
       document.getElementById("callButton").style.display="none";
       document.getElementById("doneLabel").style.display="block";
     }
+    
+    !!id && apiTableActive();
+
   </script>
 </head>
 <body>
   <button onclick="callWaiter()" id="callButton">CALL!</button>
-  <div id="doneLabel" style="display: none;">Waiter is coming!</div>
+  <h2 id="doneLabel" style="display: none;">Waiter is coming!</h2>
 </body>
 </html>
