@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Hey Waiter!</title>
+  <script>
+    var id = window.location.hash.substr(1);
+    var xhr = new XMLHttpRequest();
+    var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/table/active";
+    var params = {id}
+    xhr.open('GET', api + '?'  + new URLSearchParams(params), true);
+    xhr.send(null);
+  </script>
+</head>
+<body>
+  
+</body>
+</html>
