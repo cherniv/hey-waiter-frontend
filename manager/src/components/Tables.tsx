@@ -5,6 +5,7 @@ import { Figure, Button, Dropdown, ButtonToolbar, FormControl } from 'react-boot
 import Table from '../models/Table';
 import Business from '../models/Business';
 import { observer } from 'mobx-react';
+import { observable } from 'mobx';
 
 type props = {
   business: any,
@@ -57,6 +58,9 @@ class TableComponent extends React.Component<tableProps> {
     editing: true,
     
   }
+ 
+  @observable tempValue:string = this.props.table.customName;
+
   removeTable(table:Table) {
     table.destroy();
   }
@@ -88,27 +92,26 @@ class TableComponent extends React.Component<tableProps> {
               src={isCalling ? CallingImg : TableImg}
               className={!editing && !isActive && "table-passive"}
             />
-            <Figure.Caption>
+            {editing && 
+              <FormControl
+                placeholder={""+index}
+                onBlur={()=>table.update({customName: this.tempValue})}
+                value={this.tempValue}
+                aria-label="Set name"
+                aria-describedby="basic-addon1"
+                onChange={({target}:any) => this.tempValue = target.value}
+              />
+            }
+            {!editing &&
+            <Figure.Caption >
               {customName || index}
             </Figure.Caption>
+            }
           </Figure>
         </Dropdown.Toggle>
 
         {editing &&
         <Dropdown.Menu>
-          <Dropdown.Item 
-            
-          >
-            <FormControl
-              autoFocus
-              value={customName}
-              placeholder="Set name"
-              aria-label="Set name"
-              aria-describedby="basic-addon1"
-              onChange={({target}:any) => table.update({customName: target.value})}
-            />
-          </Dropdown.Item>
-          <Dropdown.Divider />
           <Dropdown.Item 
             onSelect={()=>this.removeTable(table)}
           >Remove table</Dropdown.Item>
