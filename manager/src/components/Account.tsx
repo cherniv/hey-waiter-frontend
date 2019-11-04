@@ -77,7 +77,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
           variant="link"
           onClick={() => {
             Auth.signOut();
-            this.props.history.push('./manager/');
+            this.props.history.push('./');
           }} 
           
           //size='sm'
