@@ -6,15 +6,28 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Hey Waiter!</title>
   <script>
+    var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/";
     var id = window.location.hash.substr(1);
     var xhr = new XMLHttpRequest();
-    var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/table/active";
     var params = {id}
-    xhr.open('GET', api + '?'  + new URLSearchParams(params), true);
+
+    var isActiveEndpoint = api + "table/active";
+    var isCallingEndpoint = api + "table/calling";
+
+    xhr.open('GET', isActiveEndpoint + '?'  + new URLSearchParams(params), true);
     xhr.send(null);
+
+    function callWaiter() {
+      xhr.open('GET', isCallingEndpoint + '?'  + new URLSearchParams(params), true);
+      xhr.send(null);
+
+      document.getElementById("callButton").style.display="none";
+      document.getElementById("doneLabel").style.display="block";
+    }
   </script>
 </head>
 <body>
-  
+  <button onclick="callWaiter()" id="callButton">CALL!</button>
+  <div id="doneLabel" style="display: none;">DONE!</div>
 </body>
 </html>
