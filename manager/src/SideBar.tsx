@@ -16,12 +16,12 @@ const SideBar: React.FC = () => {
   return (
     <Navbar >
       <Container>
-      <Navbar.Brand as={Link} to="/">
+      <Navbar.Brand as={Link} to="/manager/">
         <img src={SidebarLogo} className="sidebar-logo d-inline-block" alt="Logo" />
         {' Hey Waiter!'}
       </Navbar.Brand>
       <Nav className="mr-auto">
-        <Nav.Link as={Link} to="/account">Account</Nav.Link>
+        <Nav.Link as={Link} to="/manager/account">Account</Nav.Link>
       </Nav>
       </Container>
     </Navbar>

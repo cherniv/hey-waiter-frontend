@@ -3,13 +3,14 @@ import Home from '../components/Home'
 
 export const ROUTES = [
   {
-    path: "/",
+    path: "/manager/",
     exact: true,
     main: Home,
   },
   {
-    path: "/account",
-    main: Account
+    path: "/manager/account",
+    main: Account,
+    exact: true,
   }
 ];
 
