@@ -7,7 +7,7 @@
   <title>Hey Waiter!</title>
   <script>
     var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/";
-    var id = window.location.hash.substr(1);
+    var id = window.location.hash.substr(1).substr(1);
     var xhr = new XMLHttpRequest();
     var params = {id}
 
