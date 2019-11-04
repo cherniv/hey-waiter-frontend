@@ -39,6 +39,9 @@ jobs: # a collection of steps
           name: Copying React-based manager to public/manager folder    
           command: mkdir -p ./public/manager; cp -a ./manager/build/. ./public/manager/
       - run:
+          name: Copying qrmanager 
+          command: mkdir -p ./public/qrdesigner; cp -a ./tools/qrdesigner/. ./public/qrdesigner/
+      - run:
           name: Install Firebase Tools
           command: npm install --prefix=./firebase-deploy firebase-tools
       - run:
