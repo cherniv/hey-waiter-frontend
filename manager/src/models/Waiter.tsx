@@ -17,7 +17,7 @@ class Waiter extends Model {
   }
 
   static isWaiter() {
-    return !!Auth.isAnonymous;
+    return Auth.isAnonymous;
   }
 
   static WAITERS_QUERY:any = (businessId:string) => ({ 

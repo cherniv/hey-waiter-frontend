@@ -6,6 +6,7 @@ import './api.initializer'
 import firebase from 'firebase/app';
 import Waiter from '../models/Waiter';
 Table.Firebase = firebase;
+Waiter.Firebase = firebase;
 
 class Initializer {
   async init () {
@@ -18,7 +19,7 @@ class Initializer {
         if (!Auth.justSignedUp) await Business.fetchMyBusinesses();
         if (Business.first) Business.current = Business.first;
         // Special case for fired or redeemed waiter:
-        if (!Business.first && Waiter.isWaiter) {
+        if (!Business.first && Waiter.isWaiter && !Auth.justSignedUp) {
           Auth.signOut();
         }
       }
