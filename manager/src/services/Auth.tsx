@@ -47,6 +47,14 @@ class Auth {
     this.setSignupStatus(true);
   }
 
+  setSignupStatus(justSignedUp:boolean = false) {
+    this.justSignedUp = justSignedUp;
+  }
+
+  finishSignupProcess() {
+    this.setSignupStatus(false); 
+  }
+
   signOut () {
     User.populate([])
     firebase.auth().signOut();

@@ -65,7 +65,7 @@ class NewUserGreeting extends React.Component {
         <br />
         <Button 
           onClick={async () => {
-            Auth.justSignedUp = false;
+            Auth.finishSignupProcess();
           }} 
           variant="success"
           disabled={!this.business.hasTables}
