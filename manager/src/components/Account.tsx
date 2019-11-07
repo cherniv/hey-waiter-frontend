@@ -14,11 +14,13 @@ import BusinessDetails from './BusinessDetails';
 import Business from '../models/Business';
 import {observer} from 'mobx-react';
 import Tables from './Tables';
+import Waiters from './Waiters';
 import QrcodeIcon from '../images/qrcode-icon.png';
 
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
   render() {
+    if (Auth.isWaiter) return this.renderSignoutButton();
     if (!Business.current) return null;
     return (
       <div className="screen">
@@ -50,6 +52,8 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <br />
         <Tables business={Business.current} />
         <br />
+        <Waiters business={Business.current} />
+        <br />
         <Button 
           variant="success"
           //size="lg"
@@ -73,23 +77,26 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         */}
         <br />
         <br />
-        <Button 
-          variant="link"
-          onClick={() => {
-            Auth.signOut();
-            this.props.history.push('./');
-          }} 
-          
-          //size='sm'
-        >
-          <Avatar />
-          {' '}
-          {'Sign Out'}
-        </Button>
-
-        
-        
+        {this.renderSignoutButton()}
       </div>
+    )
+  }
+
+  renderSignoutButton() {
+    return (
+      <Button 
+        variant="link"
+        onClick={() => {
+          Auth.signOut();
+          this.props.history.push('./');
+        }} 
+        
+        //size='sm'
+      >
+        <Avatar />
+        {' '}
+        {'Sign Out'}
+      </Button>
     )
   }
 }
