@@ -11,6 +11,11 @@ class Auth {
   @observable firebaseUser:any; 
   @observable justSignedUp:boolean = false;
   @observable token:any;
+
+  @computed get isWaiter () {
+    const {firebaseUser} = this;
+    return firebaseUser && firebaseUser.isAnonymous;
+  }
   @computed get isLoggedIn () {
     return !!this.user;
   }
@@ -35,6 +40,11 @@ class Auth {
       }
       this.authStateLoading = false;
     });
+  }
+
+  async signInAsWaiter() {
+    await firebase.auth().signInAnonymously();
+    this.setSignupStatus(true);
   }
 
   signOut () {
