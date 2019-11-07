@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app';
 import SigninLogo from '../images/sidebar-logo.png';
 
 import Auth from '../services/Auth';
+import { Button } from 'react-bootstrap';
 
 const UI_CONFIG = {
   // Popup signin flow rather than redirect flow.
@@ -37,6 +38,10 @@ class SignIn extends React.Component {
         <br/>
         <p>Please sign-in:</p>
         <StyledFirebaseAuth uiConfig={UI_CONFIG} firebaseAuth={firebase.auth()}/>
+        <Button 
+          variant="link"
+          onClick={() => Auth.signInAsWaiter() } 
+        >Sign in as Waiter</Button>
       </div>
     )
   }

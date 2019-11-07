@@ -4,9 +4,11 @@ import Business from '../models/Business';
 import Auth from '../services/Auth';
 import {projectId} from '../config/firebase';
 import Table from '../models/Table';
+import Waiter from '../models/Waiter';
 User.Api = (Api);
 Business.Api = (Api);
 Table.Api = Api;
+Waiter.Api = Api;
 
 var API_PATH = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/`;
 

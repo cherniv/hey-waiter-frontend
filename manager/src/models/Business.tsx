@@ -3,6 +3,7 @@ import Model from 'mobx-active-model';
 import { observable, computed } from 'mobx';
 import Auth from '../services/Auth';
 import Table from '../models/Table';
+import Waiter from '../models/Waiter';
 
 class Business extends Model {
 
@@ -16,9 +17,11 @@ class Business extends Model {
   @computed get hasTitle() {
     return !!this.title && !!this.title.length;
   }
-
   @computed get tables() {
     return Table.all.filter((table:Table) => table.businessId === this.id) || [];
+  }
+  @computed get waiters() {
+    return Waiter.all.filter((waiter:Waiter) => waiter.businessId === this.id) || [];
   }
 
   @computed get hasTables() {
@@ -28,7 +31,7 @@ class Business extends Model {
   static set current(val:Business) { 
     Business._current = val;
     Table.fetchTables();
-
+    Waiter.fetchWaiters();
   }
   static get current() { return Business._current}
 
@@ -65,7 +68,14 @@ class Business extends Model {
     Table.create({ businessId: this.id});
   }
 
-  
+  async addWaiter() {
+    Waiter.create({ 
+      businessId: this.id,
+      // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+      code: Math.random().toString(36).slice(-4),
+      
+    });
+  }
 
 }
 
