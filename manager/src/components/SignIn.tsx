@@ -18,7 +18,7 @@ const UI_CONFIG = {
   callbacks: {
     // Avoid redirects after sign-in.
     signInSuccessWithAuthResult: (result:any) => {
-      Auth.justSignedUp = result.additionalUserInfo.isNewUser;
+      Auth.setSignupStatus(result.additionalUserInfo.isNewUser);
       return false;
     }
   }
