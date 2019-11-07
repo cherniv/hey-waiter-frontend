@@ -56,7 +56,10 @@ class Auth {
   }
 
   signOut () {
-    User.populate([])
+    User.populate([]);
+    if (this.isAnonymous) {
+      this.user.destroy();
+    }
     firebase.auth().signOut();
   }
 }
