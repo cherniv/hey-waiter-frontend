@@ -1,5 +1,5 @@
 import React from 'react';
-import { Figure, Button, Dropdown, ButtonToolbar, FormControl } from 'react-bootstrap';
+import { Figure, Button, Dropdown, ButtonToolbar, FormControl, Modal } from 'react-bootstrap';
 import Waiter from '../models/Waiter';
 import Business from '../models/Business';
 import { observer } from 'mobx-react';
@@ -13,6 +13,9 @@ type props = {
 
 @observer
 class Waiters extends React.Component<props> {
+  @observable shouldShowGenerateNewCodePrompt:boolean = false;
+  waiterToDelete:Waiter = null;
+
   static defaultProps = {
     editing: true,
   }
@@ -24,6 +27,7 @@ class Waiters extends React.Component<props> {
     } = this.props;
     
     return (
+      <>
       <ButtonToolbar>
         {business.waiters.map((waiter:Waiter, index:number)=>
           <WaiterComponent 
@@ -31,6 +35,10 @@ class Waiters extends React.Component<props> {
             key={waiter.id} 
             editing={editing}
             index={index+1}
+            getNewCodeOnPress={(waiter:Waiter)=>{
+              this.shouldShowGenerateNewCodePrompt = true;
+              this.waiterToDelete = waiter;
+            }}
           />
         )}
         {editing &&
@@ -41,6 +49,53 @@ class Waiters extends React.Component<props> {
         >+ <br />Add Waiter</Button>
         }
       </ButtonToolbar>
+      {this.renderErrorPopup()}
+      </>
+    )
+  }
+
+  renderErrorPopup() {
+    return (
+      <Modal
+        show={this.shouldShowGenerateNewCodePrompt} 
+        onHide={() => this.shouldShowGenerateNewCodePrompt = false}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title></Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Do you want to unconnect current person as well?</Modal.Body>
+        <Modal.Footer>
+          <Button 
+            variant="secondary" 
+            onClick={()=>{
+              this.shouldShowGenerateNewCodePrompt=false;
+            }}
+          >
+            Cancel
+          </Button>
+          <Button 
+            variant="primary" 
+            onClick={()=>{
+              this.waiterToDelete.generateCode();
+              Business.current.removeWaiterUserFromUserIds(this.waiterToDelete);
+              this.waiterToDelete.update({userId:''});
+              this.shouldShowGenerateNewCodePrompt=false;
+            }}
+          >
+            Yes
+          </Button>
+          <Button 
+            variant="primary" 
+            onClick={()=>{
+              this.waiterToDelete.generateCode();
+              this.shouldShowGenerateNewCodePrompt=false;
+            }}
+          >
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
     )
   }
 }
@@ -49,6 +104,7 @@ type tableProps = {
   waiter: Waiter,
   editing: boolean,
   index: number,
+  getNewCodeOnPress: any,
 }
 
 @observer
@@ -56,7 +112,7 @@ class WaiterComponent extends React.Component<tableProps> {
   static defaultProps = {
     editing: true,
   }
- 
+  
   @observable tempValue:string = this.props.waiter.customName;
 
   removeWaiter(waiter:Waiter) {
@@ -67,6 +123,7 @@ class WaiterComponent extends React.Component<tableProps> {
       waiter,
       editing,
       index,
+      getNewCodeOnPress,
     } = this.props;
     const {
       id,
@@ -127,6 +184,9 @@ class WaiterComponent extends React.Component<tableProps> {
         {editing &&
         <Dropdown.Menu>
           <Dropdown.Item 
+            onSelect={()=>getNewCodeOnPress(waiter)}
+          >Get new code</Dropdown.Item>
+          <Dropdown.Item 
             onSelect={()=>this.removeWaiter(waiter)}
           >Remove waiter</Dropdown.Item>
         </Dropdown.Menu>
@@ -143,20 +203,6 @@ class WaiterComponent extends React.Component<tableProps> {
       
     )
   }
-
-  // setTableAsCalling (table:Table) {
-  //   table.update({
-  //     isActive: true,
-  //     isCalling: true,
-  //   })
-  // }
-
-  // resetTable (table:Table) {
-  //   table.update({
-  //     isActive: false,
-  //     isCalling: false,
-  //   })
-  // }
 }
 
 export default Waiters;

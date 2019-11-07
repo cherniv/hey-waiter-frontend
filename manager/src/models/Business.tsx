@@ -70,23 +70,24 @@ class Business extends Model {
 
   async removeWaiter(waiter: Waiter) {
     
-    // @todo move this part to a trigger:
-    if (waiter.userId) {
-      var newUserIds = this.userIds.filter((uid:string)=>uid!==waiter.userId);
-      this.update({userIds: newUserIds})
-    }
+    this.removeWaiterUserFromUserIds(waiter);
 
     // @todo consider removing users/{userId=waiter.userId} via cloud trigger
 
     waiter.destroy();
   }
 
+  removeWaiterUserFromUserIds(waiter:Waiter) {
+    // @todo move this part to a trigger:
+    if (waiter.userId) {
+      var newUserIds = this.userIds.filter((uid:string)=>uid!==waiter.userId);
+      this.update({userIds: newUserIds})
+    }
+  }
+
   async addWaiter() {
     Waiter.create({ 
       businessId: this.id,
-      // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-      code: Math.random().toString(36).slice(-4),
-      
     });
   }
 

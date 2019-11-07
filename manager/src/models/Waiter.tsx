@@ -4,12 +4,17 @@ import { observable, computed } from 'mobx';
 import Business from './Business';
 import Auth from '../services/Auth';
 
+function generateCode() {
+  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
+  return Math.random().toString(36).slice(-4);
+}
+
 class Waiter extends Model {
 
   static REMOTE_PATH:string = 'waiters/';
   @observable businessId:any;
   @observable userId:string = "";
-  @observable code:string = "";
+  @observable code:string = generateCode();
   @observable customName:string = "";
 
   @computed get isPending():boolean {
@@ -86,6 +91,10 @@ class Waiter extends Model {
       Business.current = Business.first;
       return true;
     }
+  }
+
+  generateCode() {
+    this.update({code: generateCode()});
   }
 
 }
