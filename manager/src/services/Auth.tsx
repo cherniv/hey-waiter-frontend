@@ -30,7 +30,7 @@ class Auth {
         this.token = token;
         const {uid, displayName} = firebaseUser;
         if (this.justSignedUp) {
-          await User.create({id: uid, name: displayName});
+          await User.create({id: uid, name: displayName || ''});
         }
         await User.fetchFromRemote(firebaseUser.uid);
         this.user = User.first;

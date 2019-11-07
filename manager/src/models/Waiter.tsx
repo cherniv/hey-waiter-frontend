@@ -1,5 +1,5 @@
 
-import Model from 'mobx-active-model';
+import {FirestoreModel as Model} from 'mobx-active-model';
 import { observable, computed } from 'mobx';
 import Business from './Business';
 import Auth from '../services/Auth';
@@ -16,7 +16,7 @@ class Waiter extends Model {
     return !this.userId;
   }
 
-  static isWaiter() {
+  @computed static get isWaiter() {
     return Auth.isAnonymous;
   }
 

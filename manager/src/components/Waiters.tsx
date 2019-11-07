@@ -80,7 +80,7 @@ class WaiterComponent extends React.Component<tableProps> {
       >
         <Dropdown.Toggle  
           id={"dropdown-basic"+id}
-          variant={!isPending ? "outline-secondary" : "outline-light"}
+          variant={"outline-light"}
         >
           <Figure
             className="waiter-thumb"
