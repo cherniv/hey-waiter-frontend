@@ -1,6 +1,6 @@
 
 import Model from 'mobx-active-model';
-import { observable } from 'mobx';
+import { observable, computed } from 'mobx';
 import Business from './Business';
 import Auth from '../services/Auth';
 
@@ -9,9 +9,12 @@ class Waiter extends Model {
   static REMOTE_PATH:string = 'waiters/';
   @observable businessId:any;
   @observable userId:any;
-  @observable isPending:boolean = true;
   @observable code:string = "";
   @observable customName:string = "";
+
+  @computed get isPending():boolean {
+    return !this.userId;
+  }
 
   static WAITERS_QUERY:any = (businessId:string) => ({ 
     structuredQuery: { 
@@ -70,7 +73,7 @@ class Waiter extends Model {
   static async waiterEnterByCode(code:string) {
     var waiters = await this.checkCode(code);
     if (!waiters || !waiters.length) {
-      throw {};
+      throw new Error("");
     } else {
       this.populate(waiters);
       await Waiter.first.update({userId: Auth.user.id});

@@ -88,7 +88,12 @@ class WaiterComponent extends React.Component<tableProps> {
             <Figure.Image
               alt={"Waiter " + id}
               src={WaiterImg}
-              className={"waiter " + (!editing && isPending && "waiter-passive")}
+              className={
+                "waiter " + 
+                (!editing && 
+                  (isPending ? "waiter-passive" : "waiter-active")
+                )
+              }
             />
             {editing && 
               <FormControl
@@ -106,7 +111,7 @@ class WaiterComponent extends React.Component<tableProps> {
                 size='sm'
                 placeholder={"Code"}
                 readOnly
-                value={waiter.code}
+                value={code}
                 aria-label="Code"
                 aria-describedby="basic-addon1"
               />

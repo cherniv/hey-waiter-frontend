@@ -106,6 +106,22 @@ html, body, #root, .App, .fill {
   padding: 6px; 
 }
 
+.waiter-passive {
+  opacity: 0.5;
+}
+
+.waiter-active {
+  filter: 
+    /* black to white */
+    invert(50%)
+    /* white to off-white */
+    sepia(100%)
+    /* off-white to yellow */
+    saturate(10000%)
+    /* do whatever you want with yellow */
+    hue-rotate(90deg);
+}
+
 @keyframes slidein {
   from {
     opacity: 0;
