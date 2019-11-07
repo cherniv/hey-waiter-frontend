@@ -68,6 +68,19 @@ class Business extends Model {
     Table.create({ businessId: this.id});
   }
 
+  async removeWaiter(waiter: Waiter) {
+    
+    // @todo move this part to a trigger:
+    if (waiter.userId) {
+      var newUserIds = this.userIds.filter((uid:string)=>uid!==waiter.userId);
+      this.update({userIds: newUserIds})
+    }
+
+    // @todo consider removing users/{userId=waiter.userId} via cloud trigger
+
+    waiter.destroy();
+  }
+
   async addWaiter() {
     Waiter.create({ 
       businessId: this.id,

@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import NewUserGreeting from './NewUserGreeting';
 import NewWaiterGreeting from './NewWaiterGreeting';
 import Live from './Live';
+import Waiter from '../models/Waiter';
 
 @observer
 class HomeScreen extends React.Component {
@@ -12,8 +13,8 @@ class HomeScreen extends React.Component {
       <div className="screen">
         <h2>Dashboard</h2>
         <br />
-        {Auth.justSignedUp && !Auth.isWaiter && <NewUserGreeting />}
-        {Auth.justSignedUp && Auth.isWaiter && <NewWaiterGreeting />}
+        {Auth.justSignedUp && !Waiter.isWaiter && <NewUserGreeting />}
+        {Auth.justSignedUp && Waiter.isWaiter && <NewWaiterGreeting />}
         {!Auth.justSignedUp && <Live />}
       </div>
     )

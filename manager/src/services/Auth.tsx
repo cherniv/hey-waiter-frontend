@@ -12,7 +12,7 @@ class Auth {
   @observable justSignedUp:boolean = false;
   @observable token:any;
 
-  @computed get isWaiter () {
+  @computed get isAnonymous () {
     const {firebaseUser} = this;
     return firebaseUser && firebaseUser.isAnonymous;
   }

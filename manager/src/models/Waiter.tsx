@@ -8,12 +8,16 @@ class Waiter extends Model {
 
   static REMOTE_PATH:string = 'waiters/';
   @observable businessId:any;
-  @observable userId:any;
+  @observable userId:string = "";
   @observable code:string = "";
   @observable customName:string = "";
 
   @computed get isPending():boolean {
     return !this.userId;
+  }
+
+  static isWaiter() {
+    return !!Auth.isAnonymous;
   }
 
   static WAITERS_QUERY:any = (businessId:string) => ({ 

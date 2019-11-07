@@ -16,11 +16,12 @@ import {observer} from 'mobx-react';
 import Tables from './Tables';
 import Waiters from './Waiters';
 import QrcodeIcon from '../images/qrcode-icon.png';
+import Waiter from '../models/Waiter';
 
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
   render() {
-    if (Auth.isWaiter) return this.renderSignoutButton();
+    if (Waiter.isWaiter) return this.renderSignoutButton();
     if (!Business.current) return null;
     return (
       <div className="screen">

@@ -60,7 +60,7 @@ class WaiterComponent extends React.Component<tableProps> {
   @observable tempValue:string = this.props.waiter.customName;
 
   removeWaiter(waiter:Waiter) {
-    waiter.destroy();
+    Business.current.removeWaiter(waiter);
   }
   render() {
     const {
