@@ -15,7 +15,7 @@ class NotificationsService {
     ReactNativeWebView.postMessage(JSON.stringify(command));
     win.messageFromMobile = (data:string) => {
       var command:any = JSON.parse(data);
-      if (command.command == GOT_NOTIFICATIONS_PERMISSION) {
+      if (command.command === GOT_NOTIFICATIONS_PERMISSION) {
         const {notificationsToken} = command;
         if (notificationsToken) {
           
