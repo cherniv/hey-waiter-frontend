@@ -4,6 +4,10 @@ import "firebase/auth";
 import "firebase/firestore";
 import User from '../models/User';
 
+async function getFreshToken() {
+  return firebase.auth().currentUser.getIdToken();
+}
+
 class Auth {
 
   @observable authStateLoading:boolean = false;
@@ -26,8 +30,7 @@ class Auth {
     firebase.auth().onAuthStateChanged(async (firebaseUser: any) => {
       this.firebaseUser = firebaseUser;
       if (firebaseUser) {
-        var token = await firebaseUser.getIdToken()
-        this.token = token;
+        this.token = await getFreshToken()
         const {uid, displayName} = firebaseUser;
         if (this.justSignedUp) {
           await User.create({id: uid, name: displayName || ''});
@@ -40,6 +43,10 @@ class Auth {
       }
       this.authStateLoading = false;
     });
+  }
+
+  async getFreshTokenAndUpdate() {
+    this.token = await getFreshToken();
   }
 
   async signInAsWaiter() {
