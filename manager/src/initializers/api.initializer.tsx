@@ -107,6 +107,19 @@ function formatRequest (request:any) {
   return request;
 }
 
+async function updateExpiredToken(error:any) {
+  const {config, response} = error;
+  if (config && response && response.data && response.data.error && (response.data.error.status == "UNAUTHENTICATED" || response.data.error.status == "PERMISSION_DENIED")) {
+    console.log( "REFRESHING TOKEN");
+    await Auth.getFreshTokenAndUpdate();
+    setTokenHeader(config);
+    return Api.request(config);
+  }
+  return Promise.reject(error);
+}
+
 Api.interceptors.request.use(setTokenHeaderOnTheFly);
 Api.interceptors.request.use(formatRequest);
+// Catching firebase expired token response, refreshing token and retrying same request
+Api.interceptors.response.use(null, updateExpiredToken);  
 Api.interceptors.response.use(formatResponse);  
