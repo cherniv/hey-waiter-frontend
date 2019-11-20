@@ -4,7 +4,7 @@ define("BgImage", ["require", "exports"], function (require, exports) {
     var BgImage = (function () {
         function BgImage(onInit) {
             var elements = [];
-            var total = 70;
+            var total = 77;
             for (var i = 1; i < total + 1; ++i) {
                 var path = "assets/bg/" + i + ".jpg";
                 elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
@@ -52,7 +52,7 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
         function ConfKeeper() {
         }
         ConfKeeper.dataType = [
-            { name: 'bgPath', type: 'string', def: 'assets/bg/1.jpg', outer: true, mul: 0 },
+            { name: 'bgPath', type: 'string', def: 'assets/bg/16.jpg', outer: true, mul: 0 },
             { name: 'blur', title: 'Blur Background', type: 'boolean', def: true },
             { name: 'blur2', title: 'Blur More', type: 'boolean', def: false },
             { name: 'darken', title: 'Darken Background', type: 'boolean', def: true },
