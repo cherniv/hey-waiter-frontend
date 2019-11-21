@@ -1,3 +1,8 @@
+interface Table {
+    url: string,
+    name: string,
+}
+
 export class UrlVarsParser {
     constructor(){
         this.vars = {};
@@ -11,17 +16,22 @@ export class UrlVarsParser {
                 this.vars[parts[0]] = parts[1];
             });
         }
-        if (!this.has('company') || !this.has('urls')){
-            let arr = [];
-            for (let i = 0; i < 35; ++i)
-                arr.push('https://waiter.live/#q' + ('' + Math.random()).substr(2, 16));
+        if (!this.has('company') || !this.has('tables')){
+            let arr: Table[] = [];
+            for (let i = 0; i < 5; ++i) {
+                const name = ('' + Math.random()).substr(2, 16);
+                arr.push({
+                    url:'https://waiter.live/#q' + name,
+                    name:'Table #' + name.substr(0, 5)
+                });
+            }
             location.href = '?company=' + encodeURIComponent('A good company')
-                + '&urls=' + encodeURIComponent(JSON.stringify(
+                + '&tables=' + encodeURIComponent(JSON.stringify(
                     arr
                 ));
         } else {
             this.company = this.get('company');
-            this.urls = JSON.parse(this.get('urls'));
+            this.tables = JSON.parse(this.get('tables'));
         }
     }
 
@@ -29,6 +39,6 @@ export class UrlVarsParser {
     private get = (name: string) => decodeURIComponent(this.vars[name]);
     private vars: MapStrStr;
     company: string;
-    urls: string[];
+    tables: Table[];
 
 }

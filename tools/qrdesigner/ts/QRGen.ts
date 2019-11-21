@@ -85,10 +85,8 @@ export class QRGen {
                 return pic;
             };
             all.removeChildren();
-            const
-                url = this.vars.urls[urlIndex],
-                round = Math.round,
-                sz = this.size;
+            const table = this.vars.tables[urlIndex];
+            const round = Math.round, sz = this.size;
             const nominalHeight = 1024;/// the one I prewiev on
 
             const BG = () => {
@@ -153,7 +151,7 @@ export class QRGen {
                 const qrCanvas = <HTMLCanvasElement>document.getElementById('qr');
                 const qrious = new QRious({
                     element:qrCanvas,
-                    value:url,
+                    value:table.url,
                     level:'H',
                     size:512,
                     // padding:round(sz.w * .03),
@@ -165,7 +163,7 @@ export class QRGen {
                 const qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
                 qr.anchor.set(.5);
                 qr.visible = false;
-                const pos = qrPos = new Point(sz.w * .5, sz.h * .6);
+                const pos = qrPos = new Point(sz.w * .5, sz.h * .5);
                 // qr.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, 1)];
                 all.addChild(qr);
 
@@ -239,27 +237,33 @@ export class QRGen {
                     t.y = currY * sz.h;
                     return t;
                 };
-                const dispURL = url.split('/#').join('#').split('http://').join('').split('https://').join('')
-                currY = .23;
+                currY = .175;
                 txt('To call a waiter,', 1, .5);
                 txt('scan this code:', 1, .5);
                 //txt('or visit', 1, .5);
+                // const dispURL = table.url.split('/#').join('#').split('http://').join('').split('https://').join('')
                 //txt(dispURL, .9, .5);
 
 
                 currY = .02;
                 txt(this.vars.company, 1.5, .5);
 
-                currY = .87;
-                txt('No APP required!', 1.6, .5);
 
+                const bias = .91;
+                currY = .925;
+                txt(table.name, .3, bias);
+                currY = .925;
+                txt(table.name, .3, 1 - bias);
+
+                currY = .76;
+                txt('No APP required!', 1.6, .5);
             };
             if (this.fontLoader == null) this.fontLoader = new FontLoader();
             this.fontLoader.init(allTexts);
 
             const googleLogo = () => {
                 const logo = addPic(loader.resources['google'].texture,
-                    sz.w * .82, sz.h * .83, sz.w * .25
+                    sz.w * .5, sz.h * .935, sz.w * .25
                 )
             };
             googleLogo();

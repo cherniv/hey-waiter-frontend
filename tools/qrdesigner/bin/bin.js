@@ -202,16 +202,21 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
                     _this.vars[parts[0]] = parts[1];
                 });
             }
-            if (!this.has('company') || !this.has('urls')) {
+            if (!this.has('company') || !this.has('tables')) {
                 var arr = [];
-                for (var i = 0; i < 35; ++i)
-                    arr.push('https://waiter.live/#q' + ('' + Math.random()).substr(2, 16));
+                for (var i = 0; i < 5; ++i) {
+                    var name_1 = ('' + Math.random()).substr(2, 16);
+                    arr.push({
+                        url: 'https://waiter.live/#q' + name_1,
+                        name: 'Table #' + name_1.substr(0, 5)
+                    });
+                }
                 location.href = '?company=' + encodeURIComponent('A good company')
-                    + '&urls=' + encodeURIComponent(JSON.stringify(arr));
+                    + '&tables=' + encodeURIComponent(JSON.stringify(arr));
             }
             else {
                 this.company = this.get('company');
-                this.urls = JSON.parse(this.get('urls'));
+                this.tables = JSON.parse(this.get('tables'));
             }
         }
         return UrlVarsParser;
@@ -305,7 +310,8 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         return pic;
                     };
                     all.removeChildren();
-                    var url = _this.vars.urls[urlIndex], round = Math.round, sz = _this.size;
+                    var table = _this.vars.tables[urlIndex];
+                    var round = Math.round, sz = _this.size;
                     var nominalHeight = 1024;
                     var BG = function () {
                         var scaleSprite = function (sprite, sc) {
@@ -364,7 +370,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         var qrCanvas = document.getElementById('qr');
                         var qrious = new QRious({
                             element: qrCanvas,
-                            value: url,
+                            value: table.url,
                             level: 'H',
                             size: 512,
                         });
@@ -372,7 +378,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         var qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
                         qr.anchor.set(.5);
                         qr.visible = false;
-                        var pos = qrPos = new Point(sz.w * .5, sz.h * .6);
+                        var pos = qrPos = new Point(sz.w * .5, sz.h * .5);
                         all.addChild(qr);
                         var Q = .2;
                         var distort = true;
@@ -416,20 +422,24 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                             t.y = currY * sz.h;
                             return t;
                         };
-                        var dispURL = url.split('/#').join('#').split('http://').join('').split('https://').join('');
-                        currY = .23;
+                        currY = .175;
                         txt('To call a waiter,', 1, .5);
                         txt('scan this code:', 1, .5);
                         currY = .02;
                         txt(_this.vars.company, 1.5, .5);
-                        currY = .87;
+                        var bias = .91;
+                        currY = .925;
+                        txt(table.name, .3, bias);
+                        currY = .925;
+                        txt(table.name, .3, 1 - bias);
+                        currY = .76;
                         txt('No APP required!', 1.6, .5);
                     };
                     if (_this.fontLoader == null)
                         _this.fontLoader = new FontLoader_1.FontLoader();
                     _this.fontLoader.init(allTexts);
                     var googleLogo = function () {
-                        var logo = addPic(loader.resources['google'].texture, sz.w * .82, sz.h * .83, sz.w * .25);
+                        var logo = addPic(loader.resources['google'].texture, sz.w * .5, sz.h * .935, sz.w * .25);
                     };
                     googleLogo();
                 };
@@ -505,7 +515,7 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
             var $wait = $('#print-wait');
             var szMul = singleA4 ? 1 : this.qrGen.getWidthByHeight(1);
             this.qrGen.updateInitialHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
-            var total = Math.min(777777, this.vars.urls.length);
+            var total = Math.min(777777, this.vars.tables.length);
             var doc = new jsPDF((kind == PrintKind.a4single) ? 'portrait' : 'landscape');
             var short = 210 * szMul, long = this.qrGen.getHeightbyWidth(short);
             var addPage = function (num) {
@@ -531,10 +541,10 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
                         var open_1 = function () {
                             return doc.save('qr_codes.pdf');
                         };
-                        $wait.html("Done! PDF will open<br>\"Save as\" dialog<br><button id=\"print-open\">save and print PDF</button>&nbsp;&nbsp;<button id=\"print-close\">close</button>");
+                        $wait.html("Done! PDF will open<br>\"Save as\" dialog<br><button id=\"print-close\">&lt; back</button>&nbsp;&nbsp;&nbsp;&nbsp;\n<button id=\"print-open\">save and print PDF</button>&nbsp;&nbsp;");
                         setTimeout(function () {
                             $('#print-open').click(open_1);
-                            $('#print-close').click(_this.togglePanel);
+                            $('#print-close').click(function () { return _this.showButtons(true); });
                         }, 100);
                         setTimeout(open_1, 500);
                     }

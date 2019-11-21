@@ -45,7 +45,7 @@ export class QrPrint {
         const $wait = $('#print-wait');
         const szMul = singleA4 ? 1 : this.qrGen.getWidthByHeight(1);
         this.qrGen.updateInitialHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
-        const total = Math.min(777777, this.vars.urls.length);
+        const total = Math.min(777777, this.vars.tables.length);
         const doc = new jsPDF((kind == PrintKind.a4single) ? 'portrait' : 'landscape');
         const short = 210 * szMul, long = this.qrGen.getHeightbyWidth(short);
         const addPage = (num: number) => {
@@ -71,10 +71,12 @@ export class QrPrint {
                     const open = () =>
                         doc.save('qr_codes.pdf');
                     // doc.output('dataurlnewwindow');
-                    $wait.html(`Done! PDF will open<br>"Save as" dialog<br><button id="print-open">save and print PDF</button>&nbsp;&nbsp;<button id="print-close">close</button>`);
+                    $wait.html(`Done! PDF will open<br>"Save as" dialog<br><button id="print-close">&lt; back</button>&nbsp;&nbsp;&nbsp;&nbsp;
+<button id="print-open">save and print PDF</button>&nbsp;&nbsp;`);
                     setTimeout(() => {
                         $('#print-open').click(open);
-                        $('#print-close').click(this.togglePanel);
+                        // $('#print-close').click(this.togglePanel);
+                        $('#print-close').click(() => this.showButtons(true));
                     }, 100);
                     setTimeout(open, 500);
                     // setTimeout(() => this.showButtons(true), 800);
