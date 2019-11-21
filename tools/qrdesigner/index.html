@@ -39,11 +39,15 @@
 <div>
 	<div class="col_3 column" id="settings"></div>
 	<div class="col_2 column" id="bg-image"></div>
-	<div class="col_7 column" id="preview" style="padding-left: 1px;"><b>Preview</b><br>
+	<div class="col_7 column" id="preview" style="padding-left: 1px;">
+		<b>Preview</b><br>
+		<span style="margin: 5px; position: absolute; display: inline-block; right: 5px; top: 5px;">
+			<button id="print-button">Print!</button>
+		</span>
 		<img src="" id='preview-image' alt=""/>
+		<canvas id="preview-temp" style="display: none;"></canvas>
+		<canvas id="qr" style="display: none;"></canvas>
 	</div>
-	<canvas id="preview-temp" style="display: none;"></canvas>
-	<canvas id="qr" style="display: none;"></canvas>
 </div>
 
 <hr>
@@ -55,6 +59,7 @@
 <script src="atheneum/pixi/pixi-projection.js"></script>
 <script src="atheneum/pixi/pixi-extras-filters.min.js"></script>
 <script src="atheneum/qrious.js"></script>
+<script src="atheneum/pdf/jspdf.debug.js"></script>
 
 <script src="atheneum/kk/js/kickstart.js"></script> <!-- KICKSTART -->
 <link rel="stylesheet" href="atheneum/kk/css/kickstart.css" media="all"/> <!-- KICKSTART -->

@@ -2,81 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../checksum/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../checksum/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../checksum/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../checksum/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/10.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/10.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/11.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/11.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/12.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/12.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/13.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/13.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/14.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/14.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/15.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/15.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/16.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/16.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/17.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/17.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/18.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/18.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/19.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/19.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/20.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/20.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/21.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/21.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/22.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/22.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/23.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/23.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/24.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/24.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/25.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/25.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/26.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/26.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/27.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/27.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/28.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/28.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/29.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/29.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/30.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/30.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/31.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/31.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/32.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/32.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/33.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/33.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/34.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/34.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/35.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/35.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/36.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/36.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/37.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/37.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/38.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/38.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/39.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/39.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/40.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/40.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/41.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/41.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/42.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/42.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/43.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/43.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/44.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/44.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/45.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/45.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/46.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/46.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/47.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/47.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/48.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/48.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/49.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/49.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/5.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/50.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/50.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/51.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/51.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/52.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/52.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/53.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/53.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/54.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/54.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/55.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/55.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/56.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/56.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/57.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/57.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/58.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/58.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/59.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/59.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/6.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/60.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/60.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/61.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/61.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/62.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/62.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/63.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/63.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/64.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/64.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/65.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/65.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/66.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/66.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/67.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/67.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/68.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/68.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/69.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/69.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/7.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/7.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/70.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/70.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/8.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/8.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/bg/9.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/bg/9.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/BgImage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/BgImage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/ConfKeeper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/ConfKeeper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Main.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -110,7 +42,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../checksum" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
@@ -146,7 +78,9 @@
       <workItem from="1572443972719" duration="1342000" />
       <workItem from="1572460114063" duration="1526000" />
       <workItem from="1572770609776" duration="507000" />
-      <workItem from="1574206963878" duration="548000" />
+      <workItem from="1574206963878" duration="1148000" />
+      <workItem from="1574214844076" duration="14000" />
+      <workItem from="1574223640021" duration="6738000" />
     </task>
     <servers />
   </component>
