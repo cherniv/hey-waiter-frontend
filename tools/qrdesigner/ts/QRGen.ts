@@ -186,7 +186,7 @@ export class QRGen {
                 ));
 
                 // this.app.ticker.add(d=>qr.proj.mapSprite(qr, points));
-                const delay = round(1 / 60), times = 3;
+                const delay = round(1 / 60), times = 2;
                 for (let i = 0; i < times; ++i)
                     setTimeout(() => {
                             this.app.render();

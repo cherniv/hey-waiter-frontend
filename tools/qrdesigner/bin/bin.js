@@ -384,7 +384,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                             new Point(D, 1),
                             new Point(-D, 1),
                         ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
-                        var delay = round(1 / 60), times = 3;
+                        var delay = round(1 / 60), times = 2;
                         for (var i = 0; i < times; ++i)
                             setTimeout(function () {
                                 _this.app.render();
@@ -486,12 +486,13 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
                 $('#print-wait').toggle(!on).html('Preparing...');
             };
             this.showPrintButton = function (on) { return $('#print-button').toggle(on); };
-            this.panelOn = false;
-            $('#print-button,#close-print-panel').click(function () {
+            this.togglePanel = function () {
                 $('#print-panel').toggle(_this.panelOn = !_this.panelOn);
                 _this.showButtons(_this.panelOn);
                 _this.showPrintButton(true);
-            });
+            };
+            this.panelOn = false;
+            $('#print-button,#close-print-panel').click(this.togglePanel);
             $('#print-A4-single').click(function () { return _this.generatePDF(PrintKind.a4single); });
             $('#print-A5-single').click(function () { return _this.generatePDF(PrintKind.a5single); });
             $('#print-A4-double').click(function () { return _this.generatePDF(PrintKind.a4double); });
@@ -503,7 +504,7 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
             var singleA5 = kind == PrintKind.a5single;
             var $wait = $('#print-wait');
             var szMul = singleA4 ? 1 : this.qrGen.getWidthByHeight(1);
-            this.qrGen.updateInitialHeight(1024 * szMul * 2);
+            this.qrGen.updateInitialHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
             var total = Math.min(777777, this.vars.urls.length);
             var doc = new jsPDF((kind == PrintKind.a4single) ? 'portrait' : 'landscape');
             var short = 210 * szMul, long = this.qrGen.getHeightbyWidth(short);
@@ -513,8 +514,6 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
                     var nextPageNotRequired = singleA5 ? num % 2 == 0 : false;
                     var nextPageRequired = !nextPageNotRequired;
                     $wait.html("Generating " + (num + 1) + " of " + total + ",<br>please wait...");
-                    console.log('generating #' + num);
-                    console.log(data.substr(0, 200));
                     if (kind == PrintKind.a4double) {
                         doc.addImage(data, 'JPEG', 0, 0, short, long);
                         doc.addImage(data, 'JPEG', short, 0, short, long);
@@ -532,10 +531,10 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
                         var open_1 = function () {
                             return doc.save('qr_codes.pdf');
                         };
-                        $wait.html("Done! PDF will open<br>\"Save as\" dialog<br><button id=\"print-open\">save+print PDF</button><button id=\"print-close\">close</button>");
+                        $wait.html("Done! PDF will open<br>\"Save as\" dialog<br><button id=\"print-open\">save and print PDF</button>&nbsp;&nbsp;<button id=\"print-close\">close</button>");
                         setTimeout(function () {
                             $('#print-open').click(open_1);
-                            $('#print-close').click(function () { return _this.showButtons(true); });
+                            $('#print-close').click(_this.togglePanel);
                         }, 100);
                         setTimeout(open_1, 500);
                     }

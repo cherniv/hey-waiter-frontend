@@ -19,14 +19,15 @@ export class QrPrint {
         $('#print-wait').toggle(!on).html('Preparing...');
     };
     showPrintButton = (on: boolean) => $('#print-button').toggle(on);
+    togglePanel = () => {
+        $('#print-panel').toggle(this.panelOn = !this.panelOn);
+        this.showButtons(this.panelOn);
+        this.showPrintButton(true);
+    };
 
     constructor(public vars: UrlVarsParser, public qrGen: QRGen){
 
-        $('#print-button,#close-print-panel').click(() => {
-            $('#print-panel').toggle(this.panelOn = !this.panelOn);
-            this.showButtons(this.panelOn);
-            this.showPrintButton(true);
-        });
+        $('#print-button,#close-print-panel').click(this.togglePanel);
         $('#print-A4-single').click(() => this.generatePDF(PrintKind.a4single));
         $('#print-A5-single').click(() => this.generatePDF(PrintKind.a5single));
         $('#print-A4-double').click(() => this.generatePDF(PrintKind.a4double));
@@ -43,7 +44,7 @@ export class QrPrint {
         const singleA5 = kind == PrintKind.a5single;
         const $wait = $('#print-wait');
         const szMul = singleA4 ? 1 : this.qrGen.getWidthByHeight(1);
-        this.qrGen.updateInitialHeight(1024 * szMul * 2);
+        this.qrGen.updateInitialHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
         const total = Math.min(777777, this.vars.urls.length);
         const doc = new jsPDF((kind == PrintKind.a4single) ? 'portrait' : 'landscape');
         const short = 210 * szMul, long = this.qrGen.getHeightbyWidth(short);
@@ -53,8 +54,8 @@ export class QrPrint {
                 const nextPageNotRequired = singleA5 ? num % 2 == 0 : false;
                 const nextPageRequired = !nextPageNotRequired;
                 $wait.html(`Generating ${num + 1} of ${total},<br>please wait...`);
-                console.log('generating #' + num);
-                console.log(data.substr(0, 200));
+                // console.log('generating #' + num);
+                // console.log(data.substr(0, 200));
                 if (kind == PrintKind.a4double){
                     doc.addImage(data, 'JPEG', 0, 0, short, long);
                     doc.addImage(data, 'JPEG', short, 0, short, long);
@@ -70,10 +71,10 @@ export class QrPrint {
                     const open = () =>
                         doc.save('qr_codes.pdf');
                     // doc.output('dataurlnewwindow');
-                    $wait.html(`Done! PDF will open<br>"Save as" dialog<br><button id="print-open">save+print PDF</button><button id="print-close">close</button>`);
+                    $wait.html(`Done! PDF will open<br>"Save as" dialog<br><button id="print-open">save and print PDF</button>&nbsp;&nbsp;<button id="print-close">close</button>`);
                     setTimeout(() => {
                         $('#print-open').click(open);
-                        $('#print-close').click(() => this.showButtons(true));
+                        $('#print-close').click(this.togglePanel);
                     }, 100);
                     setTimeout(open, 500);
                     // setTimeout(() => this.showButtons(true), 800);
