@@ -11,15 +11,15 @@ export class UrlVarsParser {
                 this.vars[parts[0]] = parts[1];
             });
         }
-        if (!this.has('company') || !this.has('urls'))
+        if (!this.has('company') || !this.has('urls')){
+            let arr = [];
+            for (let i = 0; i < 35; ++i)
+                arr.push('https://waiter.live/#q' + ('' + Math.random()).substr(2, 16));
             location.href = '?company=' + encodeURIComponent('A good company')
                 + '&urls=' + encodeURIComponent(JSON.stringify(
-                    [
-                        'https://waiter.live/#q23432',
-                        'https://waiter.live/#q76543',
-                        'https://waiter.live/#q09846',
-                    ]));
-        else {
+                    arr
+                ));
+        } else {
             this.company = this.get('company');
             this.urls = JSON.parse(this.get('urls'));
         }

@@ -16,16 +16,15 @@ export class QRGen {
     private app: PIXI.Application;
     private size = {w:0, h:0};
 
-    private getWidthByHeight = (height: number) => height / Math.pow(2, .5);
+    getWidthByHeight = (height: number) => height / Math.pow(2, .5);
+    getHeightbyWidth = (width: number) => width * Math.pow(2, .5);
 
-    constructor(public vars: UrlVarsParser, public previewImageId: string, public initialHeight: number){
-        (<any>window).qrGenUpdate = this.doUpdate;
-        // alert(window.devicePixelRatio);
-        const height = initialHeight, width = this.getWidthByHeight(initialHeight);
-        this.size = {w:width, h:height};
+
+    updateInitialHeight(h: number){
+        this.size = {w:this.getWidthByHeight(h), h:this.initialHeight = h};
         this.app = new PIXI.Application({
             autoStart:false,
-            width:width, height:height,
+            width:this.size.w, height:this.size.h,
             backgroundColor:0xffffff,
             resolution:1,
             antialias:true,
@@ -36,6 +35,14 @@ export class QRGen {
         // $(this.app.view).hide();
         // document.getElementById('preview').appendChild(this.app.view);
         (<any>window).previewCanvas = this.app.view;
+    }
+
+    private initialHeight: number;
+
+    constructor(public vars: UrlVarsParser, public previewImageId: string){
+        (<any>window).qrGenUpdate = this.doUpdate;
+        this.updateInitialHeight(this.initialHeight = 16);
+        // alert(window.devicePixelRatio);
 
 
     }
@@ -45,6 +52,7 @@ export class QRGen {
         this.preview();
     };
     preview = () => {
+        this.updateInitialHeight(1024);
         this.generate(0, data => {
             // console.log(data);
             const img = $('#' + this.previewImageId);
@@ -220,7 +228,7 @@ export class QRGen {
 
 
             const allTexts = () => {
-                let currY = 0, ySpacing = .051;
+                let currY = 0, ySpacing = .061;
                 const txt = (s: string, szRel: number, relX: number) => {
 
                     const t = FontLoader.makeText(s, sz.w * .08 * szRel, blurByFactor(16), blurByFactor(4));
@@ -232,11 +240,11 @@ export class QRGen {
                     return t;
                 };
                 const dispURL = url.split('/#').join('#').split('http://').join('').split('https://').join('')
-                currY = .19;
+                currY = .23;
                 txt('To call a waiter,', 1, .5);
-                txt('either scan this code', 1, .5);
-                txt('or visit', 1, .5);
-                txt(dispURL, .9, .5);
+                txt('scan this code:', 1, .5);
+                //txt('or visit', 1, .5);
+                //txt(dispURL, .9, .5);
 
 
                 currY = .02;
@@ -262,7 +270,10 @@ export class QRGen {
         loader.add('bg', setting('bgPath'));
         loader.add('button', 'assets/pics/physical_button.png');
         loader.add('google', 'assets/pics/google-infra-c.png');
-        loader.load(() => doItAll());
+        loader.load(() => {
+            doItAll();
+            $('#initial-please-wait').hide();
+        });
     };
 
     private fontLoader: FontLoader = null;

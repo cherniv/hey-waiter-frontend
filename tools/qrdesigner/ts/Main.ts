@@ -16,9 +16,9 @@ class Main {
         ConfKeeper.init();
         new Settings();
         new BgImage(() => {
-            const gen = new QRGen(this.vars, 'preview-image', 1024);
+            const gen = new QRGen(this.vars, 'preview-image');
             gen.preview();
-            new QrPrint();
+            new QrPrint(this.vars, gen);
         });
     };
 
