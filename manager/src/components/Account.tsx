@@ -62,7 +62,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
             const params = {
               company: Business.current.title,
               urls: Business.current.tables.map((table:any)=>
-                {url:"https://waiter.live/#q" + table.id; name:('Table #'+Math.random()).substr(2,5)}
+                {url:"https://waiter.live/#q" + table.id; name:'Table #'+table.id}
               )
             }
             params.urls = JSON.stringify(params.urls)
