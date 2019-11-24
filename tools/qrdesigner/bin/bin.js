@@ -191,7 +191,7 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
         function UrlVarsParser() {
             var _this = this;
             this.has = function (name) { return typeof _this.vars[name] != 'undefined'; };
-            this.get = function (name) { return decodeURIComponent(_this.vars[name]); };
+            this.get = function (name) { return decodeURIComponent(_this.vars[name].split('+').join('%20')); };
             this.vars = {};
             var l = location.href;
             if (l.indexOf('?') >= 0) {

@@ -36,7 +36,7 @@ export class UrlVarsParser {
     }
 
     private has = (name: string) => typeof this.vars[name] != 'undefined';
-    private get = (name: string) => decodeURIComponent(this.vars[name]);
+    private get = (name: string) => decodeURIComponent(this.vars[name].split('+').join('%20'));
     private vars: MapStrStr;
     company: string;
     tables: Table[];
