@@ -422,7 +422,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                             t.y = currY * sz.h;
                             return t;
                         };
-                        currY = .175;
+                        currY = .155;
                         txt('To call a waiter,', 1, .5);
                         txt('scan this code:', 1, .5);
                         currY = .02;
