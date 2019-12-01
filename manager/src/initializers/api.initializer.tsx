@@ -109,7 +109,7 @@ function formatRequest (request:any) {
 
 async function updateExpiredToken(error:any) {
   const {config, response} = error;
-  if (config && response && response.data && response.data.error && (response.data.error.status === "UNAUTHENTICATED" || response.data.error.status === "PERMISSION_DENIED")) {
+  if (config && response && response.data && response.data.error && (response.data.error.status === "UNAUTHENTICATED" )) {
     console.log( "REFRESHING TOKEN");
     await Auth.getFreshTokenAndUpdate();
     setTokenHeader(config);
