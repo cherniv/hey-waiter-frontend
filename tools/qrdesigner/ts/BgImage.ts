@@ -3,7 +3,7 @@ export class BgImage {
 
     constructor(onInit: () => void){
         const elements: string[] = [];
-        const total = 70;
+        const total = 77;
         for (let i = 1; i < total + 1; ++i) {
             const path = `assets/bg/${i}.jpg`;
             elements.push(`<img onclick="qrGenUpdate('bgPath', '${path}')" src="${path}" width="100%"/><br>`);

@@ -3,6 +3,7 @@ import {Settings} from "./Settings";
 import {BgImage} from "./BgImage";
 import {QRGen} from "./QRGen";
 import {ConfKeeper} from "./ConfKeeper";
+import {QrPrint} from "./QrPrint";
 
 
 class Main {
@@ -15,8 +16,9 @@ class Main {
         ConfKeeper.init();
         new Settings();
         new BgImage(() => {
-            const gen = new QRGen(this.vars, 'preview-image', 1024);
+            const gen = new QRGen(this.vars, 'preview-image');
             gen.preview();
+            new QrPrint(this.vars, gen);
         });
     };
 

@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
@@ -24,44 +23,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>colormatrixFilter</find>
-      <find>stor</find>
-      <find>capit</find>
-      <find>class</find>
-      <find>toDataUrl</find>
-      <find>filters</find>
-      <find>namespace filters</find>
-      <find>mapSprite</find>
-      <find>position.z</find>
-      <find>.IPoint</find>
-      <find>round</find>
-      <find>rotation</find>
-      <find>pixi.sprite</find>
-      <find>pixi.</find>
-      <find>DropShadowFilter</find>
-      <find>`</find>
-      <find>$(this.app.view)</find>
-      <find>extract</find>
-      <find>canvasextract</find>
-      <find>todatau</find>
-      <find>toData</find>
-      <find>preser</find>
-      <find>blurfil</find>
-      <find>glowf</find>
-      <find>blur</find>
-      <find>assignSlot</find>
-      <find>setting</find>
-      <find>sprite2d</find>
-      <find>glow</find>
-      <find>distor</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>.Point</replace>
-      <replace>Sprite</replace>
-    </replaceStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
@@ -78,7 +39,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../checksum" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
@@ -114,6 +75,9 @@
       <workItem from="1572443972719" duration="1342000" />
       <workItem from="1572460114063" duration="1526000" />
       <workItem from="1572770609776" duration="507000" />
+      <workItem from="1574206963878" duration="1148000" />
+      <workItem from="1574214844076" duration="14000" />
+      <workItem from="1574223640021" duration="23637000" />
     </task>
     <servers />
   </component>

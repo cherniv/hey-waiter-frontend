@@ -7,14 +7,14 @@ export class ConfKeeper {
     static dataType: DataEntry[] = [
 
         // {name:'distort', title:'Perspective distortion', type:'boolean', def:true},
-        {name:'bgPath', type:'string', def:'assets/bg/1.jpg', outer:true, mul:0},
+        {name:'bgPath', type:'string', def:'assets/bg/16.jpg', outer:true, mul:0},
 
         {name:'blur', title:'Blur Background', type:'boolean', def:true},
         {name:'blur2', title:'Blur More', type:'boolean', def:false},
 
         {name:'darken', title:'Darken Background', type:'boolean', def:true},
         {name:'darken2', title:'Darken more', type:'boolean', def:false},
-   
+
         // {name:'bw', title:'B/W', type:'boolean', filter:'blackAndWhite', def:false},
 
 

@@ -8,6 +8,17 @@
 	<link rel="stylesheet" href="assets/style/style.css">
 	<link rel="stylesheet" href="atheneum/jquery-ui-1.12.1.custom/jquery-ui.css">
 
+	<script src="atheneum/jquery-2.2.0.min.js"></script>
+	<script src="atheneum/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
+	<script src="atheneum/pixi/pixi-legacy.js"></script>
+	<script src="atheneum/pixi/pixi-extras-filters.min.js"></script>
+	<script src="atheneum/pixi/pixi-projection.js"></script>
+	<script src="atheneum/pixi/pixi-extras-filters.min.js"></script>
+	<script src="atheneum/qrious.js"></script>
+	<script src="atheneum/pdf/jspdf.debug.js"></script>
+
+	<script src="atheneum/kk/js/kickstart.js"></script> <!-- KICKSTART -->
+	<link rel="stylesheet" href="atheneum/kk/css/kickstart.css" media="all"/> <!-- KICKSTART -->
 
 </head>
 <body>
@@ -39,25 +50,52 @@
 <div>
 	<div class="col_3 column" id="settings"></div>
 	<div class="col_2 column" id="bg-image"></div>
-	<div class="col_7 column" id="preview" style="padding-left: 1px;"><b>Preview</b><br>
+	<div class="col_7 column" id="preview" style="padding-left: 1px;">
+		<b>Preview</b><br>
+		<span style="margin: 5px; position: absolute; display: inline-block; right: 5px; top: 0.3em;">
+			<button id="print-button">Print all to a single PDF</button>
+		</span>
+		<span style="margin: 5px; position: absolute; display: inline-block; right: .5em; top: 2em; z-index: 22;">
+			<div
+				style="background-color: #bbb;width: 28em;height: 21em; border: 2px solid #888; border-radius: .5em;display: none;"
+				id="print-panel">
+					<button id="close-print-panel"
+					        style="margin-top: 3px; margin-left: 2px;font-weight: bold;color: #a00;">x</button>
+
+
+					<div id="print-wait"
+					     style="margin:auto; display:table; font-weight: bold;font-size: 2em; top:2em; position: relative;">
+						....
+					</div>
+					<div style="padding: 1em; position: absolute;">
+
+							<button id="print-A4-single">
+								<img src="assets/pics/print/print-A4-single.png"/><br>
+								Print each code <br>on a separate A4<br>&nbsp;
+							</button>
+							<button id="print-A5-single">
+								<img src="assets/pics/print/print-A5-single.png"/><br>
+								Print each code <br>as two A5 on A4<br>&nbsp;
+							</button>
+							<button id="print-A4-double">
+								<img src="assets/pics/print/print-A4-double.png"/><br>
+								Print two A5 of <br>the same code on <br>each A4 for folding
+							</button>
+					</div>
+			</div>
+		</span>
+		<b id="initial-please-wait">&nbsp;<br>&nbsp;<br>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Please wait, loading preview...
+		</b>
 		<img src="" id='preview-image' alt=""/>
+		<canvas id="preview-temp" style="display: none;"></canvas>
+		<canvas id="qr" style="display: none;"></canvas>
 	</div>
-	<canvas id="preview-temp" style="display: none;"></canvas>
-	<canvas id="qr" style="display: none;"></canvas>
 </div>
 
 <hr>
 
-<script src="atheneum/jquery-2.2.0.min.js"></script>
-<script src="atheneum/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
-<script src="atheneum/pixi/pixi-legacy.js"></script>
-<script src="atheneum/pixi/pixi-extras-filters.min.js"></script>
-<script src="atheneum/pixi/pixi-projection.js"></script>
-<script src="atheneum/pixi/pixi-extras-filters.min.js"></script>
-<script src="atheneum/qrious.js"></script>
-
-<script src="atheneum/kk/js/kickstart.js"></script> <!-- KICKSTART -->
-<link rel="stylesheet" href="atheneum/kk/css/kickstart.css" media="all"/> <!-- KICKSTART -->
 
 <script src="atheneum/require.js"></script>
 <script src="bin/bin.js"></script>
