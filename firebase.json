@@ -10,10 +10,7 @@
         {
             "source": "manager.waiter.live",
             "destination": "/manager/"
-        },
-        {
-        "source": "**",
-        "destination": "/visitor/"
-      } ]
+        }
+        ]
   }
 }
