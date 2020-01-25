@@ -7,10 +7,7 @@
       "**/node_modules/**"
     ],
     "rewrites": [ 
-        {
-            "source": "**",
-            "destination": "/visitor/index.html"
-        },
+        
         {
             "source": "/manager{,/**}",
             "destination": "/manager"
