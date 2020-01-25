@@ -11,10 +11,6 @@
             "source": "index.html",
             "destination": "/visitor/index.html"
         },
-        {
-            "source": "/manager{,/**}",
-            "destination": "/manager"
-        }
         ]
   }
 }
