@@ -34,16 +34,16 @@ jobs: # a collection of steps
       # DEPLOY
       - run:
           name: Copying visitor 
-          command: mkdir -p ./public; cp -ar ./visitor/. ./public/
+          command: mkdir -p ./public; cp -R visitor public/
       - run:
           name: React Scripts Build
           command: npm run build; 
       - run:
           name: Copying React-based manager to public/manager folder    
           command: mkdir -p ./public/manager; cp -a ./manager/build/. ./public/manager/
-      - run:
-          name: Copying qrmanager 
-          command: mkdir -p ./public/qrdesigner; cp -a ./tools/qrdesigner/. ./public/qrdesigner/
+      # - run:
+      #     name: Copying qrmanager 
+      #     command: mkdir -p ./public/qrdesigner; cp -a ./tools/qrdesigner/. ./public/qrdesigner/
       - run:
           name: Install Firebase Tools
           command: npm install --prefix=./firebase-deploy firebase-tools

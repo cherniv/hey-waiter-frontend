@@ -8,6 +8,10 @@
     ],
     "rewrites": [ 
         {
+            "source": "**",
+            "destination": "/visitor/"
+        },
+        {
             "source": "manager.waiter.live",
             "destination": "/manager/"
         }
