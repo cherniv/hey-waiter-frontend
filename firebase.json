@@ -7,9 +7,12 @@
       "**/node_modules/**"
     ],
     "rewrites": [ {
-      "source": "manager.waiter.live/**",
-      "destination": "/manager/**",
-      "type": 301
+        "source": "**",
+        "destination": "/visitor/index.html"
+      },
+      {
+      "source": "manager.waiter.live{,/**}",
+      "destination": "/manager{,/**}"
     } ]
   }
 }
