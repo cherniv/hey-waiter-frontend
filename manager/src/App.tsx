@@ -54,28 +54,34 @@ class App extends React.Component {
     var el;
     if (Auth.authStateLoading) {
       el = (
-        <Spinner />
+        <Col className="center">
+          <Spinner />
+        </Col>
       );
     } else if (!Auth.isLoggedIn) {
       el = (
-        <SignIn />
+        <Col className="center">
+          <SignIn />
+        </Col>
       );
     } else {
       el = (
-        <Switch>
-          {ROUTES.map((route, index) => (
-            <Route
-              key={index}
-              path={route.path}
-              exact={route.exact}
-              children={<route.main />}
-            />
-          ))}
-        </Switch>
+        <Col>
+          <Switch>
+            {ROUTES.map((route, index) => (
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.main />}
+              />
+            ))}
+          </Switch>
+        </Col>
       );
     }
 
-    return <Col>{el}</Col>;
+    return el;
   }
 }
 
