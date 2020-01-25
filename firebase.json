@@ -12,8 +12,8 @@
             "destination": "/visitor/index.html"
         },
         {
-            "source": "/manager/account{,/**}",
-            "destination": "/manager/"
+            "source": "/manager/**",
+            "destination": "/manager/index.html"
         }
         ]
   }
