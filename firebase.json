@@ -6,13 +6,14 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [ {
+    "rewrites": [ 
+        {
+            "source": "manager.waiter.live",
+            "destination": "/manager/"
+        },
+        {
         "source": "**",
-        "destination": "/visitor/index.html"
-      },
-      {
-      "source": "manager.waiter.live",
-      "destination": "/manager/"
-    } ]
+        "destination": "/visitor/"
+      } ]
   }
 }

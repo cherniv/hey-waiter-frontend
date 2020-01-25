@@ -34,7 +34,7 @@ jobs: # a collection of steps
       # DEPLOY
       - run:
           name: Copying visitor 
-          command: mkdir -p ./public; cp -a ./visitor/. ./public/
+          command: mkdir -p ./public; cp -ar ./visitor/. ./public/
       - run:
           name: React Scripts Build
           command: npm run build; 
