@@ -8,9 +8,13 @@
     ],
     "rewrites": [ 
         {
-            "source": "index.html",
+            "source": "/",
             "destination": "/visitor/index.html"
         },
+        {
+            "source": "/manager/account{,/**}",
+            "destination": "/manager/"
+        }
         ]
   }
 }
