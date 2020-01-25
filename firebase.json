@@ -9,11 +9,11 @@
     "rewrites": [ 
         {
             "source": "**",
-            "destination": "/visitor/"
+            "destination": "/visitor/index.html"
         },
         {
-            "source": "manager.waiter.live",
-            "destination": "/manager/"
+            "source": "/manager{,/**}",
+            "destination": "/manager"
         }
         ]
   }
