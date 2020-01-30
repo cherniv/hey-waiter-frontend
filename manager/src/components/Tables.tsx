@@ -26,12 +26,11 @@ class Tables extends React.Component<props> {
     
     return (
       <ButtonToolbar>
-        {business.tables.map((table:Table, index:number)=>
+        {business.tables.map((table:Table)=>
           <TableComponent 
             table={table} 
             key={table.id} 
             editing={editing}
-            index={index+1}
           />
         )}
         {editing &&
@@ -49,7 +48,6 @@ class Tables extends React.Component<props> {
 type tableProps = {
   table: Table,
   editing: boolean,
-  index: number,
 }
 
 @observer
@@ -68,10 +66,10 @@ class TableComponent extends React.Component<tableProps> {
     const {
       table,
       editing,
-      index,
     } = this.props;
     const {
       id,
+      index,
       isActive,
       isCalling,
       customName,

@@ -5,6 +5,9 @@
   --main-font-family: 'Open Sans', sans-serif;
   --main-bg-color: #F6ECE0 ;
 }
+html {
+    height: 100%;
+}
 
 body {
   background-image: var(--main-bg-url); 
@@ -28,6 +31,13 @@ body, #root, .App, .fill {
 
 .navbar {
   background: rgba(255,255,255,0.5);
+}
+
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .sidebar-logo {

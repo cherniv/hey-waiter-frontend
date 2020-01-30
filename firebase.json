@@ -6,9 +6,15 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [ {
-      "source": "manager.waiter.live",
-      "destination": "/manager"
-    } ]
+    "rewrites": [ 
+        {
+            "source": "/",
+            "destination": "/visitor/index.html"
+        },
+        {
+            "source": "/manager/**",
+            "destination": "/manager/index.html"
+        }
+    ]
   }
 }

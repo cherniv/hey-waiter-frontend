@@ -65,7 +65,13 @@ class Business extends Model {
   }
 
   async addTable() {
-    Table.create({ businessId: this.id});
+    var index;
+    if (this.tables.length) {
+      index = + this.tables[this.tables.length-1].index + 1;
+    } else {
+      index = 1;
+    }
+    Table.create({ businessId: this.id, index});
   }
 
   async removeWaiter(waiter: Waiter) {

@@ -6,10 +6,11 @@ import Business from './Business';
 class Table extends Model {
 
   static REMOTE_PATH:string = 'tables/';
-  @observable businessId:any;
+  @observable businessId:any = null;
   @observable isActive:boolean = false;
   @observable isCalling:boolean = false;
-  @observable customName:string = "";
+  @observable customName:string = '';
+  @observable index:number = 0;
 
   static TABLES_QUERY:any = (businessId:string) => ({ 
     structuredQuery: { 
