@@ -22,45 +22,47 @@
 
 </head>
 <body>
-<script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
-<script>
-  function calcIsMobile(){
-    if(sessionStorage.desktop) return false;
-    else if(localStorage.mobile) return true;
-    var ua = navigator.userAgent.toLowerCase();
-    var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile'];
-    for(var i in mobile) if(ua.indexOf(mobile[i].toLowerCase()) >= 0) return true;
-    return false;
-  }
+<div id="the-body">
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js"></script>
+	<script>
+    function calcIsMobile(){
+      if(sessionStorage.desktop) return false;
+      else if(localStorage.mobile) return true;
+      var ua = navigator.userAgent.toLowerCase();
+      var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile'];
+      for(var i in mobile) if(ua.indexOf(mobile[i].toLowerCase()) >= 0) return true;
+      return false;
+    }
 
-  var isMobile = calcIsMobile();
-  richFont = !isMobile;
+    var isMobile = calcIsMobile();
+    richFont = !isMobile;
 
-  //var globalFontFaceName='Gugi';
-  //var globalFontFaceName='Press Start 2P';
-  // var globalFontFaceName = 'Audiowide';
-  // var globalFontFaceName = 'Baloo Bhai';
-  var globalFontFaceName = 'Lilita One';
-  if(isMobile)
-    alert('please use QR Designer on a PC - it is not adapted to mobile devices');
-  if(richFont)
-    setTimeout(function(){ WebFont.load({google:{families:[globalFontFaceName]}}); }, 10);
-</script>
+    //var globalFontFaceName='Gugi';
+    //var globalFontFaceName='Press Start 2P';
+    // var globalFontFaceName = 'Audiowide';
+    // var globalFontFaceName = 'Baloo Bhai';
+    var globalFontFaceName = 'Lilita One';
+    if(isMobile)
+      alert('please use QR Designer on a PC - it is not adapted to mobile devices');
+    if(richFont)
+      setTimeout(function(){ WebFont.load({google:{families:[globalFontFaceName]}}); }, 10);
+	</script>
 
-<div>
-	<div class="col_3 column" id="settings"></div>
-	<div class="col_2 column" id="bg-image"></div>
-	<div class="col_7 column" id="preview" style="padding-left: 1px;">
-		<b>Preview</b><br>
-		<span style="margin: 5px; position: absolute; display: inline-block; right: 5px; top: 0.3em;">
-			<button id="print-button">Print all to a single PDF</button>
+	<div>
+		<div class="col_3 column" id="settings"></div>
+		<div class="col_2 column" id="bg-image"></div>
+		<div class="col_7 column" id="preview" style="padding-left: 1px;">
+			<b>👁 Preview</b><br>
+			<span style="margin: 5px; position: absolute; display: inline-block; right: 5px; top: 0.3em;">
+			<button id="print-button"><b style="font-size: 1.3em;">⚠ PRINT ALL to PDF ⚠</b></button>
 		</span>
-		<span style="margin: 5px; position: absolute; display: inline-block; right: .5em; top: 2em; z-index: 22;">
-			<div
-				style="background-color: #bbb;width: 28em;height: 21em; border: 2px solid #888; border-radius: .5em;display: none;"
-				id="print-panel">
+			<div style="margin: 5px; position: absolute; display: inline-block; right: .5em; top: 2em; z-index: 22;">
+				<div
+					style="background-color: #bbb;width: 28em;height: 21em; border: 2px solid #888; border-radius: .5em;display: none;"
+					id="print-panel">
 					<button id="close-print-panel"
-					        style="margin-top: 3px; margin-left: 2px;font-weight: bold;color: #a00;">x</button>
+					        style="margin-top: 3px; margin-left: 2px;font-weight: bold;color: #a00;">x
+					</button>
 
 
 					<div id="print-wait"
@@ -69,37 +71,38 @@
 					</div>
 					<div style="padding: 1em; position: absolute;">
 
-							<button id="print-A4-single">
-								<img src="assets/pics/print/print-A4-single.png"/><br>
-								Print each code <br>on a separate A4<br>&nbsp;
-							</button>
-							<button id="print-A5-single">
-								<img src="assets/pics/print/print-A5-single.png"/><br>
-								Print each code <br>as two A5 on A4<br>&nbsp;
-							</button>
-							<button id="print-A4-double">
-								<img src="assets/pics/print/print-A4-double.png"/><br>
-								Print two A5 of <br>the same code on <br>each A4 for folding
-							</button>
+						<button id="print-A4-single">
+							<img src="assets/pics/print/print-A4-single.png"/><br>
+							Print each code <br>on a separate A4<br>&nbsp;
+						</button>
+						<button id="print-A5-single">
+							<img src="assets/pics/print/print-A5-single.png"/><br>
+							Print each code <br>as two A5 on A4<br>&nbsp;
+						</button>
+						<button id="print-A4-double">
+							<img src="assets/pics/print/print-A4-double.png"/><br>
+							Print two A5 of <br>the same code on <br>each A4 for folding
+						</button>
 					</div>
+				</div>
 			</div>
-		</span>
-		<b id="initial-please-wait">&nbsp;<br>&nbsp;<br>
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			Please wait, loading preview...
-		</b>
-		<img src="" id='preview-image' alt=""/>
-		<canvas id="preview-temp" style="display: none;"></canvas>
-		<canvas id="qr" style="display: none;"></canvas>
+			<b id="initial-please-wait">&nbsp;<br>&nbsp;<br>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				Please wait, loading preview...
+			</b>
+			<img src="" id='preview-image' alt="" style="margin-top: .2em;"/>
+			<canvas id="preview-temp" style="display: none;"></canvas>
+			<canvas id="qr" style="display: none;"></canvas>
+		</div>
 	</div>
+	<div class="block-cover" style="display: none;"></div>
+
+	<hr>
+
+
+	<script src="atheneum/require.js"></script>
+	<script src="bin/bin.js"></script>
+	<script>require(['Main'], function(Main){ });</script>
 </div>
-
-<hr>
-
-
-<script src="atheneum/require.js"></script>
-<script src="bin/bin.js"></script>
-<script>require(['Main'], function(Main){ });</script>
-
 </body>
 </html>

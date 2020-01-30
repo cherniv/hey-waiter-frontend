@@ -20,7 +20,9 @@ export class QrPrint {
     };
     showPrintButton = (on: boolean) => $('#print-button').toggle(on);
     togglePanel = () => {
-        $('#print-panel').toggle(this.panelOn = !this.panelOn);
+        const on = this.panelOn = !this.panelOn;
+        $('#print-panel').toggle(on);
+        $(`.block-cover`).toggle(on);
         this.showButtons(this.panelOn);
         this.showPrintButton(true);
     };

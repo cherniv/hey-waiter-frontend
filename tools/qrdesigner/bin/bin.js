@@ -1,21 +1,73 @@
 define("BgImage", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
+    var Uploading = (function () {
+        function Uploading() {
+            var _this = this;
+            this.handleDataTransferSelect = function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                _this.handleFileSelect(evt.dataTransfer.files);
+            };
+            this.handleFileSelect = function (files) {
+                var output = [];
+                var firstOne = null;
+                for (var i = 0, f = void 0; !!(f = files[i]); i++) {
+                    output.push(f.name + ' (' + (f.type || 'n/a') + ') - ' +
+                        f.size + ' bytes, last modified: ' +
+                        (f.lastModifiedDate ? f.lastModifiedDate.toLocaleDateString() : 'n/a'));
+                    firstOne = files[0];
+                    break;
+                }
+                if (firstOne)
+                    _this.readBinary(firstOne);
+            };
+            this.handleDragOver = function (evt) {
+                evt.stopPropagation();
+                evt.preventDefault();
+                evt.dataTransfer.dropEffect = 'copy';
+            };
+            this.setFileAndDropZone = function (input, butt) {
+                butt.addEventListener('dragover', _this.handleDragOver, false);
+                butt.addEventListener('drop', _this.handleDataTransferSelect, false);
+                input.addEventListener('change', function () { return _this.handleFileSelect(input.files); }, false);
+            };
+        }
+        Uploading.prototype.readBinary = function (file) {
+            var reader = new FileReader(), start = 0, stop = file.size - 1;
+            reader.onloadend = function (evt) {
+                if (evt.target.readyState == FileReader.DONE) {
+                    console.log(evt.target.result);
+                }
+            };
+            var blob = file.slice(start, stop + 1);
+            reader.readAsBinaryString(blob);
+        };
+        return Uploading;
+    }());
     var BgImage = (function () {
         function BgImage(onInit) {
+            this.up = new Uploading();
+            window.uploadBgImg = function () {
+            };
             var elements = [];
             var total = 77;
             for (var i = 1; i < total + 1; ++i) {
                 var path = "assets/bg/" + i + ".jpg";
                 elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
             }
-            $('#bg-image').html('<b>BG Image</b><br>' +
-                '<div class="bg-scroll-pane">' + elements.join('<br>') + '</div>');
+            $('#bg-image').html('<b>🌁 BG Image</b><br>'
+                + (BgImage.showUpload ? "`<input type=\"file\" id=\"upload-img-file\" style=\"display: none;\" />\n            <button style=\"font-weight: bold;\" onclick=\"document.getElementById('upload-img-file').click();\">\uD83D\uDCE4 Upload image...</button><br>`" : "")
+                + '<div class="bg-scroll-pane" style="margin-top: .5em;">' + elements.join('<br>') + '</div>');
             var pane = $('.bg-scroll-pane');
-            BgImage.height = $(window).height() - 4 - pane.offset().top;
+            BgImage.height = $(window).height() - 8 - pane.offset().top;
             pane.css('height', Math.round(BgImage.height) + 'px');
+            if (BgImage.showUpload) {
+                this.up.setFileAndDropZone(document.getElementById('upload-img-file'), document.getElementById('the-body'));
+            }
             setTimeout(onInit, 200);
         }
+        BgImage.showUpload = false;
         BgImage.height = 0;
         return BgImage;
     }());
@@ -250,7 +302,7 @@ define("Settings", ["require", "exports", "ConfKeeper"], function (require, expo
                         + ("<input onclick=\"settingsChUpd('" + t.name + "', this.checked)\" type=\"checkbox\" id=\"" + id + "\" " + (on ? 'checked' : '') + ">&nbsp;&nbsp;<label for=\"" + id + "\">" + t.title + "</label>"));
                 }
             });
-            $('#settings').html('<b>QR SETTINGS</b><br>' + elements.join('<br>'));
+            $('#settings').html('<b>📋 SETTINGS</b><br>' + elements.join('<br>'));
         }
         return Settings;
     }());
@@ -497,7 +549,9 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
             };
             this.showPrintButton = function (on) { return $('#print-button').toggle(on); };
             this.togglePanel = function () {
-                $('#print-panel').toggle(_this.panelOn = !_this.panelOn);
+                var on = _this.panelOn = !_this.panelOn;
+                $('#print-panel').toggle(on);
+                $(".block-cover").toggle(on);
                 _this.showButtons(_this.panelOn);
                 _this.showPrintButton(true);
             };

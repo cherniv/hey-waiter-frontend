@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<!-- Created by Shalmu Y. on 26.05.2015 -->
+<html lang="en">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<!--jq-->
+	<script src="bootstrap-3.3.4-dist/js/jquery.js"></script>
+
+	<!--Bootstrap-->
+	<link rel="stylesheet" href="bootstrap-3.3.4-dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bootstrap-3.3.4-dist/css/bootstrap-theme.min.css">
+	<script src="bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+
+	<!--fancybox-->
+	<script src="fancybox/libra/jquery.mousewheel-3.0.6.pack.js"></script>
+	<script src="fancybox/source/jquery.fancybox.js"></script>
+	<link rel="stylesheet" href="fancybox/source/jquery.fancybox.css">
+	<link rel="stylesheet" href="fancybox/source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css"
+	      media="screen"/>
+	<script type="text/javascript" src="fancybox/source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+
+	<!--Font-->
+	<link href='http://fonts.googleapis.com/css?family=Titillium+Web' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="styles/style.css">
+
+	<!--App-->
+	<script src="scripts/l_parser.js"></script>
+
+	<meta charset="UTF-8">
+	<title>Waiter.Live</title>
+</head>
+<body>
+<script type="text/javascript">
+  parseL.ready(function(){
+    $(".fancybox").fancybox({
+      openEffect:'elastic',
+      closeEffect:'elastic'
+    });
+    parseL('cont', {
+      "email":"hello@waiter.live",
+      "manager-url":"https://waiter.live/manager/"
+    });
+  });
+</script>
+
+<div id="cont-wait" style="display: inline-block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 200px;
+    height: 100px;
+    margin: auto;
+    text-align: center;font-size: 2em;">Please wait...
+</div>
+<div id="cont" style="display: none">
+	<pg>
+		<name>Waiter.Live</name>
+		<top-info>Future of Service(?)</top-info>
+
+
+		<remark>
+			<panel-head>What is Waiter.Live?</panel-head>
+			<issue>
+				In fact, the same as well known <a target="_blank"
+				                                   href="https://duckduckgo.com/?q=wireless+restaurant+table+call+system&ia=shopping">"restaurant
+				table button"
+				solution</a>, but it does
+				not require you to install any buttons, nor
+				your waiters need to wear pagers that you buy for money. "Waiter.Live" takes advantage on ubiquity of
+				smartphones and does the same, but for free!
+			</issue>
+		</remark>
+
+
+		<panel>
+			<panel-head>Comparison</panel-head>
+			<issue>
+				<row>
+					<compare>
+						<capt>No equipment</capt>
+						<num>1</num>
+						<opacity>.3</opacity>
+						<txt>Just an old good place where you wave your hand in the hope that waiter will notice you</txt>
+					</compare>
+					<compare>
+						<capt>Buzzer button</capt>
+						<num>2</num>
+						<opacity>.6</opacity>
+						<txt>
+							<bullets>
+								<c>Expensive: for example a pack of 20 buttons, display and 10 pagers(each waiter
+									needs to have one), the entire solution costs over $700-$1500 USD
+								</c>
+								<c>Unreliable: button's batteries may drain or it might break in the middle of the day, rendering your
+									client furious
+								</c>
+								<c>Some drunk prankers may just steal the button, for no reason</c>
+							</bullets>
+						</txt>
+					</compare>
+					<compare>
+						<capt>Waiter.Live</capt>
+						<num>3</num>
+						<opacity>1</opacity>
+						<txt>
+							<bullets>
+								<c>Totally free</c>
+								<c>Easy <a href="#instructions">to deploy</a></c>
+								<c>Gathers valuable statistics of each timme anyone orders anything, so you can analyze the workflow of
+									your restaurant and optimize accordingly
+								</c>
+								<c>Every time guests scan the QR code - not only it calls for a waiter, but also promotes a link of the
+									restaurant's Instagram page(or any other link) into the phone's call page, increasing chances of them
+									to follow/subscribe/visit the page
+								</c>
+							</bullets>
+						</txt>
+					</compare>
+				</row>
+
+			</issue>
+		</panel>
+		<span id="instructions"></span>
+		<panel>
+			<panel-head>Getting started</panel-head>
+			<issue>
+				Waiter.Live is very simple platform. To get started, do the following:
+				<todo>
+					<c>Log in to <a href="::manager-url::">manager</a></c>
+					<c>Add your tables</c>
+					<c>Design and print QR codes, install them on your tables</c>
+					<c>Make all your waiters install "Waiter.Live" app (don't worry - guests do NOT have to install any app!)</c>
+					<c>Everything is free!</c>
+				</todo>
+				As for guests, it's totally efortless for them: all they need to do is just to scan the code using their
+				smartphone cameras and immediately it sends a signal to waiter's app. They do not need to install any app, which
+				is important today (people don't like to install superfluous apps)
+			</issue>
+		</panel>
+
+		<panel>
+			<panel-head>Something else</panel-head>
+			<issue>Some other things that we maybe should add here? Or maybe not</issue>
+		</panel>
+
+		<panel>
+			<panel-head>QR Designer</panel-head>
+			<issue>
+				As a part of a process, you'll need to print QR codes for each table. These pages are generated automatically,
+				but you also can tweak design a bit in our QR Designer. Here are some examples:<br>
+				<qr>1</qr>
+				<qr>2</qr>
+				<qr>3</qr>
+				<qr>4</qr>
+				<qr>5</qr>
+				<qr>6</qr>
+				This tool will be available after registration.
+			</issue>
+		</panel>
+
+		<panel>
+			<panel-head>A short pitch</panel-head>
+			<div class="video-container panel-body">
+				<iframe src="https://www.youtube.com/embed/HCsWVkwQZ_U?rel=0" frameborder="0" allowfullscreen></iframe>
+			</div>
+		</panel>
+
+
+		<panel>
+			<panel-head>Contacts<span id="Contacts"></span></panel-head>
+			<issue>
+
+				<table class="table">
+					<!--table class="table table-striped"-->
+					<tr>
+						<td>Email:</td>
+						<td><a href="mailto:::email::">::email::</a></td>
+					</tr>
+					<tr>
+						<td>Phone:</td>
+						<td>+1 (888) 876-7038</td>
+					</tr>
+					<tr>
+						<td>WhatsApp:</td>
+						<td>+972 (55) 97-11-570</td>
+					</tr>
+					<tr>
+						<td>Address</td>
+						<td>
+							94 Yigal Alon St.<br>
+							Tel Aviv, Israel, 6789141
+						</td>
+					</tr>
+				</table>
+			</issue>
+		</panel>
+
+
+	</pg>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+<tp:pg> :::</tp:pg>
+
+<tp:row>
+	<div class="row">
+		:::
+	</div>
+</tp:row>
+
+<tp:cell2>
+	<div class="col-md-6 col-sm-6">:::</div>
+</tp:cell2>
+<tp:cell3>
+	<div class="col-md-4 col-sm-4">:::</div>
+</tp:cell3>
+<tp:cell4>
+	<div class="col-md-3 col-sm-3">:::</div>
+</tp:cell4>
+<tp:cell6>
+	<div class="col-md-6 col-sm-6">:::</div>
+</tp:cell6>
+
+
+<tp:name>
+	<div align="center"><h1>:::</h1></div>
+</tp:name>
+
+<tp:top-info>
+	<div align="center">
+		<span class="top-info">:::<br/> <br/> </span></div>
+</tp:top-info>
+
+<tp:panel>
+	<div class="panel panel-success the-pan">:::</div>
+</tp:panel>
+
+<tp:remark>
+	<div class="panel panel-success">:::</div>
+</tp:remark>
+
+
+<tp:panel-head>
+	<div class="panel-heading">:::</div>
+</tp:panel-head>
+<tp:issue>
+	<div class="panel-body">:::</div>
+</tp:issue>
+
+<tp:proj>
+	<h3 style="margin-bottom:-0.1em;"><a href="[[way]]" target="_blank">[[namep]] &raquo;</a></h3>
+	<small><b style="color:#777;">[[date]]</b></small>
+	<p style="margin-top: 0.2em;">[[info]]</p>
+</tp:proj>
+
+
+<tp:compare>
+	<div class="col-md-4 col-sm-4 compare-div">
+		<div class="w-caption">[[capt]]</div>
+		<img src="pics/comparison_pics000[[num]].png" class="pic" style="opacity: [[opacity]];">
+		<div class="compare-txt">[[txt]]</div>
+	</div>
+</tp:compare>
+
+
+<tp:bullets>
+	<ul>:::</ul>
+</tp:bullets>
+
+
+<tp:todo>
+	<ol>:::</ol>
+</tp:todo>
+
+<tp:c>
+	<li>:::</li>
+</tp:c>
+
+
+<tp:note><span class="note"><b>NOTE:</b> :::</span></tp:note>
+
+
+<tp:pic>
+	<div class="col-md-3 col-sm-3">
+		<a class="fancybox" href="#p_{id}">
+			<table border="0" cellspacing="0" cellpadding="0">
+				<tbody align="center" style="text-align: center;">
+				<tr>
+					<td><img height="128" style="border-radius: 6px;" src="[[pic]]"></td>
+				</tr>
+				<tr>
+					<td class="boxTitle">[[theme]]</td>
+				</tr>
+				</tbody>
+			</table>
+		</a>
+	</div>
+	<div id="p_{id}" class="popup">
+		<div align="center"><h2 style="margin-top: -.1em;">[[theme]]</h2>
+			<img height="192" src="[[pic]]"></div>
+		<p class="miniature">
+			[[desc]]
+		<p>
+	</div>
+</tp:pic>
+
+
+<tp:qr>
+	<div class="col-md-2 col-sm-2 compare-div">
+		<a class="fancybox" href="#pqr_:::">
+			<img src="pics/qr:::.jpg" class="pic-qr"></a>
+	</div>
+	<img height="{{$(window).height()*.85}}" src="pics/qr:::.jpg" id="pqr_:::" class="popup">
+</tp:qr>

@@ -30,7 +30,7 @@ export class Settings {
         });
 
 
-        $('#settings').html('<b>QR SETTINGS</b><br>' + elements.join('<br>'));
+        $('#settings').html('<b>📋 SETTINGS</b><br>' + elements.join('<br>'));
 
     }
 
