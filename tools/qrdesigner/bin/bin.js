@@ -118,8 +118,6 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
                 'polaroid',
                 'vintage',
                 'kodachrome',
-                'browni',
-                'lsd',
                 '',
                 '',
                 '',
@@ -205,13 +203,17 @@ define("FontLoader", ["require", "exports"], function (require, exports) {
             get: function () {
                 return window.globalFontFaceName;
             },
+            set: function (f) {
+                window.globalFontFaceName = f;
+            },
             enumerable: true,
             configurable: true
         });
         FontLoader.makeTextClr = function (s, fontSz, clrA, clrB, blur, dist) {
+            var szMul = this.fontSizeMultiplierPercent / 100;
             return new PIXI.Text(s, ({
                 fontFamily: (!FontLoader.richFont) ? '_sans' : FontLoader.globalFontFaceName,
-                fontSize: fontSz,
+                fontSize: fontSz * szMul,
                 fill: [clrA, clrB],
                 stroke: '#000000',
                 strokeThickness: Math.round(blur * .4),
@@ -229,6 +231,7 @@ define("FontLoader", ["require", "exports"], function (require, exports) {
             this.wasAlreadyInit = true;
             onDone();
         };
+        FontLoader.fontSizeMultiplierPercent = 100;
         FontLoader.makeText = function (s, fontSz, blur, dist) {
             return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#dddddd', blur, dist);
         };
@@ -275,40 +278,7 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
     }());
     exports.UrlVarsParser = UrlVarsParser;
 });
-define("Settings", ["require", "exports", "ConfKeeper"], function (require, exports, ConfKeeper_1) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var Settings = (function () {
-        function Settings() {
-            var elements = [];
-            var i = 0;
-            var win = window;
-            win.settingsChUpd = function (name, value) {
-                var entry = ConfKeeper_1.ConfKeeper.getDataTypeEntryByKey(name);
-                if (typeof entry.filter != 'undefined')
-                    ConfKeeper_1.ConfKeeper.dataType.forEach(function (t) {
-                        if (t.name != name && typeof t.filter != 'undefined') {
-                            $('#st_chb' + t.name).attr('checked', false);
-                            win.qrGenUpdate(t.name, false);
-                        }
-                    });
-                win.qrGenUpdate(name, value);
-            };
-            ConfKeeper_1.ConfKeeper.dataType.forEach(function (t) {
-                if (!t.outer) {
-                    var id = 'st_chb' + t.name;
-                    var on = ConfKeeper_1.ConfKeeper.conf[t.name];
-                    elements.push((t.title.toLowerCase().indexOf('more') != -1 ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '')
-                        + ("<input onclick=\"settingsChUpd('" + t.name + "', this.checked)\" type=\"checkbox\" id=\"" + id + "\" " + (on ? 'checked' : '') + ">&nbsp;&nbsp;<label for=\"" + id + "\">" + t.title + "</label>"));
-                }
-            });
-            $('#settings').html('<b>📋 SETTINGS</b><br>' + elements.join('<br>'));
-        }
-        return Settings;
-    }());
-    exports.Settings = Settings;
-});
-define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], function (require, exports, ConfKeeper_2, BgImage_1, FontLoader_1) {
+define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], function (require, exports, ConfKeeper_1, BgImage_1, FontLoader_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Point = PIXI.Point;
@@ -325,16 +295,21 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
             this.getWidthByHeight = function (height) { return height / Math.pow(2, .5); };
             this.getHeightbyWidth = function (width) { return width * Math.pow(2, .5); };
             this.doUpdate = function (settingsKey, value) {
-                ConfKeeper_2.ConfKeeper.setConf(settingsKey, value);
-                _this.preview();
+                ConfKeeper_1.ConfKeeper.setConf(settingsKey, value);
+                _this.previewWithPleaseWait();
             };
-            this.preview = function () {
+            this.previewWithPleaseWait = function () {
+                _this.objOpacity = .5;
+                setTimeout(function () { return _this.preview(function () { return _this.objOpacity = 1; }); }, 30);
+            };
+            this.preview = function (onDone) {
                 _this.updateInitialHeight(1024);
                 _this.generate(0, function (data) {
-                    var img = $('#' + _this.previewImageId);
+                    var img = _this.imgObj;
                     img.attr("src", data);
                     img.height(BgImage_1.BgImage.height);
                     img.width(_this.getWidthByHeight(BgImage_1.BgImage.height));
+                    onDone();
                 });
             };
             this.generate = function (urlIndex, onDone) {
@@ -346,7 +321,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     rect.height += size * 2;
                     s.filterArea = rect;
                 };
-                var loader = new Loader(), setting = ConfKeeper_2.ConfKeeper.get;
+                var loader = new Loader(), setting = ConfKeeper_1.ConfKeeper.get;
                 var doItAll = function () {
                     var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
                     var all = _this.app.stage;
@@ -404,7 +379,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                             if (setting('darken2'))
                                 brightness(.7);
                         }
-                        var d = ConfKeeper_2.ConfKeeper.dataType;
+                        var d = ConfKeeper_1.ConfKeeper.dataType;
                         var _loop_1 = function (i) {
                             var t = d[i];
                             if (typeof t.filter != 'undefined' && setting(t.name))
@@ -505,6 +480,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
             };
             this.fontLoader = null;
             this.firstToDataURL = true;
+            QRGen._ = this;
             window.qrGenUpdate = this.doUpdate;
             this.updateInitialHeight(this.initialHeight = 16);
         }
@@ -521,9 +497,72 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
             });
             window.previewCanvas = this.app.view;
         };
+        Object.defineProperty(QRGen.prototype, "objOpacity", {
+            set: function (val) {
+                this.imgObj.css("opacity", val);
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(QRGen.prototype, "imgObj", {
+            get: function () {
+                return $('#' + this.previewImageId);
+            },
+            enumerable: true,
+            configurable: true
+        });
         return QRGen;
     }());
     exports.QRGen = QRGen;
+});
+define("Settings", ["require", "exports", "ConfKeeper", "FontLoader", "QRGen"], function (require, exports, ConfKeeper_2, FontLoader_2, QRGen_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Settings = (function () {
+        function Settings() {
+            var elements = [];
+            var i = 0;
+            var win = window;
+            win.settingsChUpd = function (name, value) {
+                var entry = ConfKeeper_2.ConfKeeper.getDataTypeEntryByKey(name);
+                if (typeof entry.filter != 'undefined')
+                    ConfKeeper_2.ConfKeeper.dataType.forEach(function (t) {
+                        if (t.name != name && typeof t.filter != 'undefined') {
+                            $('#st_chb' + t.name).attr('checked', false);
+                            win.qrGenUpdate(t.name, false);
+                        }
+                    });
+                win.qrGenUpdate(name, value);
+            };
+            win.findFontForQR = function () {
+                if (confirm("To change the font, you need to:\n  * go to \"Google Fonts\" website\n  * select any font and click it\n  * copy the font name\n  * go back here and paste the name to the \"Font face\" field\n  * click \"apply font\"\n  \nDo you want to proceed to Google Fonts?  \n  "))
+                    $("#google-fonts-opener").submit();
+            };
+            ConfKeeper_2.ConfKeeper.dataType.forEach(function (t) {
+                if (!t.outer) {
+                    var id = 'st_chb' + t.name;
+                    var on = ConfKeeper_2.ConfKeeper.conf[t.name];
+                    elements.push((t.title.toLowerCase().indexOf('more') != -1 ? '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' : '')
+                        + ("<input onclick=\"settingsChUpd('" + t.name + "', this.checked)\" type=\"checkbox\" id=\"" + id + "\" " + (on ? 'checked' : '') + ">&nbsp;&nbsp;<label for=\"" + id + "\">" + t.title + "</label>"));
+                }
+            });
+            elements.push("\n  <div style=\"border: 1px solid #bebebe;border-radius: .5em;padding: .2em;\">\n  <form id=\"google-fonts-opener\" \n    action=\"https://fonts.google.com/\" method=\"get\" target=\"_blank\" style=\"display: none;\"></form>\n    <a href=\"javascript:findFontForQR()\">Font face:</a> <input id=\"font-face\" style=\"width:6em;padding: 0;height: 1.7em;\" value=\"" + FontLoader_2.FontLoader.globalFontFaceName + "\"><br>\n    size: <input id=\"font-size-percent\" style=\"width:3em;padding: 0;height: 1.7em;\" value=\"" + FontLoader_2.FontLoader.fontSizeMultiplierPercent + "\">% &nbsp;<button style=\"padding:.4em;height:1.9em;font-weight: bold;\" onclick=\"setFontQR()\">set font</button>\n  \n  </div>\n");
+            win.setFontQR = function () {
+                var face = $("#font-face").val();
+                var percent = $("#font-size-percent").val();
+                FontLoader_2.FontLoader.globalFontFaceName = face;
+                FontLoader_2.FontLoader.fontSizeMultiplierPercent = parseFloat(percent);
+                QRGen_1.QRGen._.objOpacity = .5;
+                setTimeout(function () {
+                    win.webFontReload();
+                    QRGen_1.QRGen._.previewWithPleaseWait();
+                }, 500);
+            };
+            $('#settings').html('<b>📋 SETTINGS</b><br>' + elements.join('<br>'));
+        }
+        return Settings;
+    }());
+    exports.Settings = Settings;
 });
 define("QrPrint", ["require", "exports"], function (require, exports) {
     "use strict";
@@ -627,7 +666,7 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
     }());
     exports.QrPrint = QrPrint;
 });
-define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "QRGen", "ConfKeeper", "QrPrint"], function (require, exports, UrlVarsParser_1, Settings_1, BgImage_2, QRGen_1, ConfKeeper_3, QrPrint_1) {
+define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "QRGen", "ConfKeeper", "QrPrint"], function (require, exports, UrlVarsParser_1, Settings_1, BgImage_2, QRGen_2, ConfKeeper_3, QrPrint_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Main = (function () {
@@ -638,8 +677,8 @@ define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "Q
                 ConfKeeper_3.ConfKeeper.init();
                 new Settings_1.Settings();
                 new BgImage_2.BgImage(function () {
-                    var gen = new QRGen_1.QRGen(_this.vars, 'preview-image');
-                    gen.preview();
+                    var gen = new QRGen_2.QRGen(_this.vars, 'preview-image');
+                    gen.preview(function () { });
                     new QrPrint_1.QrPrint(_this.vars, gen);
                 });
             };

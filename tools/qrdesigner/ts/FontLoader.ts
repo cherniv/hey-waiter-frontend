@@ -7,16 +7,23 @@ export class FontLoader {
         return (<any>window).globalFontFaceName;
     }
 
+    static set globalFontFaceName(f){
+        (<any>window).globalFontFaceName = f;
+    }
+
+    static fontSizeMultiplierPercent = 100;
+
     static makeText = (s: string, fontSz: number, blur: number, dist: number) =>
         FontLoader.makeTextClr(` ${s} `, fontSz, '#ffffff', '#dddddd', blur, dist);
 
 
     static makeTextClr(s: string, fontSz: number, clrA: string, clrB: string, blur: number, dist: number){
         //return cast new FakeText();
+        const szMul = this.fontSizeMultiplierPercent / 100;
         return new PIXI.Text(s,
             ({
                 fontFamily:(!FontLoader.richFont) ? '_sans' : FontLoader.globalFontFaceName, /// also seen in "index.html"!
-                fontSize:fontSz,
+                fontSize:fontSz * szMul,
                 //fontStyle: 'italic',
                 // fontWeight:'bold',
                 fill:[clrA, clrB], // gradient

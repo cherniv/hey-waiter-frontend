@@ -17,7 +17,7 @@ class Main {
         new Settings();
         new BgImage(() => {
             const gen = new QRGen(this.vars, 'preview-image');
-            gen.preview();
+            gen.preview(()=>{});
             new QrPrint(this.vars, gen);
         });
     };

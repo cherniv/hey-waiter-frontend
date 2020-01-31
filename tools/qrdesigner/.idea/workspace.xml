@@ -3,13 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/style/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/BgImage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/BgImage.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/QrPrint.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QrPrint.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/ConfKeeper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/ConfKeeper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/FontLoader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/FontLoader.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/QRGen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QRGen.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ts/Settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Settings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../website/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -84,6 +86,7 @@
       <workItem from="1574223640021" duration="23637000" />
       <workItem from="1575919988039" duration="657000" />
       <workItem from="1580234898369" duration="7664000" />
+      <workItem from="1580499493318" duration="3669000" />
     </task>
     <servers />
   </component>

@@ -13,6 +13,9 @@ import Loader = PIXI.Loader;
 
 
 export class QRGen {
+    static _: QRGen;
+
+
     private app: PIXI.Application;
     private size = {w:0, h:0};
 
@@ -40,6 +43,7 @@ export class QRGen {
     private initialHeight: number;
 
     constructor(public vars: UrlVarsParser, public previewImageId: string){
+        QRGen._ = this;
         (<any>window).qrGenUpdate = this.doUpdate;
         this.updateInitialHeight(this.initialHeight = 16);
         // alert(window.devicePixelRatio);
@@ -47,18 +51,33 @@ export class QRGen {
 
     }
 
+    set objOpacity(val: number){
+        this.imgObj.css(`opacity`, val);
+    }
+
     doUpdate = (settingsKey: string, value: string) => {
         ConfKeeper.setConf(settingsKey, value);
-        this.preview();
+        this.previewWithPleaseWait();
     };
-    preview = () => {
+
+    get imgObj(){
+        return $('#' + this.previewImageId);
+    }
+
+    previewWithPleaseWait = () => {
+        this.objOpacity = .5;
+        setTimeout(() => this.preview(() => this.objOpacity = 1), 30);
+    };
+
+    preview = (onDone: () => void) => {
         this.updateInitialHeight(1024);
         this.generate(0, data => {
             // console.log(data);
-            const img = $('#' + this.previewImageId);
+            const img = this.imgObj;
             img.attr("src", data);
             img.height(BgImage.height);
             img.width(this.getWidthByHeight(BgImage.height));
+            onDone();
         })
     };
     generate = (urlIndex: number, onDone: (dataURL: string) => void) => {

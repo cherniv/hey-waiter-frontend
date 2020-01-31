@@ -35,6 +35,8 @@
     }
 
     var isMobile = calcIsMobile();
+    if(isMobile)
+      alert('please use QR Designer on a PC - it is not adapted to mobile devices');
     richFont = !isMobile;
 
     //var globalFontFaceName='Gugi';
@@ -42,10 +44,11 @@
     // var globalFontFaceName = 'Audiowide';
     // var globalFontFaceName = 'Baloo Bhai';
     var globalFontFaceName = 'Lilita One';
-    if(isMobile)
-      alert('please use QR Designer on a PC - it is not adapted to mobile devices');
-    if(richFont)
-      setTimeout(function(){ WebFont.load({google:{families:[globalFontFaceName]}}); }, 10);
+    webFontReload = function(){
+      if(richFont)
+        setTimeout(function(){ WebFont.load({google:{families:[globalFontFaceName]}}); }, 10);
+    };
+    webFontReload();
 	</script>
 
 	<div>
