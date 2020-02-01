@@ -71,7 +71,7 @@ class Business extends Model {
     } else {
       index = 1;
     }
-    Table.create({ businessId: this.id, index});
+    return Table.create({ businessId: this.id, index});
   }
 
   async removeWaiter(waiter: Waiter) {
