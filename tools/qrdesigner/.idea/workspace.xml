@@ -5,13 +5,10 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/ConfKeeper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/ConfKeeper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/FontLoader.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/FontLoader.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/QRGen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QRGen.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/Settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Settings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/UrlVarsParser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/UrlVarsParser.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../website/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../website/styles/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/tpl/template.html" beforeDir="false" afterPath="$PROJECT_DIR$/../website/tpl/template.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -45,6 +42,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JavaScript 1.8" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../checksum" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
@@ -86,12 +84,18 @@
       <workItem from="1574223640021" duration="23637000" />
       <workItem from="1575919988039" duration="657000" />
       <workItem from="1580234898369" duration="7664000" />
-      <workItem from="1580499493318" duration="3669000" />
+      <workItem from="1580499493318" duration="3988000" />
+      <workItem from="1580598942055" duration="934000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$APPLICATION_CONFIG_DIR$/scratches/scratch_3.js" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
