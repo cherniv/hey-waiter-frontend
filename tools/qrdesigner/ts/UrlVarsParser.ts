@@ -17,6 +17,13 @@ export class UrlVarsParser {
             });
         }
         if (!this.has('company') || !this.has('tables')){
+            alert(
+                `Query String variables were not consistent:\n` +
+                (this.has('company') ? `` : `No "company" query variable found\n`)
+                +
+                (this.has('tables') ? `` : `No "tables" query variable found\n`)
+                + `Hence redirecting to default, sample variables`
+            );
             let arr: Table[] = [];
             for (let i = 0; i < 5; ++i) {
                 const name = ('' + Math.random()).substr(2, 16);
@@ -25,10 +32,9 @@ export class UrlVarsParser {
                     name:'Table #' + name.substr(0, 5)
                 });
             }
-            location.href = '?company=' + encodeURIComponent('A good company')
-                + '&tables=' + encodeURIComponent(JSON.stringify(
-                    arr
-                ));
+            console.log(JSON.stringify(arr));
+            location.href = '?company=' + encodeURIComponent(this.get('company') || 'A good company')
+                + '&tables=' + (encodeURIComponent(this.get('tables') || JSON.stringify(arr)));
         } else {
             this.company = this.get('company');
             this.tables = JSON.parse(this.get('tables'));
@@ -36,7 +42,7 @@ export class UrlVarsParser {
     }
 
     private has = (name: string) => typeof this.vars[name] != 'undefined';
-    private get = (name: string) => decodeURIComponent(this.vars[name].split('+').join('%20'));
+    private get = (name: string) => this.has(name) ? decodeURIComponent(this.vars[name].split('+').join('%20')) : null;
     private vars: MapStrStr;
     company: string;
     tables: Table[];

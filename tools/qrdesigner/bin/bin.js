@@ -246,7 +246,7 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
         function UrlVarsParser() {
             var _this = this;
             this.has = function (name) { return typeof _this.vars[name] != 'undefined'; };
-            this.get = function (name) { return decodeURIComponent(_this.vars[name].split('+').join('%20')); };
+            this.get = function (name) { return _this.has(name) ? decodeURIComponent(_this.vars[name].split('+').join('%20')) : null; };
             this.vars = {};
             var l = location.href;
             if (l.indexOf('?') >= 0) {
@@ -258,6 +258,11 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
                 });
             }
             if (!this.has('company') || !this.has('tables')) {
+                alert("Query String variables were not consistent:\n" +
+                    (this.has('company') ? "" : "No \"company\" query variable found\n")
+                    +
+                        (this.has('tables') ? "" : "No \"tables\" query variable found\n")
+                    + "Hence redirecting to default, sample variables");
                 var arr = [];
                 for (var i = 0; i < 5; ++i) {
                     var name_1 = ('' + Math.random()).substr(2, 16);
@@ -266,8 +271,9 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
                         name: 'Table #' + name_1.substr(0, 5)
                     });
                 }
-                location.href = '?company=' + encodeURIComponent('A good company')
-                    + '&tables=' + encodeURIComponent(JSON.stringify(arr));
+                console.log(JSON.stringify(arr));
+                location.href = '?company=' + encodeURIComponent(this.get('company') || 'A good company')
+                    + '&tables=' + (encodeURIComponent(this.get('tables') || JSON.stringify(arr)));
             }
             else {
                 this.company = this.get('company');

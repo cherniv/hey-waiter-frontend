@@ -40,6 +40,11 @@ h1 {
     border-radius: .5em !important;
 }
 
+.panel-default {
+    border: 1px solid #b5d9b2 !important;
+    border-radius: .5em !important;
+}
+
 .panel-heading {
     border-top-left-radius: .3em !important;
     border-top-right-radius: .3em !important;
