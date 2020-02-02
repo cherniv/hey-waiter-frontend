@@ -17,6 +17,7 @@ import Tables from './Tables';
 import Waiters from './Waiters';
 import QrcodeIcon from '../images/qrcode-icon.png';
 import Waiter from '../models/Waiter';
+import Table from '../models/Table';
 
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
@@ -61,8 +62,8 @@ class AccountScreen extends React.Component<RouteComponentProps> {
           onClick={()=>{
             const params = {
               company: Business.current.title,
-              tables: Business.current.tables.map((table:any)=>
-                ({url:"https://waiter.live/#q" + table.id, name: 'Table #'+table.customName})
+              tables: Business.current.tables.map(({id, customName, index}:Table)=>
+                ({url:"https://waiter.live/#q" + id, name: 'Table #'+(customName || index)})
               )
             }
             params.tables = JSON.stringify(params.tables)
