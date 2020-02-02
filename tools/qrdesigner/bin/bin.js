@@ -56,7 +56,7 @@ define("BgImage", ["require", "exports"], function (require, exports) {
                 var path = "assets/bg/" + i + ".jpg";
                 elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
             }
-            $('#bg-image').html('<b>🌁 BG Image</b><br>'
+            $('#bg-image').html('<b>BG Image</b><br>'
                 + (BgImage.showUpload ? "`<input type=\"file\" id=\"upload-img-file\" style=\"display: none;\" />\n            <button style=\"font-weight: bold;\" onclick=\"document.getElementById('upload-img-file').click();\">\uD83D\uDCE4 Upload image...</button><br>`" : "")
                 + '<div class="bg-scroll-pane" style="margin-top: .5em;">' + elements.join('<br>') + '</div>');
             var pane = $('.bg-scroll-pane');
@@ -564,7 +564,7 @@ define("Settings", ["require", "exports", "ConfKeeper", "FontLoader", "QRGen"], 
                     QRGen_1.QRGen._.previewWithPleaseWait();
                 }, 500);
             };
-            $('#settings').html('<b>📋 SETTINGS</b><br>' + elements.join('<br>'));
+            $('#settings').html('<b>SETTINGS</b><br>' + elements.join('<br>'));
         }
         return Settings;
     }());

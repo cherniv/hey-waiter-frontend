@@ -64,7 +64,7 @@ export class BgImage {
             elements.push(`<img onclick="qrGenUpdate('bgPath', '${path}')" src="${path}" width="100%"/><br>`);
         }
 
-        $('#bg-image').html('<b>🌁 BG Image</b><br>'
+        $('#bg-image').html('<b>BG Image</b><br>'
             + (BgImage.showUpload ? `\`<input type="file" id="upload-img-file" style="display: none;" />
             <button style="font-weight: bold;" onclick="document.getElementById('upload-img-file').click();">📤 Upload image...</button><br>\`` : ``)
             + '<div class="bg-scroll-pane" style="margin-top: .5em;">' + elements.join('<br>') + '</div>');

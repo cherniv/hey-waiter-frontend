@@ -61,7 +61,7 @@ Do you want to proceed to Google Fonts?
                 QRGen._.previewWithPleaseWait();
             }, 500);
         };
-        $('#settings').html('<b>📋 SETTINGS</b><br>' + elements.join('<br>'));
+        $('#settings').html('<b>SETTINGS</b><br>' + elements.join('<br>'));
 
     }
 
