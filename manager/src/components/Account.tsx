@@ -65,7 +65,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
                 ({url:"https://waiter.live/#q" + table.id, name: 'Table #'+table.customName})
               )
             }
-            params.urls = JSON.stringify(params.urls)
+            params.tables = JSON.stringify(params.tables)
             const url =  "../qrdesigner?" + new URLSearchParams(params);
             window.open(url, '_blank');
           }}
