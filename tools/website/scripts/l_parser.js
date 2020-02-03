@@ -128,7 +128,6 @@ var parseL = function(contentId, inlineVars){
    * @returns {boolean}
    */
   var parseOneTag = function(_tag){
-    id++;
     var tg = _tag;
     var tagOpen = '<' + tg + '>';
     var tagClose = '</' + tg + '>';
@@ -137,14 +136,17 @@ var parseL = function(contentId, inlineVars){
       template = executeAllJSinTemplate(template);
       var content = cont.betweenNear(tagOpen, tagClose);
       var subTags = collectSubTags(template, '[[', ']]');
-      var intertion =
+      var insertion =
         subTags.length !== 0
           ? processSubTags(subTags, template, content)
           : template.repl(':::', content);
       if(subTags.length !== 0 && template.has(":::")){
         err("Tag <" + tg + "> has both ::: and sub tags: [[" + subTags.join("]], [[") + "]] - it will be processed incorrectly");
       }
-      cont = cont.repl(tagOpen + content + tagClose, intertion.repl('{id}', '' + id));
+      var ID = "{id}";
+      if(cont.has(ID))
+        insertion = insertion.repl(ID, '' + (id++));
+      cont = cont.repl(tagOpen + content + tagClose, insertion);
       //alert(content);
       return true;
     }

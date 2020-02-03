@@ -6,6 +6,7 @@
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/BgImage.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/BgImage.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ts/Settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/Settings.ts" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -84,7 +85,7 @@
       <workItem from="1580234898369" duration="7664000" />
       <workItem from="1580499493318" duration="3988000" />
       <workItem from="1580598942055" duration="2144000" />
-      <workItem from="1580639752372" duration="854000" />
+      <workItem from="1580639752372" duration="934000" />
     </task>
     <servers />
   </component>
