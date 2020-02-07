@@ -3,18 +3,16 @@ import {FirestoreModel as Model} from 'mobx-active-model';
 import { observable, computed } from 'mobx';
 import Business from './Business';
 import Auth from '../services/Auth';
+import firebase from 'firebase/app';
+import "firebase/functions";
 
-function generateCode() {
-  // https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-  return Math.random().toString(36).slice(-4);
-}
 
 class Waiter extends Model {
 
   static REMOTE_PATH:string = 'waiters/';
   @observable businessId:any;
   @observable userId:string = "";
-  @observable code:string = generateCode();
+  @observable code:string = "";
   @observable customName:string = "";
 
   @computed get isPending():boolean {
@@ -93,8 +91,11 @@ class Waiter extends Model {
     }
   }
 
-  generateCode() {
-    this.update({code: generateCode()});
+  async generateCode() {
+    this.code = '';
+    var callableRef = firebase.functions().httpsCallable('generateWaiterCode');
+    var result = await callableRef();    
+    this.update({code: result.data });
   }
 
 }

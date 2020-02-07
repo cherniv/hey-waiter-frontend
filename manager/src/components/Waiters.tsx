@@ -166,7 +166,7 @@ class WaiterComponent extends React.Component<tableProps> {
             {editing && 
               <FormControl
                 size='sm'
-                placeholder={"Code"}
+                placeholder={"Loading..."}
                 readOnly
                 value={code}
                 aria-label="Code"

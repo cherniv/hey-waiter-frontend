@@ -92,9 +92,10 @@ class Business extends Model {
   }
 
   async addWaiter() {
-    Waiter.create({ 
+    var waiter = await Waiter.create({ 
       businessId: this.id,
     });
+    waiter.generateCode();
   }
 
 }
