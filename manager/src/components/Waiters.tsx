@@ -64,7 +64,7 @@ class Waiters extends React.Component<props> {
         <Modal.Header closeButton>
           <Modal.Title></Modal.Title>
         </Modal.Header>
-        <Modal.Body>Do you want to unconnect current person as well?</Modal.Body>
+        <Modal.Body>Do you want to disconnect current person as well?</Modal.Body>
         <Modal.Footer>
           <Button 
             variant="secondary" 

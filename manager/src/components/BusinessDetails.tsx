@@ -28,8 +28,8 @@ class BusinessDetails extends React.Component<props> {
       <Form>
         <Form.Group controlId="formGroupEmail">
           {showTitle && <Form.Label>Restaurant Title</Form.Label>}
-          <Form.Control 
-            type="name" placeholder="Type name here..." 
+          <Form.Control
+            type="name" placeholder="Type title here..."
             onChange={({target}: any) => {
               business.title = target.value;
               autoSave && business.save();

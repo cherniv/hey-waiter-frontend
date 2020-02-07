@@ -20,10 +20,10 @@ class NewUserGreeting extends React.Component {
     return (
       <div>
         <p>
-        Hey Waiter! Welcome to Hey Waiter app! {"🎉"}
+        Hey Waiter! Welcome to "Waiter.Live" app! {"🎉"}
         </p>
         <p>
-        The only thing you need to do is to type your special code here:
+        The only thing you need to do is to enter your special code here:
         </p>
         <Form.Control 
           placeholder="Type here..." 

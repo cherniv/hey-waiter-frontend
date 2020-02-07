@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="" />
+    <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../../manager/src/components/BusinessDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../manager/src/components/BusinessDetails.tsx" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +40,7 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../checksum" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.JSON" />
     <property name="ts.external.directory.path" value="C:\Users\rigondo\AppData\Roaming\npm\node_modules\typescript\lib" />
   </component>
   <component name="RunDashboard">
@@ -80,7 +82,7 @@
       <workItem from="1580598942055" duration="2144000" />
       <workItem from="1580639752372" duration="934000" />
       <workItem from="1580721230088" duration="3529000" />
-      <workItem from="1580998234448" duration="1999000" />
+      <workItem from="1580998234448" duration="2747000" />
     </task>
     <servers />
   </component>

@@ -27,10 +27,10 @@ class NewUserGreeting extends React.Component {
     return (
       <div>
         <p>
-        Hey Person! Welcome to Hey Waiter app! {"🎉"}
+        Hello and welcome to "Waiter.Live" app! {"🎉"}
         </p>
         <p>
-        The first thing you need to do is to type your restaurant' name:
+        The first thing you need to do is to enter your restaurant's name:
         </p>
         
         <BusinessDetails 
@@ -64,7 +64,7 @@ class NewUserGreeting extends React.Component {
         Great! Now add some tables and you are good to go!
         </p>
         
-        <p>How much tables you have? (You can skip this step now and add tables later in "Account" section ) </p>
+        <p>How many tables do you have? (You can skip this step now and add tables later in "Account" section ) </p>
         <Form.Control 
           type="number" placeholder="Type number here..." 
           onChange={({target}: any) => {
