@@ -26,7 +26,7 @@ export class Settings {
   * select any font and click it
   * copy the font name
   * go back here and paste the name to the "Font face" field
-  * click "apply font"
+  * click "set font" button
   
 Do you want to proceed to Google Fonts?  
   `))

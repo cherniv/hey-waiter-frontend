@@ -541,7 +541,7 @@ define("Settings", ["require", "exports", "ConfKeeper", "FontLoader", "QRGen"], 
                 win.qrGenUpdate(name, value);
             };
             win.findFontForQR = function () {
-                if (confirm("To change the font, you need to:\n  * go to \"Google Fonts\" website\n  * select any font and click it\n  * copy the font name\n  * go back here and paste the name to the \"Font face\" field\n  * click \"apply font\"\n  \nDo you want to proceed to Google Fonts?  \n  "))
+                if (confirm("To change the font, you need to:\n  * go to \"Google Fonts\" website\n  * select any font and click it\n  * copy the font name\n  * go back here and paste the name to the \"Font face\" field\n  * click \"set font\" button\n  \nDo you want to proceed to Google Fonts?  \n  "))
                     $("#google-fonts-opener").submit();
             };
             ConfKeeper_2.ConfKeeper.dataType.forEach(function (t) {
