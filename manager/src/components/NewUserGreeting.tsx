@@ -30,7 +30,7 @@ class NewUserGreeting extends React.Component {
         Hello and welcome to "Waiter.Live" app! {"🎉"}
         </p>
         <p>
-        The first thing you need to do is to enter your restaurant's name:
+        The first thing you need to do is to enter your restaurant name:
         </p>
         
         <BusinessDetails 
