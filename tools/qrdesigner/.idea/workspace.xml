@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../../manager/src/components/BusinessDetails.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../manager/src/components/BusinessDetails.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../website/scripts/cookiebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../website/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +84,7 @@
       <workItem from="1580598942055" duration="2144000" />
       <workItem from="1580639752372" duration="934000" />
       <workItem from="1580721230088" duration="3529000" />
-      <workItem from="1580998234448" duration="2747000" />
+      <workItem from="1580998234448" duration="3949000" />
     </task>
     <servers />
   </component>
