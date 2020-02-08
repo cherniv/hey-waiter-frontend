@@ -36,6 +36,9 @@ jobs: # a collection of steps
           name: Copying visitor 
           command: mkdir -p ./public; cp -R visitor public/
       - run:
+          name: Copying privacy policy file 
+          command: cp privacy-policy.html public/privacy-policy.html
+      - run:
           name: React Scripts Build
           command: npm run build; 
       - run:
