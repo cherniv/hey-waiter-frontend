@@ -7,6 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 	<!--jq-->
 	<script src="bootstrap-3.3.4-dist/js/jquery.js"></script>
+	<script src="scripts/cookiebar.js"></script>
 
 	<!--Bootstrap-->
 	<link rel="stylesheet" href="bootstrap-3.3.4-dist/css/bootstrap.min.css">
@@ -34,12 +35,14 @@
 <body>
 <script type="text/javascript">
   parseL.ready(function(){
+    var spl = "@gm", t = ".", pt = t + "c";
     $(".fancybox").fancybox({
       openEffect:'elastic',
       closeEffect:'elastic'
     });
+
     parseL('cont', {
-      "email":"hello@waiter.live",
+      "email":["the", "waiter", "live"].join(t) + spl + "ail" + pt + "om",
       "manager-url":"https://waiter.live/manager/"
     });
   });
@@ -55,6 +58,22 @@
     height: 100px;
     margin: auto;
     text-align: center;font-size: 2em;">Please wait...
+</div>
+<div id="cookiebar" style="display: none;
+    position: fixed;
+    /*top: 0;*/
+    bottom: .5em;
+    left: 0;
+    right: 0;
+    width: 80%;
+    /*height: 100px;*/
+    margin: auto;
+    border: 2px solid #3e8f3e;
+    border-radius: .5em;
+    background-color: #d3dd9d;
+    z-index: 1984;
+    text-align: center;font-size: 1.2em;">
+
 </div>
 <div id="cont" style="display: none">
 	<pg>
