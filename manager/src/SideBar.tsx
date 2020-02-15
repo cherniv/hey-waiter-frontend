@@ -18,7 +18,7 @@ const SideBar: React.FC = () => {
       <Container>
       <Navbar.Brand as={Link} to="/manager/">
         <img src={SidebarLogo} className="sidebar-logo d-inline-block" alt="Logo" />
-        {' Hey Waiter!'}
+        {' Waiter.Live'}
       </Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link as={Link} to="/manager/account">Account</Nav.Link>

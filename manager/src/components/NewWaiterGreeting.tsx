@@ -20,7 +20,7 @@ class NewUserGreeting extends React.Component {
     return (
       <div>
         <p>
-        Hey Waiter! Welcome to "Waiter.Live" app! {"🎉"}
+        Welcome to "Waiter.Live" app! {"🎉"}
         </p>
         <p>
         The only thing you need to do is to enter your special code here:
