@@ -6,10 +6,6 @@ import SigninLogo from '../images/sidebar-logo.png';
 
 import Auth from '../services/Auth';
 import { Button } from 'react-bootstrap';
-import {observer} from 'mobx-react';
-import {observable} from 'mobx';
-import Spinner from './Spinner';
-
 
 const UI_CONFIG = {
   // Popup signin flow rather than redirect flow.
@@ -29,22 +25,9 @@ const UI_CONFIG = {
   }
 };
 
-@observer
 class SignIn extends React.Component {
-    @observable signinAsWaiter = false;
-    constructor(props:any) {
-        super(props);
-        if (Auth.isMobileApp()) {
-            this.signinAsWaiter = true;
-            Auth.signInAsWaiter()
-        }
-    }
   render () {
-      if (Auth.isMobileApp()) {
-        return (
-            <Spinner />
-        );
-      }
+    
     return (
       <div className="component-sign-in">
         <br/>
@@ -54,13 +37,34 @@ class SignIn extends React.Component {
         <br/>
         <h3>Waiter.Live Manager</h3>
         <br/>
-        <p>Please sign-in:</p>
-        <StyledFirebaseAuth uiConfig={UI_CONFIG} firebaseAuth={firebase.auth()}/>
-        <Button 
-          variant="link"
-          onClick={() => Auth.signInAsWaiter() } 
-        >Sign in as Waiter</Button>
+        {this.renderProviders()}
       </div>
+    )
+  }
+  renderProviders(){
+    const isMobileApp = Auth.isMobileApp();
+    var el;
+    if (!isMobileApp) {
+      el = (
+        <>
+          {/*<p>Please sign-in:</p>*/}
+          <StyledFirebaseAuth uiConfig={UI_CONFIG} firebaseAuth={firebase.auth()}/>
+          {this.renderWaiterSignin()}
+        </>
+      );
+    } else {
+      el = this.renderWaiterSignin();
+    }
+    return el;
+  }
+  renderWaiterSignin() {
+    const isMobileApp = Auth.isMobileApp();
+    var text:string = isMobileApp ? 'Sign In' : 'Sign in as Waiter';
+    return (
+      <Button 
+        variant={isMobileApp ? 'success' : 'link'}
+        onClick={() => Auth.signInAsWaiter() } 
+      >{text}</Button>
     )
   }
 }
