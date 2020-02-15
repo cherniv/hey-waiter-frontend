@@ -49,7 +49,7 @@ jobs: # a collection of steps
           command: mkdir -p ./public/qrdesigner; cp -a ./tools/qrdesigner/. ./public/qrdesigner/
       - run:
           name: Copying website 
-          command: mkdir -p ./public/_; cp -a ./tools/qrdesigner/. ./public/_/
+          command: mkdir -p ./public/_; cp -a ./tools/website/. ./public/_/
       - run:
           name: Install Firebase Tools
           command: npm install --prefix=./firebase-deploy firebase-tools
