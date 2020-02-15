@@ -62,6 +62,10 @@ class Auth {
     this.setSignupStatus(false); 
   }
 
+  isMobileApp() {
+      return window && window.location && window.location.href.includes('app=true')
+  }
+
   signOut () {
     User.populate([]);
     if (this.isAnonymous) {

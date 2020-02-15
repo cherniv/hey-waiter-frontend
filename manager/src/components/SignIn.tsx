@@ -6,6 +6,10 @@ import SigninLogo from '../images/sidebar-logo.png';
 
 import Auth from '../services/Auth';
 import { Button } from 'react-bootstrap';
+import {observer} from 'mobx-react';
+import {observable} from 'mobx';
+import Spinner from './Spinner';
+
 
 const UI_CONFIG = {
   // Popup signin flow rather than redirect flow.
@@ -25,8 +29,22 @@ const UI_CONFIG = {
   }
 };
 
+@observer
 class SignIn extends React.Component {
+    @observable signinAsWaiter = false;
+    constructor(props:any) {
+        super(props);
+        if (Auth.isMobileApp()) {
+            this.signinAsWaiter = true;
+            Auth.signInAsWaiter()
+        }
+    }
   render () {
+      if (Auth.isMobileApp()) {
+        return (
+            <Spinner />
+        );
+      }
     return (
       <div className="component-sign-in">
         <br/>
