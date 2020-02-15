@@ -52,7 +52,7 @@ class SignIn extends React.Component {
         <img src={SigninLogo} className="signin-logo d-inline-block" alt="Logo" />
         <br/>
         <br/>
-        <h3 style="font-weight:bold;">Waiter.Live Manager</h3>
+        <h3>Waiter.Live Manager</h3>
         <br/>
         <p>Please sign-in:</p>
         <StyledFirebaseAuth uiConfig={UI_CONFIG} firebaseAuth={firebase.auth()}/>
