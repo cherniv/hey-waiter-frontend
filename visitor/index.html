@@ -1,76 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Waiter.Live</title>
-  <script>
-    var loc=location, goHome=loc.href.indexOf('#q')==-1;
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Waiter.Live</title>
+	<script>
+    var loc = location, goHome = loc.href.indexOf('#q') == -1;
     if(goHome) loc.replace("//waiter.live/hello/");
-    else{
+    else {
       var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/",
-       id = loc.hash.substr(2), xhr = new XMLHttpRequest(), params = {id};
-      function callApi(endpoint) {
-        xhr.open('GET', api + endpoint + '?'  + new URLSearchParams(params), true);
+        id = loc.hash.substr(2), xhr = new XMLHttpRequest(), params = {id};
+
+      function callApi(endpoint){
+        xhr.open('GET', api + endpoint + '?' + new URLSearchParams(params), true);
         xhr.send(null);
       }
-      function apiTableActive() {
+
+      function apiTableActive(){
         callApi("table/active")
       }
-      function apiTableCalling() {
+
+      function apiTableCalling(){
         callApi("table/calling");
       }
-      
-      function callWaiter() {
+
+      function callWaiter(){
         apiTableCalling();
-        document.getElementById("callButton").style.display="none";
-        document.getElementById("doneLabel").style.display="block";
+        document.getElementById("callButton").style.display = "none";
+        document.getElementById("doneLabel").style.display = "block";
       }
-      
+
       !!id && apiTableActive();
     }
-  </script>
-    <style>
-      html,body {
-        width: 100%;
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: "Open Sans",Verdana,arial;
-        color: #333333;
-      }
-      button{
-        width: 50vw;
-        height: 50vw;
-        border-radius: 50%;
-        background-color: #0BAD05;
-        color: #ffffff;
-        font-weight: bold;
-        font-size: 10vw;
-        box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-        display: inline-block;
-      }
-      #doneLabel {
-        animation: fadein 1s;
-        transform: translateZ(0);
-        backface-visibility: hidden;
-      }
-      @keyframes fadein {
-        from { opacity: 0.1; }
-        to   { opacity: 1; }
-      }
-    </style>
-  
+	</script>
+	<style>
+		html, body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-family: "Open Sans", sans-serif;
+			color: #333333;
+			background-color: #f4e8da;
+		}
+
+
+		#doneLabel {
+			animation: fadein 1s;
+			transform: translateZ(0);
+			backface-visibility: hidden;
+		}
+
+		@keyframes fadein {
+			from {
+				opacity: 0.1;
+			}
+			to {
+				opacity: 1;
+			}
+		}
+
+		button {
+			border-radius: 50%;
+			width: 80vmin;
+			height: 80vmin;
+			background-color: #94744a;
+			border: 1vmin solid #715f42;
+			color: #ffffff;
+			font-weight: bold;
+			box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+			display: inline-block;
+		}
+
+		#call-txt {
+			margin-top: -1vmin;
+			font-size: 14vmin;
+		}
+
+		svg {
+			height: 61%;
+			position: relative;
+			left: 0.5vmin;
+			top: -.1vmin;
+		}
+	</style>
+
 </head>
 <body>
-  <script>
-    document.write(goHome?"Please wait..."
-      :'<button onclick="callWaiter()" id="callButton">CALL!</button><h2 id="doneLabel" style="display: none;">Waiter is coming!</h2>');
-  </script>
-  
+<span id="all">
+	<button onclick="callWaiter()" id="callButton">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124.71 173.19"><defs><style>.cls-1 {
+			fill: #fff;
+		}
+
+		.cls-2 {
+			fill: #6b5737;
+		}</style></defs><title>w-for-svg-call</title><path class="cls-1"
+		                                                   d="M124.2,36.05,110.69,141.2H74q-3-19.27-7-50.79-1.38,13.86-3.8,28L59.49,141.2H22.72L8.41,36.05H37.54q.33,4.13,7.38,60.22.55-5.77,7.6-60.22h28l6.83,60.22A521.37,521.37,0,0,1,95.1,36.05Z"
+		                                                   transform="translate(-8.41 -5.46)"/><path class="cls-1"
+		                                                                                             d="M91,20.06c8.74-6.69,20.73-7.53,31-4.5,2.74.81,6-1.09,8.06-2.76.74-.59,4.82-4.61,2.2-5.38-16.56-4.87-33.67-.31-47.18,10-1.28,1-4.37,3.89-2.19,5.38s6.61-1.64,8.07-2.76"
+		                                                                                             transform="translate(-8.41 -5.46)"/><path
+			class="cls-2"
+			d="M75.1,111.39l6.34-7.86-5.37,2.61a113.4,113.4,0,0,0,38.81,8.8c2.45.1,5.55-2.74,6.59-5.84,1.66-4.91,1.55-10-.45-11.65s-7.13-2.88-10,0c-1,1-2.43,1.65-1.09,3.17s4.46-1.7,5.38-2.61l.87-.88-4,2.72c5.26-1.56,2.64,10,1.69,12.85l6.59-5.84a106.79,106.79,0,0,1-29.56-5.36c-3.16-1.07-7.13-4.07-10.36-2.83-3.58,1.37-6.68,6.9-9.38,10.24-4.59,5.68.92,6.19,3.91,2.48"
+			transform="translate(-8.41 -5.46)"/><path class="cls-2"
+		                                            d="M58.81,111.39l-6.34-7.86,5.38,2.61A113.45,113.45,0,0,1,19,114.94c-2.45.1-5.55-2.74-6.59-5.84-1.66-4.91-2.39-7,1.57-10.81,3.32-3.24,7-3.86,8.5-2.76s2.81,3.57,1.47,5.09-4.47-1.7-5.38-2.61l-.87-.88,4,2.72c-5.26-1.56-2.64,10-1.69,12.85l-6.59-5.84A106.66,106.66,0,0,0,43,101.5c3.17-1.07,7.13-4.07,10.37-2.83,3.58,1.37,6.68,6.9,9.38,10.24,4.58,5.68-.92,6.19-3.92,2.48"
+		                                            transform="translate(-8.41 -5.46)"/><path class="cls-1"
+		                                                                                      d="M94.14,148.76c-8.16,4.4-22.3,12.15-25.71,14s-4.34,1.19-6.38-.09c-4.06-2.53-14.76-9.36-18.72-12A2.19,2.19,0,0,0,40,152.32c-1.15,7.89-2,14.36-3,23.21-.17,1.42,1.16,1.39,1.79,1.15,9.11-3.41,15.78-6.31,24.89-9.72,1.11-.6,2.81.25,2.81.25L92,178.45a1.49,1.49,0,0,0,2.3-1.28c.59-9.11,1.27-18.38,2-27.49C96.43,148.75,95.58,148,94.14,148.76Z"
+		                                                                                      transform="translate(-8.41 -5.46)"/></svg>
+		<div id="call-txt">CALL!</div>
+	</button>
+	<h1 id="doneLabel" style="display: none;">Waiter is coming!</h1>
+</span>
+<script>
+  if(goHome) document.getElementById("all").innerHTML = "Please wait";
+</script>
 </body>
 </html>
