@@ -41,7 +41,7 @@ body, #root, .App, .fill {
 }
 
 .sidebar-logo {
-  height: 32px;
+  height: 62px;
   margin-right: 6px;
 }
 
@@ -130,6 +130,10 @@ body, #root, .App, .fill {
     saturate(10000%)
     /* do whatever you want with yellow */
     hue-rotate(90deg);
+}
+
+.justify-content-between {
+    justify-content: space-between;
 }
 
 @keyframes slidein {

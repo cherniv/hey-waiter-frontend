@@ -11,18 +11,21 @@ import {
 } from 'react-bootstrap';
 
 import SidebarLogo from './images/sidebar-logo.png';
+import Avatar from './components/Avatar';
 
 const SideBar: React.FC = () => {
   return (
     <Navbar >
-      <Container>
+      <Container className="justify-content-between">
       <Navbar.Brand as={Link} to="/manager/">
         <img src={SidebarLogo} className="sidebar-logo d-inline-block" alt="Logo" />
         {' Waiter.Live'}
       </Navbar.Brand>
-      <Nav className="mr-auto">
-        <Nav.Link as={Link} to="/manager/account">Account</Nav.Link>
-      </Nav>
+      
+        <Nav.Link as={Link} to="/manager/account" >
+            <Avatar size={32} />
+        </Nav.Link>
+      
       </Container>
     </Navbar>
   )

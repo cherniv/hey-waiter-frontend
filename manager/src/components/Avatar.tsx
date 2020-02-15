@@ -2,13 +2,18 @@ import React from 'react';
 import Auth from '../services/Auth';
 import { Image } from 'react-bootstrap';
 
-const AVATARS_API_PATH = "https://ui-avatars.com/api/?size=20&font-size=0.7&name=";
+type Props = {
+    size?: number,
 
-const Avatar: React.FC = () => {
+  }
+
+const Avatar: React.FC<Props> = (props) => {
   var {firebaseUser} = Auth;
+  var size = props.size || 18;
+  const AVATARS_API_PATH = `https://ui-avatars.com/api/?size=${size}&font-size=0.7&name=`;
   var path = (firebaseUser && firebaseUser.photoURL) || (AVATARS_API_PATH + firebaseUser.displayName);
   return (
-    <Image src={path} width={18} height={18} roundedCircle /> 
+    <Image src={path} width={size} height={size} roundedCircle /> 
   )
 }
 
