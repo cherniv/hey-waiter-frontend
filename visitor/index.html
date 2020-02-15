@@ -4,71 +4,73 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Hey Waiter!</title>
-  <style>
-    html,body {
-      width: 100%;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Open Sans",Verdana,arial;
-      color: #333333;
-    }
-    button{
-      width: 50vw;
-      height: 50vw;
-      border-radius: 50%;
-      background-color: #0BAD05;
-      color: #ffffff;
-      font-weight: bold;
-      font-size: 10vw;
-      box-shadow: 0 2px 2px rgba(0,0,0,0.2);
-      display: inline-block;
-    }
-    #doneLabel {
-      animation: fadein 1s;
-      transform: translateZ(0);
-      backface-visibility: hidden;
-    }
-    @keyframes fadein {
-      from { opacity: 0.1; }
-      to   { opacity: 1; }
-    }
-  </style>
+  <title>Waiter.Live</title>
   <script>
-    var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/";
-    var id = window.location.hash.substr(2);
-    var xhr = new XMLHttpRequest();
-    var params = {id};
-
-    function callApi(endpoint) {
-      xhr.open('GET', api + endpoint + '?'  + new URLSearchParams(params), true);
-      xhr.send(null);
+    var loc=location, goHome=loc.href.indexOf('#q')==-1;
+    if(goHome) loc.replace("//waiter.live/hello/");
+    else{
+      var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/",
+       id = loc.hash.substr(2), xhr = new XMLHttpRequest(), params = {id};
+      function callApi(endpoint) {
+        xhr.open('GET', api + endpoint + '?'  + new URLSearchParams(params), true);
+        xhr.send(null);
+      }
+      function apiTableActive() {
+        callApi("table/active")
+      }
+      function apiTableCalling() {
+        callApi("table/calling");
+      }
+      
+      function callWaiter() {
+        apiTableCalling();
+        document.getElementById("callButton").style.display="none";
+        document.getElementById("doneLabel").style.display="block";
+      }
+      
+      !!id && apiTableActive();
     }
-
-    function apiTableActive() {
-      callApi("table/active")
-    }
-
-    function apiTableCalling() {
-      callApi("table/calling");
-    }
-    
-    function callWaiter() {
-      apiTableCalling();
-      document.getElementById("callButton").style.display="none";
-      document.getElementById("doneLabel").style.display="block";
-    }
-    
-    !!id && apiTableActive();
-
   </script>
+    <style>
+      html,body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Open Sans",Verdana,arial;
+        color: #333333;
+      }
+      button{
+        width: 50vw;
+        height: 50vw;
+        border-radius: 50%;
+        background-color: #0BAD05;
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 10vw;
+        box-shadow: 0 2px 2px rgba(0,0,0,0.2);
+        display: inline-block;
+      }
+      #doneLabel {
+        animation: fadein 1s;
+        transform: translateZ(0);
+        backface-visibility: hidden;
+      }
+      @keyframes fadein {
+        from { opacity: 0.1; }
+        to   { opacity: 1; }
+      }
+    </style>
+  
 </head>
 <body>
-  <button onclick="callWaiter()" id="callButton">CALL!</button>
-  <h2 id="doneLabel" style="display: none;">Waiter is coming!</h2>
+  <script>
+    document.write(goHome?"Please wait..."
+      :'<button onclick="callWaiter()" id="callButton">CALL!</button><h2 id="doneLabel" style="display: none;">Waiter is coming!</h2>');
+  </script>
+  
 </body>
 </html>

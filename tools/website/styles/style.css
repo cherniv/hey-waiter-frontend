@@ -27,6 +27,17 @@ body {
 
 h1 {
     margin-bottom: -0.1em;
+    font-size: 40px !important;
+}
+
+.top-logo-svg {
+    height: 55px !important;
+}
+
+.caption-right {
+    position: relative;
+    left: -11px;
+    top: 5px;
 }
 
 .top-info {
