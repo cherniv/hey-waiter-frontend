@@ -44,7 +44,7 @@
 
     parseL('cont', {
       "email":["the", "waiter", "live"].join(t) + spl + "ail" + pt + "om",
-      "manager-url":"https://waiter.live/manager/"
+      "manager-url":"/manager/"
     });
   });
 </script>
@@ -78,17 +78,24 @@
 </div>
 <div id="cont" style="display: none">
 	<pg>
+		<button style="font-size: 1.31em;font-weight: bold;
+									position: absolute;right: 1em;top:1em;"
+		        onclick="location.href='::manager-url::',this.innerHTML='Please wait...'"
+		        class="btn btn-success">Launch Manager!
+		</button>
 		<name>
 			<img src="pics/logo.svg" class="top-logo-svg">
 
 			<span class="caption-right">aiter.Live</span>
 		</name>
-		<top-info>Introducing A New Way To Summon Waiters</top-info>
+		<top-info>Introducing A New Way To Summon Waiters
+		</top-info>
 
 
 		<remark>
 			<panel-head>Waiter Live Brings Your Service Closer To Your Guests With No Equipment Necessary</panel-head>
 			<ribbon>2</ribbon>
+
 			<issue>
 				<margin>-.4</margin>
 				When it comes to today’s restaurant businesses, it’s safe to say that the experience that you offer your guests
