@@ -47,18 +47,20 @@ define("BgImage", ["require", "exports"], function (require, exports) {
     }());
     var BgImage = (function () {
         function BgImage(onInit) {
+            var _this = this;
             this.up = new Uploading();
+            this.canReleaseElements = false;
+            this.elements = [];
             window.uploadBgImg = function () {
             };
-            var elements = [];
             var total = 77;
             for (var i = 1; i < total + 1; ++i) {
-                var path = "assets/bg/" + i + ".jpg";
-                elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
+                var path = "assets/bg/small/" + i + ".jpg";
+                this.elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
             }
             $('#bg-image').html('<b>BG Image</b><br>'
                 + (BgImage.showUpload ? "`<input type=\"file\" id=\"upload-img-file\" style=\"display: none;\" />\n            <button style=\"font-weight: bold;\" onclick=\"document.getElementById('upload-img-file').click();\">\uD83D\uDCE4 Upload image...</button><br>`" : "")
-                + '<div class="bg-scroll-pane" style="margin-top: .5em;">' + elements.join('<br>') + '</div>');
+                + '<div class="bg-scroll-pane" style="margin-top: .5em;" id="all-bg-images">Loading list of pictures...</div>');
             var pane = $('.bg-scroll-pane');
             BgImage.height = $(window).height() - 8 - pane.offset().top;
             pane.css('height', Math.round(BgImage.height) + 'px');
@@ -66,6 +68,13 @@ define("BgImage", ["require", "exports"], function (require, exports) {
                 this.up.setFileAndDropZone(document.getElementById('upload-img-file'), document.getElementById('the-body'));
             }
             setTimeout(onInit, 200);
+            var checkForRelease = function () {
+                if (!_this.canReleaseElements)
+                    setTimeout(checkForRelease, 100);
+                else
+                    $("#all-bg-images").html(_this.elements.join('<br>'));
+            };
+            checkForRelease();
         }
         BgImage.showUpload = false;
         BgImage.height = 0;
@@ -292,9 +301,11 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
     var Sprite2d = PIXI.projection.Sprite2d;
     var GlowFilter = PIXI.filters.GlowFilter;
     var Loader = PIXI.Loader;
+    var trace = function (s) { return console.log(s); };
     var QRGen = (function () {
-        function QRGen(vars, previewImageId) {
+        function QRGen(bgi, vars, previewImageId) {
             var _this = this;
+            this.bgi = bgi;
             this.vars = vars;
             this.previewImageId = previewImageId;
             this.size = { w: 0, h: 0 };
@@ -309,7 +320,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                 setTimeout(function () { return _this.preview(function () { return _this.objOpacity = 1; }); }, 30);
             };
             this.preview = function (onDone) {
-                _this.updateInitialHeight(1024);
+                _this.startItWithInitHeight(1024);
                 _this.generate(0, function (data) {
                     var img = _this.imgObj;
                     img.attr("src", data);
@@ -318,7 +329,11 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     onDone();
                 });
             };
+            this.genI = 0;
+            this.trace = function (s) { return trace(s); };
+            this.loader = new Loader();
             this.generate = function (urlIndex, onDone) {
+                trace("GENERATE is called");
                 var expandForFilter = function (s, size) {
                     var rect = s.getBounds();
                     rect.x -= size;
@@ -327,8 +342,10 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     rect.height += size * 2;
                     s.filterArea = rect;
                 };
-                var loader = new Loader(), setting = ConfKeeper_1.ConfKeeper.get;
+                var loader = _this.loader, setting = ConfKeeper_1.ConfKeeper.get;
                 var doItAll = function () {
+                    _this.genI++;
+                    var trace = function (s) { return _this.trace(": " + _this.genI + ": " + s); };
                     var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
                     var all = _this.app.stage;
                     var addPic = function (tex, x, y, wid, hei) {
@@ -342,11 +359,13 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         all.addChild(pic);
                         return pic;
                     };
+                    trace("removed children from \"all\"");
                     all.removeChildren();
                     var table = _this.vars.tables[urlIndex];
                     var round = Math.round, sz = _this.size;
                     var nominalHeight = 1024;
                     var BG = function () {
+                        trace("creating bg");
                         var scaleSprite = function (sprite, sc) {
                             var ow = sprite.width;
                             sprite.width *= sc;
@@ -397,9 +416,11 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         bg.filters = filters;
                     };
                     BG();
+                    trace("bg created");
                     var qrSprite, qrPos;
                     var qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
                     var QR = function () {
+                        trace("started making QR");
                         var qrCanvas = document.getElementById('qr');
                         var qrious = new QRious({
                             element: qrCanvas,
@@ -407,7 +428,9 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                             level: 'H',
                             size: 512,
                         });
+                        trace("qr created, converting it to data url...");
                         var dataURL = qrCanvas.toDataURL();
+                        trace("data created: " + dataURL.substr(0, 30) + "...");
                         var qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
                         qr.anchor.set(.5);
                         qr.visible = false;
@@ -423,15 +446,19 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                             new Point(D, 1),
                             new Point(-D, 1),
                         ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
+                        trace("picture is ready, starting rendering routine:");
                         var delay = round(1 / 60), times = 2;
                         for (var i = 0; i < times; ++i)
-                            setTimeout(function () {
+                            (function (i) { return setTimeout(function () {
+                                trace("R: rendering attempt: " + i + ", delayed by " + delay);
                                 _this.app.render();
                                 qr.proj.mapSprite(qr, points);
                                 qr.visible = true;
-                            }, delay);
+                            }, delay); })(i);
                         setTimeout(function () {
                             var canv = _this.app.view;
+                            trace("Grabbing image from canvas and showing it on the screen");
+                            _this.bgi.canReleaseElements = true;
                             onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
                         }, (delay * (times + 2)) + (_this.firstToDataURL ? 100 : 50));
                         _this.firstToDataURL = false;
@@ -475,22 +502,33 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                         var logo = addPic(loader.resources['google'].texture, sz.w * .5, sz.h * .935, sz.w * .25);
                     };
                     googleLogo();
+                    trace("all texts and logos are applied.");
                 };
-                loader.add('bg', setting('bgPath'));
-                loader.add('button', 'assets/pics/physical_button.png');
-                loader.add('google', 'assets/pics/google-infra-c.png');
-                loader.load(function () {
+                var bgPath = setting('bgPath').split("small/").join("big/");
+                if (_this.prevBg != bgPath) {
+                    _this.prevBg = bgPath;
+                    _this.loader = loader = new Loader();
+                    loader.add('bg', bgPath);
+                    loader.add('button', 'assets/pics/physical_button.png');
+                    loader.add('google', 'assets/pics/google-infra-c.png');
+                    loader.load(function () {
+                        trace("loader loaded " + setting('bgPath') + ", button and google");
+                        doItAll();
+                        $('#initial-please-wait').hide();
+                    });
+                }
+                else
                     doItAll();
-                    $('#initial-please-wait').hide();
-                });
             };
+            this.prevBg = "";
             this.fontLoader = null;
             this.firstToDataURL = true;
+            trace("QRGen initialized");
             QRGen._ = this;
             window.qrGenUpdate = this.doUpdate;
-            this.updateInitialHeight(this.initialHeight = 16);
+            this.startItWithInitHeight(this.initialHeight = 16);
         }
-        QRGen.prototype.updateInitialHeight = function (h) {
+        QRGen.prototype.startItWithInitHeight = function (h) {
             this.size = { w: this.getWidthByHeight(h), h: this.initialHeight = h };
             this.app = new PIXI.Application({
                 autoStart: false,
@@ -502,6 +540,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                 view: document.getElementById('preview-temp')
             });
             window.previewCanvas = this.app.view;
+            trace("Initial height updated and pixi app created");
         };
         Object.defineProperty(QRGen.prototype, "objOpacity", {
             set: function (val) {
@@ -613,7 +652,7 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
             var singleA5 = kind == PrintKind.a5single;
             var $wait = $('#print-wait');
             var szMul = singleA4 ? 1 : this.qrGen.getWidthByHeight(1);
-            this.qrGen.updateInitialHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
+            this.qrGen.startItWithInitHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
             var total = Math.min(777777, this.vars.tables.length);
             var doc = new jsPDF((kind == PrintKind.a4single) ? 'portrait' : 'landscape');
             var short = 210 * szMul, long = this.qrGen.getHeightbyWidth(short);
@@ -682,8 +721,8 @@ define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "Q
                 _this.vars = new UrlVarsParser_1.UrlVarsParser();
                 ConfKeeper_3.ConfKeeper.init();
                 new Settings_1.Settings();
-                new BgImage_2.BgImage(function () {
-                    var gen = new QRGen_2.QRGen(_this.vars, 'preview-image');
+                var bgi = new BgImage_2.BgImage(function () {
+                    var gen = new QRGen_2.QRGen(bgi, _this.vars, 'preview-image');
                     gen.preview(function () { });
                     new QrPrint_1.QrPrint(_this.vars, gen);
                 });

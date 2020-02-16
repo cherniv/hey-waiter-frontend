@@ -2,14 +2,18 @@ import {UrlVarsParser} from "./UrlVarsParser";
 import {QRGen} from "./QRGen";
 import add = PIXI.GroupD8.add;
 
+
+
 enum PrintKind {
     a4single,
     a5single,
     a4double,
 }
 
+
+
 export class QrPrint {
-    showButtons = (on: boolean) => {
+    showButtons = (on:boolean) => {
         $('#print-A4-single').toggle(on);
         $('#print-A5-single').toggle(on);
         $('#print-A4-double').toggle(on);
@@ -18,7 +22,7 @@ export class QrPrint {
 
         $('#print-wait').toggle(!on).html('Preparing...');
     };
-    showPrintButton = (on: boolean) => $('#print-button').toggle(on);
+    showPrintButton = (on:boolean) => $('#print-button').toggle(on);
     togglePanel = () => {
         const on = this.panelOn = !this.panelOn;
         $('#print-panel').toggle(on);
@@ -27,7 +31,7 @@ export class QrPrint {
         this.showPrintButton(true);
     };
 
-    constructor(public vars: UrlVarsParser, public qrGen: QRGen){
+    constructor(public vars:UrlVarsParser, public qrGen:QRGen){
 
         $('#print-button,#close-print-panel').click(this.togglePanel);
         $('#print-A4-single').click(() => this.generatePDF(PrintKind.a4single));
@@ -37,7 +41,7 @@ export class QrPrint {
 
     private panelOn = false;
 
-    generatePDF(kind: PrintKind){
+    generatePDF(kind:PrintKind){
         /**
          Read more here: https://raw.githack.com/MrRio/jsPDF/master/
          */
@@ -46,19 +50,19 @@ export class QrPrint {
         const singleA5 = kind == PrintKind.a5single;
         const $wait = $('#print-wait');
         const szMul = singleA4 ? 1 : this.qrGen.getWidthByHeight(1);
-        this.qrGen.updateInitialHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
+        this.qrGen.startItWithInitHeight(1024 * szMul * 2 * (singleA4 ? 1.2 : 1.4));
         const total = Math.min(777777, this.vars.tables.length);
         const doc = new jsPDF((kind == PrintKind.a4single) ? 'portrait' : 'landscape');
         const short = 210 * szMul, long = this.qrGen.getHeightbyWidth(short);
-        const addPage = (num: number) => {
-            const isLast: boolean = num >= total - 1;
+        const addPage = (num:number) => {
+            const isLast:boolean = num >= total - 1;
             this.qrGen.generate(num, data => {
                 const nextPageNotRequired = singleA5 ? num % 2 == 0 : false;
                 const nextPageRequired = !nextPageNotRequired;
                 $wait.html(`Generating ${num + 1} of ${total},<br>please wait...`);
                 // console.log('generating #' + num);
                 // console.log(data.substr(0, 200));
-                if (kind == PrintKind.a4double){
+                if(kind == PrintKind.a4double){
                     doc.addImage(data, 'JPEG', 0, 0, short, long);
                     doc.addImage(data, 'JPEG', short, 0, short, long);
                 } else {
@@ -66,8 +70,8 @@ export class QrPrint {
                     const x = singleA4 ? 0 : nextPageRequired ? short : 0;
                     doc.addImage(data, 'JPEG', x, 0, short, long);
                 }
-                if (!isLast){
-                    if (nextPageRequired) doc.addPage();
+                if(!isLast){
+                    if(nextPageRequired) doc.addPage();
                     addPage(num + 1);
                 } else {
                     const open = () =>
@@ -97,12 +101,12 @@ export class QrPrint {
 
         console.log('pdf is created');
         const N = 1;
-        for (let i = 0; i < N; ++i) {
+        for(let i = 0; i < N; ++i) {
             const w = 210, h = w * Math.pow(2, .5);
             doc.addImage(imgData, 'JPEG', 0, 0, w, h);
             doc.addPage();
             doc.addImage(imgData2, 'JPEG', 0, 0, w, h);
-            if (i != N - 1)
+            if(i != N - 1)
                 doc.addPage();
             console.log('printing at ' + i);
         }

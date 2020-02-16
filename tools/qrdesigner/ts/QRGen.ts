@@ -12,18 +12,22 @@ import {FontLoader} from "./FontLoader";
 import Loader = PIXI.Loader;
 
 
+const trace = (s:string) => console.log(s);
+
+
+
 export class QRGen {
-    static _: QRGen;
+    static _:QRGen;
 
 
-    private app: PIXI.Application;
+    private app:PIXI.Application;
     private size = {w:0, h:0};
 
-    getWidthByHeight = (height: number) => height / Math.pow(2, .5);
-    getHeightbyWidth = (width: number) => width * Math.pow(2, .5);
+    getWidthByHeight = (height:number) => height / Math.pow(2, .5);
+    getHeightbyWidth = (width:number) => width * Math.pow(2, .5);
 
 
-    updateInitialHeight(h: number){
+    startItWithInitHeight(h:number){
         this.size = {w:this.getWidthByHeight(h), h:this.initialHeight = h};
         this.app = new PIXI.Application({
             autoStart:false,
@@ -38,24 +42,24 @@ export class QRGen {
         // $(this.app.view).hide();
         // document.getElementById('preview').appendChild(this.app.view);
         (<any>window).previewCanvas = this.app.view;
+        trace(`Initial height updated and pixi app created`);
+
     }
 
-    private initialHeight: number;
+    private initialHeight:number;
 
-    constructor(public vars: UrlVarsParser, public previewImageId: string){
+    constructor(private bgi:BgImage, public vars:UrlVarsParser, public previewImageId:string){
+        trace(`QRGen initialized`);
         QRGen._ = this;
         (<any>window).qrGenUpdate = this.doUpdate;
-        this.updateInitialHeight(this.initialHeight = 16);
-        // alert(window.devicePixelRatio);
-
-
+        this.startItWithInitHeight(this.initialHeight = 16);
     }
 
-    set objOpacity(val: number){
+    set objOpacity(val:number){
         this.imgObj.css(`opacity`, val);
     }
 
-    doUpdate = (settingsKey: string, value: string) => {
+    doUpdate = (settingsKey:string, value:string) => {
         ConfKeeper.setConf(settingsKey, value);
         this.previewWithPleaseWait();
     };
@@ -69,8 +73,8 @@ export class QRGen {
         setTimeout(() => this.preview(() => this.objOpacity = 1), 30);
     };
 
-    preview = (onDone: () => void) => {
-        this.updateInitialHeight(1024);
+    preview = (onDone:() => void) => {
+        this.startItWithInitHeight(1024);
         this.generate(0, data => {
             // console.log(data);
             const img = this.imgObj;
@@ -80,8 +84,13 @@ export class QRGen {
             onDone();
         })
     };
-    generate = (urlIndex: number, onDone: (dataURL: string) => void) => {
-        const expandForFilter = (s: Sprite, size: number) => {
+    genI = 0;
+    trace = (s:string) => trace(s);
+    loader = new Loader();
+    generate = (urlIndex:number, onDone:(dataURL:string) => void) => {
+
+        trace(`GENERATE is called`);
+        const expandForFilter = (s:Sprite, size:number) => {
             const rect = s.getBounds();
             rect.x -= size;
             rect.y -= size;
@@ -89,11 +98,13 @@ export class QRGen {
             rect.height += size * 2;
             s.filterArea = rect;
         };
-        const loader = new Loader(), setting = ConfKeeper.get;
+        let loader = this.loader, setting = ConfKeeper.get;
         const doItAll = () => {
-            const blurByFactor = (v: number) => this.initialHeight / (nominalHeight / v);
+            this.genI++;
+            const trace = (s:string) => this.trace(`: ${this.genI}: ${s}`);
+            const blurByFactor = (v:number) => this.initialHeight / (nominalHeight / v);
             const all = this.app.stage;
-            const addPic = (tex: Texture, x: number, y: number, wid: number, hei: number | null = null) => {
+            const addPic = (tex:Texture, x:number, y:number, wid:number, hei:number | null = null) => {
                 const pic = new Sprite(tex);
                 const w = pic.width;
                 pic.width = wid;
@@ -103,13 +114,15 @@ export class QRGen {
                 all.addChild(pic);
                 return pic;
             };
+            trace(`removed children from "all"`);
             all.removeChildren();
             const table = this.vars.tables[urlIndex];
             const round = Math.round, sz = this.size;
             const nominalHeight = 1024;/// the one I prewiev on
 
             const BG = () => {
-                const scaleSprite = (sprite: Sprite, sc: number) => {
+                trace(`creating bg`);
+                const scaleSprite = (sprite:Sprite, sc:number) => {
                     const ow = sprite.width;
                     sprite.width *= sc;
                     // sprite.x = sprite.width / 2;
@@ -123,7 +136,7 @@ export class QRGen {
                 /** correctly filling the screen with image*/
                 {
                     const ratio = bg.width / bg.height;
-                    if (ratio > sz.w / sz.h){
+                    if(ratio > sz.w / sz.h){
                         bg.height = sz.h;
                         bg.width = sz.h * ratio;
                     } else {
@@ -133,14 +146,14 @@ export class QRGen {
                 }
                 bg.position.set(sz.w / 2, sz.h / 2);
                 all.addChild(bg);
-                const filters: any[] = [];
-                const addMatrixFn = (proc: (mtx: PIXI.filters.ColorMatrixFilter) => void) => {
+                const filters:any[] = [];
+                const addMatrixFn = (proc:(mtx:PIXI.filters.ColorMatrixFilter) => void) => {
                     const f = new PIXI.filters.ColorMatrixFilter();
                     proc(f);
                     filters.push(f);
                 };
-                const brightness = (val: number) => addMatrixFn(f => f.brightness(val));
-                if (setting('blur')){
+                const brightness = (val:number) => addMatrixFn(f => f.brightness(val));
+                if(setting('blur')){
                     const x2 = setting('blur2');
                     filters.push(new PIXI.filters.BlurFilter(
                         blurByFactor(8) * (x2 ? 3 : 1),
@@ -149,24 +162,25 @@ export class QRGen {
                 }
 
 
-                if (setting('darken')){
+                if(setting('darken')){
                     brightness(.5);
-                    if (setting('darken2')) brightness(.7);
+                    if(setting('darken2')) brightness(.7);
                 }
                 const d = ConfKeeper.dataType;
-                for (let i = 0; i < d.length; ++i) {
+                for(let i = 0; i < d.length; ++i) {
                     const t = d[i];
-                    if (typeof t.filter != 'undefined' && setting(t.name))
+                    if(typeof t.filter != 'undefined' && setting(t.name))
                         addMatrixFn(f => (<any>f)[t.filter](t.mul ? t.mul : null));
                 }
 
                 bg.filters = filters;
             };
             BG();
-
-            let qrSprite: Sprite2d, qrPos: Point;
+            trace(`bg created`);
+            let qrSprite:Sprite2d, qrPos:Point;
             const qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
             const QR = () => {
+                trace(`started making QR`);
                 const qrCanvas = <HTMLCanvasElement>document.getElementById('qr');
                 const qrious = new QRious({
                     element:qrCanvas,
@@ -175,10 +189,10 @@ export class QRGen {
                     size:512,
                     // padding:round(sz.w * .03),
                 });
-
+                trace(`qr created, converting it to data url...`);
 
                 const dataURL = qrCanvas.toDataURL();
-                // console.log(dataURL);
+                trace(`data created: ${dataURL.substr(0, 30)}...`);
                 const qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
                 qr.anchor.set(.5);
                 qr.visible = false;
@@ -192,7 +206,7 @@ export class QRGen {
 
                 const D = 1 + (distort ? Q * 2 : 0);
                 const E = 1 - (distort ? Q / 2 : 0);
-                const points: Point[] = [
+                const points:Point[] = [
                     new Point(-E, -1),
                     new Point(E, -1),
                     new Point(D, 1),
@@ -201,16 +215,17 @@ export class QRGen {
                     pos.x + qrSzHalf * p.x,
                     pos.y + qrSzHalf * p.y,
                 ));
-
+                trace(`picture is ready, starting rendering routine:`);
                 // this.app.ticker.add(d=>qr.proj.mapSprite(qr, points));
                 const delay = round(1 / 60), times = 2;
-                for (let i = 0; i < times; ++i)
-                    setTimeout(() => {
+                for(let i = 0; i < times; ++i)
+                    ((i:number) => setTimeout(() => {
+                            trace(`R: rendering attempt: ${i}, delayed by ${delay}`);
                             this.app.render();
                             qr.proj.mapSprite(qr, points);
                             qr.visible = true;
                         }, delay
-                    );
+                    ))(i);
                 setTimeout(() => {
                         // const renderer = this.app.renderer;
                         // const renderTexture = PIXI.RenderTexture.create(renderer.width, renderer.height);
@@ -220,7 +235,8 @@ export class QRGen {
                         // onDone(this.app.renderer.extract.base64());
                         const canv = this.app.view;
                         // const cont = canv.getContext('webgl', {preserveDrawingBuffer:true});
-
+                        trace(`Grabbing image from canvas and showing it on the screen`);
+                        this.bgi.canReleaseElements = true;
                         onDone(canv.toDataURL('image/jpeg', this.initialHeight < 1300 ? .75 : .85));
                         // onDone(canv.toDataURL('image/png'));
                     },
@@ -246,7 +262,7 @@ export class QRGen {
 
             const allTexts = () => {
                 let currY = 0, ySpacing = .061;
-                const txt = (s: string, szRel: number, relX: number) => {
+                const txt = (s:string, szRel:number, relX:number) => {
 
                     const t = FontLoader.makeText(s, sz.w * .08 * szRel, blurByFactor(16), blurByFactor(4));
                     all.addChild(t);
@@ -277,7 +293,7 @@ export class QRGen {
                 currY = .76;
                 txt('No APP required!', 1.6, .5);
             };
-            if (this.fontLoader == null) this.fontLoader = new FontLoader();
+            if(this.fontLoader == null) this.fontLoader = new FontLoader();
             this.fontLoader.init(allTexts);
 
             const googleLogo = () => {
@@ -286,19 +302,26 @@ export class QRGen {
                 )
             };
             googleLogo();
-
+            trace(`all texts and logos are applied.`);
 
             // setTimeout(() => $(this.app.view).show(), 800);
         };
-        loader.add('bg', setting('bgPath'));
-        loader.add('button', 'assets/pics/physical_button.png');
-        loader.add('google', 'assets/pics/google-infra-c.png');
-        loader.load(() => {
-            doItAll();
-            $('#initial-please-wait').hide();
-        });
+        const bgPath = setting('bgPath').split(`small/`).join(`big/`);
+        if(this.prevBg != bgPath){
+            this.prevBg = bgPath;
+            this.loader = loader = new Loader();
+            loader.add('bg', bgPath);
+            loader.add('button', 'assets/pics/physical_button.png');
+            loader.add('google', 'assets/pics/google-infra-c.png');
+            loader.load(() => {
+                trace(`loader loaded ${setting('bgPath')}, button and google`);
+                doItAll();
+                $('#initial-please-wait').hide();
+            });
+        } else doItAll();
     };
+    private prevBg = ``;
 
-    private fontLoader: FontLoader = null;
+    private fontLoader:FontLoader = null;
     private firstToDataURL = true;
 }

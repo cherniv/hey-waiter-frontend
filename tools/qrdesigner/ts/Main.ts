@@ -6,6 +6,7 @@ import {ConfKeeper} from "./ConfKeeper";
 import {QrPrint} from "./QrPrint";
 
 
+
 class Main {
     constructor(){
         $(document).ready(this.run);
@@ -15,15 +16,17 @@ class Main {
         this.vars = new UrlVarsParser();
         ConfKeeper.init();
         new Settings();
-        new BgImage(() => {
-            const gen = new QRGen(this.vars, 'preview-image');
-            gen.preview(()=>{});
+        const bgi = new BgImage(() => {
+            const gen = new QRGen(bgi, this.vars, 'preview-image');
+            gen.preview(() => {});
             new QrPrint(this.vars, gen);
         });
     };
 
-    vars: UrlVarsParser;
+    vars:UrlVarsParser;
 }
+
+
 
 new Main();
 
