@@ -51,9 +51,11 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         </Form.Row>
         
         <BusinessDetails business={Business.current} />
-        <h1>Tables</h1>
+        <br/>
+        <h3>Tables</h3>
         <Tables business={Business.current} />
-        <h1>Waiters</h1>
+        <br/>
+        <h3>Waiters</h3>
         <Waiters business={Business.current} />
         <br />
         <Button 
@@ -82,6 +84,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <br />
         <br />
         {this.renderSignoutButton()}
+        <br/>
       </div>
     )
   }
