@@ -62,6 +62,10 @@ class Auth {
     this.setSignupStatus(false); 
   }
 
+  brokenSignupResume() {
+    this.setSignupStatus(true); 
+  }
+
   isMobileApp() {
       return window && window.location && window.location.href.includes('manager') && window.self !== window.top;
   }
