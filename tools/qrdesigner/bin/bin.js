@@ -283,34 +283,6 @@ define("UrlVarsParser", ["require", "exports", "Stor"], function (require, expor
             var notFound = function () { return !_this.has('company') || !_this.has('tables'); };
             if (notFound()) {
                 var key = "designer_query";
-                Stor_2.Stor.set(key, {
-                    "company": "Zanzi Bar",
-                    "tables": [{
-                            "url": "https://waiter.live/#qWkaNL4Y1rQkuMdE3Fh8y",
-                            "name": "Table #4"
-                        }, {
-                            "url": "https://waiter.live/#qYHt0lpq6kKq3T3zOvZqh",
-                            "name": "Table #5"
-                        }, {
-                            "url": "https://waiter.live/#qYdOSoQvNthgIXNKTUP1K",
-                            "name": "Table #3"
-                        }, {
-                            "url": "https://waiter.live/#qcavnuJ4hl7GwMV5ycAfP",
-                            "name": "Table #1"
-                        }, {
-                            "url": "https://waiter.live/#qfNSL7jAZdTbkLTPe36Lq",
-                            "name": "Table #2"
-                        }, {
-                            "url": "https://waiter.live/#qTTK6fW5tyweoDXuKar2T",
-                            "name": "Table #3"
-                        }, {
-                            "url": "https://waiter.live/#qWJWABj4yPjrh7MSTkCrt",
-                            "name": "Table #4"
-                        }, {
-                            "url": "https://waiter.live/#q471fyodqdMQ2sVsc0hGN",
-                            "name": "Table #5"
-                        }, { "url": "https://waiter.live/#qBw29Ero1BF1PWkrcw9ZD", "name": "Table #6" }]
-                });
                 if (Stor_2.Stor.has(key)) {
                     var a = Stor_2.Stor.get(key);
                     this.vars["company"] = a.company;
