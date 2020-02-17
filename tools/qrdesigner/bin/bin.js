@@ -208,6 +208,142 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
     }());
     exports.ConfKeeper = ConfKeeper;
 });
+define("FontLoader", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var FontLoader = (function () {
+        function FontLoader() {
+            this.wasAlreadyInit = false;
+        }
+        Object.defineProperty(FontLoader, "richFont", {
+            get: function () {
+                return window.richFont;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(FontLoader, "globalFontFaceName", {
+            get: function () {
+                return window.globalFontFaceName;
+            },
+            set: function (f) {
+                window.globalFontFaceName = f;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        FontLoader.makeTextClr = function (s, fontSz, clrA, clrB, blur, dist) {
+            var szMul = this.fontSizeMultiplierPercent / 100;
+            return new PIXI.Text(s, ({
+                fontFamily: (!FontLoader.richFont) ? '_sans' : FontLoader.globalFontFaceName,
+                fontSize: fontSz * szMul,
+                fill: [clrA, clrB],
+                stroke: '#000000',
+                strokeThickness: Math.round(blur * .4),
+                dropShadow: true,
+                dropShadowColor: '#000000',
+                dropShadowBlur: blur,
+                dropShadowAngle: Math.PI * .5,
+                dropShadowDistance: dist,
+                dropShadowAlpha: .5
+            }));
+        };
+        FontLoader.prototype.init = function (onDone) {
+            if (!FontLoader.richFont || this.wasAlreadyInit)
+                onDone();
+            this.wasAlreadyInit = true;
+            onDone();
+        };
+        FontLoader.fontSizeMultiplierPercent = 100;
+        FontLoader.makeText = function (s, fontSz, blur, dist) {
+            return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#dddddd', blur, dist);
+        };
+        return FontLoader;
+    }());
+    exports.FontLoader = FontLoader;
+});
+define("UrlVarsParser", ["require", "exports", "Stor"], function (require, exports, Stor_2) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var UrlVarsParser = (function () {
+        function UrlVarsParser() {
+            var _this = this;
+            this.has = function (name) { return typeof _this.vars[name] != 'undefined'; };
+            this.get = function (name) { return _this.has(name) ? decodeURIComponent(_this.vars[name].split('+').join('%20')) : null; };
+            this.vars = {};
+            var l = location.href;
+            if (l.indexOf('?') >= 0) {
+                var search = l.split('?').pop();
+                var definitions = search.split('&');
+                definitions.forEach(function (val, key) {
+                    var parts = val.split('=', 2);
+                    _this.vars[parts[0]] = parts[1];
+                });
+            }
+            var notFound = function () { return !_this.has('company') || !_this.has('tables'); };
+            if (notFound()) {
+                var key = "designer_query";
+                Stor_2.Stor.set(key, {
+                    "company": "Zanzi Bar",
+                    "tables": [{
+                            "url": "https://waiter.live/#qWkaNL4Y1rQkuMdE3Fh8y",
+                            "name": "Table #4"
+                        }, {
+                            "url": "https://waiter.live/#qYHt0lpq6kKq3T3zOvZqh",
+                            "name": "Table #5"
+                        }, {
+                            "url": "https://waiter.live/#qYdOSoQvNthgIXNKTUP1K",
+                            "name": "Table #3"
+                        }, {
+                            "url": "https://waiter.live/#qcavnuJ4hl7GwMV5ycAfP",
+                            "name": "Table #1"
+                        }, {
+                            "url": "https://waiter.live/#qfNSL7jAZdTbkLTPe36Lq",
+                            "name": "Table #2"
+                        }, {
+                            "url": "https://waiter.live/#qTTK6fW5tyweoDXuKar2T",
+                            "name": "Table #3"
+                        }, {
+                            "url": "https://waiter.live/#qWJWABj4yPjrh7MSTkCrt",
+                            "name": "Table #4"
+                        }, {
+                            "url": "https://waiter.live/#q471fyodqdMQ2sVsc0hGN",
+                            "name": "Table #5"
+                        }, { "url": "https://waiter.live/#qBw29Ero1BF1PWkrcw9ZD", "name": "Table #6" }]
+                });
+                if (Stor_2.Stor.has(key)) {
+                    var a = Stor_2.Stor.get(key);
+                    this.vars["company"] = a.company;
+                    this.vars["tables"] = JSON.stringify(a.tables);
+                }
+            }
+            if (notFound()) {
+                alert("Query String variables were not consistent:\n" +
+                    (this.has('company') ? "" : "No \"company\" query variable found\n")
+                    +
+                        (this.has('tables') ? "" : "No \"tables\" query variable found\n")
+                    + "Hence redirecting to default, sample variables");
+                var arr = [];
+                for (var i = 0; i < 5; ++i) {
+                    var name_1 = ('' + Math.random()).substr(2, 16);
+                    arr.push({
+                        url: 'https://waiter.live/#q' + name_1,
+                        name: 'Table #' + name_1.substr(0, 5)
+                    });
+                }
+                console.log(JSON.stringify(arr));
+                location.href = '?company=' + encodeURIComponent(this.get('company') || 'A good company')
+                    + '&tables=' + (encodeURIComponent(this.get('tables') || JSON.stringify(arr)));
+            }
+            else {
+                this.company = this.get('company');
+                this.tables = JSON.parse(this.get('tables'));
+            }
+        }
+        return UrlVarsParser;
+    }());
+    exports.UrlVarsParser = UrlVarsParser;
+});
 define("Calc", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -305,114 +441,6 @@ define("DrawQR", ["require", "exports", "Calc"], function (require, exports, Cal
         return DrawQR;
     }(Sprite));
     exports.DrawQR = DrawQR;
-});
-define("FontLoader", ["require", "exports"], function (require, exports) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var FontLoader = (function () {
-        function FontLoader() {
-            this.wasAlreadyInit = false;
-        }
-        Object.defineProperty(FontLoader, "richFont", {
-            get: function () {
-                return window.richFont;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(FontLoader, "globalFontFaceName", {
-            get: function () {
-                return window.globalFontFaceName;
-            },
-            set: function (f) {
-                window.globalFontFaceName = f;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        FontLoader.makeTextClr = function (s, fontSz, clrA, clrB, blur, dist) {
-            var szMul = this.fontSizeMultiplierPercent / 100;
-            return new PIXI.Text(s, ({
-                fontFamily: (!FontLoader.richFont) ? '_sans' : FontLoader.globalFontFaceName,
-                fontSize: fontSz * szMul,
-                fill: [clrA, clrB],
-                stroke: '#000000',
-                strokeThickness: Math.round(blur * .4),
-                dropShadow: true,
-                dropShadowColor: '#000000',
-                dropShadowBlur: blur,
-                dropShadowAngle: Math.PI * .5,
-                dropShadowDistance: dist,
-                dropShadowAlpha: .5
-            }));
-        };
-        FontLoader.prototype.init = function (onDone) {
-            if (!FontLoader.richFont || this.wasAlreadyInit)
-                onDone();
-            this.wasAlreadyInit = true;
-            onDone();
-        };
-        FontLoader.fontSizeMultiplierPercent = 100;
-        FontLoader.makeText = function (s, fontSz, blur, dist) {
-            return FontLoader.makeTextClr(" " + s + " ", fontSz, '#ffffff', '#dddddd', blur, dist);
-        };
-        return FontLoader;
-    }());
-    exports.FontLoader = FontLoader;
-});
-define("UrlVarsParser", ["require", "exports", "Stor"], function (require, exports, Stor_2) {
-    "use strict";
-    Object.defineProperty(exports, "__esModule", { value: true });
-    var UrlVarsParser = (function () {
-        function UrlVarsParser() {
-            var _this = this;
-            this.has = function (name) { return typeof _this.vars[name] != 'undefined'; };
-            this.get = function (name) { return _this.has(name) ? decodeURIComponent(_this.vars[name].split('+').join('%20')) : null; };
-            this.vars = {};
-            var l = location.href;
-            if (l.indexOf('?') >= 0) {
-                var search = l.split('?').pop();
-                var definitions = search.split('&');
-                definitions.forEach(function (val, key) {
-                    var parts = val.split('=', 2);
-                    _this.vars[parts[0]] = parts[1];
-                });
-            }
-            var notFound = function () { return !_this.has('company') || !_this.has('tables'); };
-            if (notFound()) {
-                var key = "designer_query";
-                if (Stor_2.Stor.has(key)) {
-                    var a = Stor_2.Stor.get(key);
-                    this.vars["company"] = a.company;
-                    this.vars["tables"] = a.tables;
-                }
-            }
-            if (notFound()) {
-                alert("Query String variables were not consistent:\n" +
-                    (this.has('company') ? "" : "No \"company\" query variable found\n")
-                    +
-                        (this.has('tables') ? "" : "No \"tables\" query variable found\n")
-                    + "Hence redirecting to default, sample variables");
-                var arr = [];
-                for (var i = 0; i < 5; ++i) {
-                    var name_1 = ('' + Math.random()).substr(2, 16);
-                    arr.push({
-                        url: 'https://waiter.live/#q' + name_1,
-                        name: 'Table #' + name_1.substr(0, 5)
-                    });
-                }
-                console.log(JSON.stringify(arr));
-                location.href = '?company=' + encodeURIComponent(this.get('company') || 'A good company')
-                    + '&tables=' + (encodeURIComponent(this.get('tables') || JSON.stringify(arr)));
-            }
-            else {
-                this.company = this.get('company');
-                this.tables = JSON.parse(this.get('tables'));
-            }
-        }
-        return UrlVarsParser;
-    }());
-    exports.UrlVarsParser = UrlVarsParser;
 });
 define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "DrawQR"], function (require, exports, ConfKeeper_1, BgImage_1, FontLoader_1, DrawQR_1) {
     "use strict";
