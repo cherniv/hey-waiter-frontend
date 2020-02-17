@@ -95,7 +95,7 @@ class NewUserGreeting extends React.Component {
           onClick={async () => {
             this.saving = true;
             if (this.initialTablesNumber) {
-              await Table.createBunch(this.initialTablesNumber)
+              await Business.addBunch(this.initialTablesNumber);
             }
             Auth.finishSignupProcess();
           }} 

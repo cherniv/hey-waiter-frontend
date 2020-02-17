@@ -39,15 +39,6 @@ class Table extends Model {
     this.fetchFromRemote(this.TABLES_QUERY(Business.current.id));
   }
 
-  static async createBunch(num:number) {
-    var promises = [];
-    var i:number;
-    for(i = 0; i < num; i ++) {
-        promises.push(Business.current.addTable());
-    }
-    return Promise.all(promises);
-  }
-
 }
 
 export default Table;

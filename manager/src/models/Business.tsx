@@ -18,7 +18,13 @@ class Business extends Model {
     return !!this.title && !!this.title.length;
   }
   @computed get tables() {
-    return Table.all.filter((table:Table) => table.businessId === this.id) || [];
+    return (
+      Table
+        .all
+        .filter((table:Table) => table.businessId === this.id)
+        .sort((a:Table, b:Table) => a.index - b.index) 
+      || []
+    );
   }
   @computed get waiters() {
     return Waiter.all.filter((waiter:Waiter) => waiter.businessId === this.id) || [];
@@ -64,14 +70,26 @@ class Business extends Model {
     return await this.fetchFromRemote(this.MY_BUSINESSES_QUERY());
   }
 
-  async addTable() {
+  async addTable(i?:number) {
     var index;
-    if (this.tables.length) {
-      index = + this.tables[this.tables.length-1].index + 1;
-    } else {
-      index = 1;
+    if (i) index = i;
+    else {
+      if (this.tables.length) {
+        index = + this.tables[this.tables.length-1].index + 1;
+      } else {
+        index = 1;
+      }
     }
     return Table.create({ businessId: this.id, index});
+  }
+
+  static async addBunch(num:number) {
+    var promises = [];
+    var i:number;
+    for(i = 0; i < num; i ++) {
+        promises.push(this.current.addTable(i+1));
+    }
+    return Promise.all(promises);
   }
 
   async removeWaiter(waiter: Waiter) {
