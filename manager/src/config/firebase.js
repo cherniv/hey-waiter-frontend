@@ -4,7 +4,7 @@ import "firebase/analytics";
 export const projectId = "hey-waiter-9d976";
 const firebaseConfig = {
   apiKey: "AIzaSyBtE7G1ffhIyHMRDyFlRmct6JwNrdeeJfQ",
-  authDomain: "hey-waiter-9d976.firebaseapp.com",
+  authDomain: "waiter.live",
   databaseURL: "https://hey-waiter-9d976.firebaseio.com",
   projectId,
   storageBucket: "hey-waiter-9d976.appspot.com",
