@@ -1,3 +1,16 @@
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 define("BgImage", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -58,10 +71,11 @@ define("BgImage", ["require", "exports"], function (require, exports) {
                 var path = "assets/bg/small/" + i + ".jpg";
                 this.elements.push("<img onclick=\"qrGenUpdate('bgPath', '" + path + "')\" src=\"" + path + "\" width=\"100%\"/><br>");
             }
+            var bgScrollClass = "bg-scroll-pane";
             $('#bg-image').html('<b>BG Image</b><br>'
                 + (BgImage.showUpload ? "`<input type=\"file\" id=\"upload-img-file\" style=\"display: none;\" />\n            <button style=\"font-weight: bold;\" onclick=\"document.getElementById('upload-img-file').click();\">\uD83D\uDCE4 Upload image...</button><br>`" : "")
-                + '<div class="bg-scroll-pane" style="margin-top: .5em;" id="all-bg-images">Loading list of pictures...</div>');
-            var pane = $('.bg-scroll-pane');
+                + ("<div class=\"" + bgScrollClass + "\" style=\"margin-top: .5em;\" id=\"all-bg-images\">Loading list of pictures...</div>"));
+            var pane = $('.' + bgScrollClass);
             BgImage.height = $(window).height() - 8 - pane.offset().top;
             pane.css('height', Math.round(BgImage.height) + 'px');
             if (BgImage.showUpload) {
@@ -194,6 +208,104 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
     }());
     exports.ConfKeeper = ConfKeeper;
 });
+define("Calc", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Calc = (function () {
+        function Calc() {
+        }
+        Calc.log = function (base, val) {
+            return Math.log(val) / Math.log(base);
+        };
+        Calc.mix = function (a, b, val) {
+            return a * (1 - val) + b * val;
+        };
+        Calc.diff = function (a, b) {
+            return Math.max(a, b) - Math.min(a, b);
+        };
+        Calc.remix = function (fromStart, fromEnd, fromPos, toStart, toEnd) {
+            return Calc.mix(toStart, toEnd, Calc.unmix(fromStart, fromEnd, fromPos));
+        };
+        Calc.rmx = function (o) {
+            return Calc.remix(o.from[0], o.from[1], o.val, o.to[0], o.to[1]);
+        };
+        Calc.ro = function (v, factor) {
+            var a = Math.pow(10, factor);
+            return Math.round(v * a) / a;
+        };
+        Calc.unmix = function (a, b, pos) {
+            if (b == a)
+                return a;
+            else
+                return 1 - ((b - pos) / (b - a));
+        };
+        Calc.limit = function (num, min, max) {
+            return num > max ? max : num < min ? min : num;
+        };
+        return Calc;
+    }());
+    exports.Calc = Calc;
+});
+define("DrawQR", ["require", "exports", "Calc"], function (require, exports, Calc_1) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Graphics = PIXI.Graphics;
+    var Sprite = PIXI.Sprite;
+    var Point = PIXI.Point;
+    var tsz = {
+        target: 128,
+        margin: 8,
+        box: 3,
+        sideNum: -1
+    };
+    tsz.sideNum = (tsz.target - tsz.margin * 2) / tsz.box;
+    var DrawQR = (function (_super) {
+        __extends(DrawQR, _super);
+        function DrawQR(val, src, size) {
+            var _this = _super.call(this) || this;
+            _this.val = val;
+            _this.src = src;
+            _this.size = size;
+            _this.whiteAt = function (x, y) {
+                var val = _this.src.getContext("2d").getImageData(x, y, 1, 1).data[0];
+                return val > 127;
+            };
+            _this.addChild(_this.cont = new Graphics());
+            var G = _this.cont, S = tsz, N = S.sideNum, tg2 = S.target / 2;
+            G.beginFill(0xffffff);
+            G.lineStyle(0);
+            var rect = function (x, y, w, h) {
+                var P = function (x, y) { return new Point(x, y); };
+                var a = P(x, y), b = P(x + w, y), c = P(x + w, y + h), d = P(x, y + h);
+                var proj = function (p) {
+                    p.x -= tg2;
+                    p.y -= tg2;
+                    var szFixMul = { x: 1.4, y: 1.2 }, mulG = .94;
+                    var yRange = function (from, to) { return Calc_1.Calc.remix(-tg2, tg2, p.y, from, to); };
+                    var depth = 1.4, z = yRange(depth, 1) * depth - .5;
+                    var scale = 1 / z;
+                    p.x *= scale * szFixMul.x * mulG;
+                    p.y *= scale * szFixMul.y * mulG;
+                    return p;
+                };
+                G.drawPolygon([a, b, c, d].map(proj));
+            };
+            var inPad = S.margin * .5, szInPad = S.target - inPad * 2;
+            rect(inPad, inPad, szInPad, szInPad);
+            G.beginFill(0x000000);
+            for (var x = 0; x < N; ++x) {
+                for (var y = 0; y < N; ++y) {
+                    var p = { x: S.margin + S.box * x, y: S.margin + S.box * y };
+                    if (!_this.whiteAt(p.x + 2, p.y + 2))
+                        rect(p.x, p.y, S.box, S.box);
+                }
+            }
+            return _this;
+        }
+        return DrawQR;
+    }(Sprite));
+    exports.DrawQR = DrawQR;
+});
 define("FontLoader", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
@@ -248,7 +360,7 @@ define("FontLoader", ["require", "exports"], function (require, exports) {
     }());
     exports.FontLoader = FontLoader;
 });
-define("UrlVarsParser", ["require", "exports"], function (require, exports) {
+define("UrlVarsParser", ["require", "exports", "Stor"], function (require, exports, Stor_2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var UrlVarsParser = (function () {
@@ -266,7 +378,16 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
                     _this.vars[parts[0]] = parts[1];
                 });
             }
-            if (!this.has('company') || !this.has('tables')) {
+            var notFound = function () { return !_this.has('company') || !_this.has('tables'); };
+            if (notFound()) {
+                var key = "designer_query";
+                if (Stor_2.Stor.has(key)) {
+                    var a = Stor_2.Stor.get(key);
+                    this.vars["company"] = a.company;
+                    this.vars["tables"] = a.tables;
+                }
+            }
+            if (notFound()) {
                 alert("Query String variables were not consistent:\n" +
                     (this.has('company') ? "" : "No \"company\" query variable found\n")
                     +
@@ -293,7 +414,7 @@ define("UrlVarsParser", ["require", "exports"], function (require, exports) {
     }());
     exports.UrlVarsParser = UrlVarsParser;
 });
-define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], function (require, exports, ConfKeeper_1, BgImage_1, FontLoader_1) {
+define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "DrawQR"], function (require, exports, ConfKeeper_1, BgImage_1, FontLoader_1, DrawQR_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Point = PIXI.Point;
@@ -301,7 +422,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
     var Sprite2d = PIXI.projection.Sprite2d;
     var GlowFilter = PIXI.filters.GlowFilter;
     var Loader = PIXI.Loader;
-    var trace = function (s) { return console.log(s); };
+    var trace = function (s) { };
     var QRGen = (function () {
         function QRGen(bgi, vars, previewImageId) {
             var _this = this;
@@ -418,50 +539,78 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     BG();
                     trace("bg created");
                     var qrSprite, qrPos;
+                    var useDrawQR = true;
                     var qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
+                    var finishEverything = function () { };
                     var QR = function () {
                         trace("started making QR");
                         var qrCanvas = document.getElementById('qr');
+                        var qrActualSize = 512;
                         var qrious = new QRious({
                             element: qrCanvas,
                             value: table.url,
                             level: 'H',
-                            size: 512,
+                            size: useDrawQR ? 128 : qrSize,
                         });
                         trace("qr created, converting it to data url...");
-                        var dataURL = qrCanvas.toDataURL();
-                        trace("data created: " + dataURL.substr(0, 30) + "...");
-                        var qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
-                        qr.anchor.set(.5);
-                        qr.visible = false;
                         var pos = qrPos = new Point(sz.w * .5, sz.h * .5);
+                        var qr;
+                        var tex = PIXI.Texture.from(qrCanvas);
+                        var addSpride2d = function () {
+                            qr = qrSprite = new Sprite2d(tex);
+                            qr.anchor.set(.5);
+                            qr.visible = false;
+                        };
+                        var addDrawQR = function () {
+                            qr = new DrawQR_1.DrawQR(table.url, qrCanvas, qrActualSize);
+                            var sc = 3 * (sz.h / 619 * .65);
+                            qr.scale.x *= sc;
+                            qr.scale.y *= sc;
+                            qr.x = sz.w * .5;
+                            qr.y = sz.h * .46;
+                        };
+                        if (useDrawQR)
+                            addDrawQR();
+                        else
+                            addSpride2d();
                         all.addChild(qr);
-                        var Q = .2;
-                        var distort = true;
-                        var D = 1 + (distort ? Q * 2 : 0);
-                        var E = 1 - (distort ? Q / 2 : 0);
-                        var points = [
-                            new Point(-E, -1),
-                            new Point(E, -1),
-                            new Point(D, 1),
-                            new Point(-D, 1),
-                        ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
-                        trace("picture is ready, starting rendering routine:");
-                        var delay = round(1 / 60), times = 2;
-                        for (var i = 0; i < times; ++i)
-                            (function (i) { return setTimeout(function () {
-                                trace("R: rendering attempt: " + i + ", delayed by " + delay);
+                        finishEverything = function () {
+                            trace("picture is ready, starting rendering routine:");
+                            var finalizeCanvasAndRelease = function () {
+                                var canv = _this.app.view;
+                                _this.bgi.canReleaseElements = true;
+                                onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
+                            };
+                            var delay = round(1 / 60), times = 2;
+                            if (useDrawQR) {
                                 _this.app.render();
-                                qr.proj.mapSprite(qr, points);
-                                qr.visible = true;
-                            }, delay); })(i);
-                        setTimeout(function () {
-                            var canv = _this.app.view;
-                            trace("Grabbing image from canvas and showing it on the screen");
-                            _this.bgi.canReleaseElements = true;
-                            onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
-                        }, (delay * (times + 2)) + (_this.firstToDataURL ? 100 : 50));
-                        _this.firstToDataURL = false;
+                                setTimeout(finalizeCanvasAndRelease, 50);
+                            }
+                            else {
+                                var Q = .2;
+                                var distort = true;
+                                var D = 1 + (distort ? Q * 2 : 0);
+                                var E = 1 - (distort ? Q / 2 : 0);
+                                var points_1 = [
+                                    new Point(-E, -1),
+                                    new Point(E, -1),
+                                    new Point(D, 1),
+                                    new Point(-D, 1),
+                                ].map(function (p) { return new Point(pos.x + qrSzHalf * p.x, pos.y + qrSzHalf * p.y); });
+                                for (var i = 0; i < times; ++i)
+                                    (function (i) { return setTimeout(function () {
+                                        trace("R: rendering attempt: " + i + ", delayed by " + delay);
+                                        _this.app.render();
+                                        qrSprite.proj.mapSprite(qrSprite, points_1);
+                                        qr.visible = true;
+                                    }, delay); })(i);
+                                setTimeout(function () {
+                                    trace("Grabbing image from canvas and showing it on the screen");
+                                    finalizeCanvasAndRelease();
+                                }, (delay * (times + 2)) + (_this.firstToDataURL ? 100 : 50));
+                                _this.firstToDataURL = false;
+                            }
+                        };
                     };
                     QR();
                     var buttonQRCover = function () {
@@ -503,6 +652,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader"], f
                     };
                     googleLogo();
                     trace("all texts and logos are applied.");
+                    finishEverything();
                 };
                 var bgPath = setting('bgPath').split("small/").join("big/");
                 if (_this.prevBg != bgPath) {
@@ -662,6 +812,7 @@ define("QrPrint", ["require", "exports"], function (require, exports) {
                     var nextPageNotRequired = singleA5 ? num % 2 == 0 : false;
                     var nextPageRequired = !nextPageNotRequired;
                     $wait.html("Generating " + (num + 1) + " of " + total + ",<br>please wait...");
+                    console.log('generating #' + num);
                     if (kind == PrintKind.a4double) {
                         doc.addImage(data, 'JPEG', 0, 0, short, long);
                         doc.addImage(data, 'JPEG', short, 0, short, long);

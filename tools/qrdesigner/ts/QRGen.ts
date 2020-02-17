@@ -10,9 +10,10 @@ import GlowFilter = PIXI.filters.GlowFilter;
 import {BgImage} from "./BgImage";
 import {FontLoader} from "./FontLoader";
 import Loader = PIXI.Loader;
+import {DrawQR} from "./DrawQR";
 
 
-const trace = (s:string) => console.log(s);
+const trace = (s:string) => {};// console.log(s);
 
 
 
@@ -178,72 +179,88 @@ export class QRGen {
             BG();
             trace(`bg created`);
             let qrSprite:Sprite2d, qrPos:Point;
+            const useDrawQR = true;
             const qrSizeRatio = .5, qrSize = round(sz.w * qrSizeRatio), qrSzHalf = qrSize / 2;
+            let finishEverything = () => {};/// will be set later
             const QR = () => {
                 trace(`started making QR`);
                 const qrCanvas = <HTMLCanvasElement>document.getElementById('qr');
+                const qrActualSize = 512;
                 const qrious = new QRious({
                     element:qrCanvas,
                     value:table.url,
                     level:'H',
-                    size:512,
+                    size:useDrawQR ? 128 : qrSize,
                     // padding:round(sz.w * .03),
                 });
                 trace(`qr created, converting it to data url...`);
 
-                const dataURL = qrCanvas.toDataURL();
-                trace(`data created: ${dataURL.substr(0, 30)}...`);
-                const qr = qrSprite = new Sprite2d(PIXI.Texture.from(dataURL));
-                qr.anchor.set(.5);
-                qr.visible = false;
+                // const dataURL = qrCanvas.toDataURL();
+                // trace(`data created: ${dataURL.substr(0, 30)}...`);
                 const pos = qrPos = new Point(sz.w * .5, sz.h * .5);
-                // qr.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, 1)];
+                let qr:Sprite;
+                const tex = PIXI.Texture.from(qrCanvas);
+                const addSpride2d = () => {
+                    qr = qrSprite = new Sprite2d(tex);
+                    qr.anchor.set(.5);
+                    qr.visible = false;
+                };
+                const addDrawQR = () => {
+                    qr = new DrawQR(table.url, qrCanvas, qrActualSize);
+                    const sc = 3 * (sz.h / 619 * .65);
+                    qr.scale.x *= sc;
+                    qr.scale.y *= sc;
+                    qr.x = sz.w * .5;
+                    qr.y = sz.h * .46;
+                };
+                if(useDrawQR) addDrawQR();
+                else addSpride2d();
                 all.addChild(qr);
-
-                /// make points
-                const Q = .2;
-                const distort = true;//setting('distort');
-
-                const D = 1 + (distort ? Q * 2 : 0);
-                const E = 1 - (distort ? Q / 2 : 0);
-                const points:Point[] = [
-                    new Point(-E, -1),
-                    new Point(E, -1),
-                    new Point(D, 1),
-                    new Point(-D, 1),
-                ].map(p => new Point(
-                    pos.x + qrSzHalf * p.x,
-                    pos.y + qrSzHalf * p.y,
-                ));
-                trace(`picture is ready, starting rendering routine:`);
-                // this.app.ticker.add(d=>qr.proj.mapSprite(qr, points));
-                const delay = round(1 / 60), times = 2;
-                for(let i = 0; i < times; ++i)
-                    ((i:number) => setTimeout(() => {
-                            trace(`R: rendering attempt: ${i}, delayed by ${delay}`);
-                            this.app.render();
-                            qr.proj.mapSprite(qr, points);
-                            qr.visible = true;
-                        }, delay
-                    ))(i);
-                setTimeout(() => {
-                        // const renderer = this.app.renderer;
-                        // const renderTexture = PIXI.RenderTexture.create(renderer.width, renderer.height);
-                        // renderer.render(qrSprite, renderTexture);
-                        // window.open(renderer.extract.base64());
-                        // onDone(renderer.extract.base64());
-                        // onDone(this.app.renderer.extract.base64());
+                finishEverything = () => {
+                    trace(`picture is ready, starting rendering routine:`);
+                    // this.app.ticker.add(d=>qr.proj.mapSprite(qr, points));
+                    const finalizeCanvasAndRelease = () => {
                         const canv = this.app.view;
-                        // const cont = canv.getContext('webgl', {preserveDrawingBuffer:true});
-                        trace(`Grabbing image from canvas and showing it on the screen`);
                         this.bgi.canReleaseElements = true;
                         onDone(canv.toDataURL('image/jpeg', this.initialHeight < 1300 ? .75 : .85));
-                        // onDone(canv.toDataURL('image/png'));
-                    },
-                    (delay * (times + 2)) + (this.firstToDataURL ? 100 : 50)
-                );
-                this.firstToDataURL = false;
+                    };
+                    const delay = round(1 / 60), times = 2;
+                    if(useDrawQR){
+                        this.app.render();
+                        setTimeout(finalizeCanvasAndRelease, 50);
+                    } else {
+                        /// make points
+                        const Q = .2;
+                        const distort = true;//setting('distort');
 
+                        const D = 1 + (distort ? Q * 2 : 0);
+                        const E = 1 - (distort ? Q / 2 : 0);
+                        const points:Point[] = [
+                            new Point(-E, -1),
+                            new Point(E, -1),
+                            new Point(D, 1),
+                            new Point(-D, 1),
+                        ].map(p => new Point(
+                            pos.x + qrSzHalf * p.x,
+                            pos.y + qrSzHalf * p.y,
+                        ));
+                        for(let i = 0; i < times; ++i)
+                            ((i:number) => setTimeout(() => {
+                                    trace(`R: rendering attempt: ${i}, delayed by ${delay}`);
+                                    this.app.render();
+                                    qrSprite.proj.mapSprite(qrSprite, points);
+                                    qr.visible = true;
+                                }, delay
+                            ))(i);
+                        setTimeout(() => {
+                                trace(`Grabbing image from canvas and showing it on the screen`);
+                                finalizeCanvasAndRelease();
+                            },
+                            (delay * (times + 2)) + (this.firstToDataURL ? 100 : 50)
+                        );
+                        this.firstToDataURL = false;
+                    }
+                };
             };
             QR();
 
@@ -305,6 +322,7 @@ export class QRGen {
             trace(`all texts and logos are applied.`);
 
             // setTimeout(() => $(this.app.view).show(), 800);
+            finishEverything();
         };
         const bgPath = setting('bgPath').split(`small/`).join(`big/`);
         if(this.prevBg != bgPath){

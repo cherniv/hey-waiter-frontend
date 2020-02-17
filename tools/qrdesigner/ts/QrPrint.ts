@@ -60,7 +60,7 @@ export class QrPrint {
                 const nextPageNotRequired = singleA5 ? num % 2 == 0 : false;
                 const nextPageRequired = !nextPageNotRequired;
                 $wait.html(`Generating ${num + 1} of ${total},<br>please wait...`);
-                // console.log('generating #' + num);
+                console.log('generating #' + num);
                 // console.log(data.substr(0, 200));
                 if(kind == PrintKind.a4double){
                     doc.addImage(data, 'JPEG', 0, 0, short, long);

@@ -68,11 +68,12 @@ export class BgImage {
             this.elements.push(`<img onclick="qrGenUpdate('bgPath', '${path}')" src="${path}" width="100%"/><br>`);
         }
 
+        const bgScrollClass = `bg-scroll-pane`;
         $('#bg-image').html('<b>BG Image</b><br>'
             + (BgImage.showUpload ? `\`<input type="file" id="upload-img-file" style="display: none;" />
             <button style="font-weight: bold;" onclick="document.getElementById('upload-img-file').click();">📤 Upload image...</button><br>\`` : ``)
-            + '<div class="bg-scroll-pane" style="margin-top: .5em;" id="all-bg-images">Loading list of pictures...</div>');
-        const pane = $('.bg-scroll-pane');
+            + `<div class="${bgScrollClass}" style="margin-top: .5em;" id="all-bg-images">Loading list of pictures...</div>`);
+        const pane = $('.' + bgScrollClass);
         BgImage.height = $(window).height() - 8 - pane.offset().top;
         pane.css(
             'height',

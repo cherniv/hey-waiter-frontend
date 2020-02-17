@@ -40,7 +40,10 @@ h1 {
     font-size: 1.4em !important;
 }
 
-.bg-scroll-pane {
+
+
+
+.bg-scroll-pane, .bg-scroll-simple {
     overflow-y: scroll;
     border: 1px dashed #aaa;
     border-radius: .5em;
