@@ -51,9 +51,9 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         </Form.Row>
         
         <BusinessDetails business={Business.current} />
-        <br />
+        <h1>Tables</h1>
         <Tables business={Business.current} />
-        <br />
+        <h1>Waiters</h1>
         <Waiters business={Business.current} />
         <br />
         <Button 

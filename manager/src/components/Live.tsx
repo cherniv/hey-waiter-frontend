@@ -11,11 +11,13 @@ class Live extends React.Component {
     if (!Business.current) return null;
     return (
       <div>
-        <Waiters
+        <h1>Tables</h1>
+        <Tables
           business={Business.current}
           editing={false}
         />
-        <Tables
+        <h1>Waiters</h1>
+        <Waiters
           business={Business.current}
           editing={false}
         />
