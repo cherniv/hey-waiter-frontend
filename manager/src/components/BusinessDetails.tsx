@@ -37,6 +37,14 @@ class BusinessDetails extends React.Component<props> {
             value={business.title}
           />
         </Form.Group>
+        <Form.Group controlId="formGroupInsta">
+          {showTitle && <Form.Label>Restaurant Instagram</Form.Label>}
+          <Form.Control
+            type="name" placeholder="Type instagram here..."
+            onChange={({target}: any) => {
+            }}
+          />
+        </Form.Group>
       </Form>
     )
   }
