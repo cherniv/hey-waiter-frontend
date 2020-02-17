@@ -11,6 +11,7 @@ class Business extends Model {
   @observable static _current:Business = null;
 
   @observable title:string = '';
+  @observable instagram:string = '';
   @observable creatorId:string = Auth.user.id;
   @observable userIds:string[] = [Auth.user.id];
   

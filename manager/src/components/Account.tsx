@@ -50,7 +50,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
           </Form.Group>
         </Form.Row>
         
-        <BusinessDetails business={Business.current} />
+        <BusinessDetails business={Business.current} showInstagram={true} />
         <br/>
         <h3>Tables</h3>
         <Tables business={Business.current} />

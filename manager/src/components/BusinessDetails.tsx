@@ -3,11 +3,13 @@ import {
   Form,
 } from 'react-bootstrap';
 import { observer } from 'mobx-react';
+import Business from '../models/Business';
 
 type props = {
-  business: any,
+  business: Business,
   showTitle: boolean,
   autoSave: boolean,
+  showInstagram: boolean,
 }
 
 @observer
@@ -16,6 +18,7 @@ class BusinessDetails extends React.Component<props> {
   static defaultProps = {
     showTitle: true,
     autoSave: true,
+    showInstagram: false,
   }
 
   render() {
@@ -23,6 +26,7 @@ class BusinessDetails extends React.Component<props> {
       business,
       showTitle,
       autoSave,
+      showInstagram,
     } = this.props;
     return (
       <Form>
@@ -37,14 +41,18 @@ class BusinessDetails extends React.Component<props> {
             value={business.title}
           />
         </Form.Group>
+        {showInstagram &&
         <Form.Group controlId="formGroupInsta">
-          {showTitle && <Form.Label>Restaurant Instagram</Form.Label>}
+          <Form.Label>Restaurant Instagram</Form.Label>
           <Form.Control
             type="name" placeholder="Type instagram here..."
             onChange={({target}: any) => {
+                business.instagram = target.value;
+                autoSave && business.save();
             }}
           />
         </Form.Group>
+        }
       </Form>
     )
   }
