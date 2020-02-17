@@ -11,9 +11,18 @@ import {BgImage} from "./BgImage";
 import {FontLoader} from "./FontLoader";
 import Loader = PIXI.Loader;
 import {DrawQR} from "./DrawQR";
+import {Device} from "./Device";
 
 
-const trace = (s:string) => {};// console.log(s);
+const trace = (s:string) =>
+    // {};
+    console.log(s);
+
+const flip = () => {
+    const d = Device._;
+    const haveVers = !!d.version;
+    return d.isSafari && haveVers && parseInt(d.version.split(`.`).shift()) > 7;
+};
 
 
 
@@ -104,7 +113,10 @@ export class QRGen {
             this.genI++;
             const trace = (s:string) => this.trace(`: ${this.genI}: ${s}`);
             const blurByFactor = (v:number) => this.initialHeight / (nominalHeight / v);
-            const all = this.app.stage;
+            const stage = this.app.stage;
+            stage.removeChildren();
+            const all = new Sprite();
+            stage.addChild(all);
             const addPic = (tex:Texture, x:number, y:number, wid:number, hei:number | null = null) => {
                 const pic = new Sprite(tex);
                 const w = pic.width;
@@ -164,7 +176,7 @@ export class QRGen {
 
 
                 if(setting('darken')){
-                    brightness(.5);
+                    brightness(.7);
                     if(setting('darken2')) brightness(.7);
                 }
                 const d = ConfKeeper.dataType;
@@ -220,13 +232,19 @@ export class QRGen {
                     trace(`picture is ready, starting rendering routine:`);
                     // this.app.ticker.add(d=>qr.proj.mapSprite(qr, points));
                     const finalizeCanvasAndRelease = () => {
+                        if(flip()){
+                            all.anchor.set(.5);
+                            all.scale.y = -1;
+                            all.y = sz.h;
+                        }
+                        this.app.render();
                         const canv = this.app.view;
                         this.bgi.canReleaseElements = true;
-                        onDone(canv.toDataURL('image/jpeg', this.initialHeight < 1300 ? .75 : .85));
+                        const str = canv.toDataURL('image/jpeg', this.initialHeight < 1300 ? .75 : .85);
+                        onDone(str);
                     };
                     const delay = round(1 / 60), times = 2;
                     if(useDrawQR){
-                        this.app.render();
                         setTimeout(finalizeCanvasAndRelease, 50);
                     } else {
                         /// make points
@@ -271,8 +289,10 @@ export class QRGen {
                     qrPos.x, qrPos.y + qrSize * .6,
                     bSize, bSize
                 );
-                button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
-                expandForFilter(button, blurByFactor(16));
+                if(!Device._.isSafari){
+                    button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+                    expandForFilter(button, blurByFactor(16));
+                }
             };
             buttonQRCover();
 
@@ -333,7 +353,7 @@ export class QRGen {
             loader.add('google', 'assets/pics/google-infra-c.png');
             loader.load(() => {
                 trace(`loader loaded ${setting('bgPath')}, button and google`);
-                doItAll();
+                setTimeout(doItAll, 500);
                 $('#initial-please-wait').hide();
             });
         } else doItAll();

@@ -5,7 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/UrlVarsParser.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/UrlVarsParser.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/ConfKeeper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/ConfKeeper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ts/QRGen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QRGen.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +82,7 @@
       <workItem from="1580998234448" duration="2747000" />
       <workItem from="1581877479374" duration="11235000" />
       <workItem from="1581898936530" duration="1387000" />
-      <workItem from="1581900351874" duration="12499000" />
+      <workItem from="1581900351874" duration="17404000" />
     </task>
     <servers />
   </component>
@@ -107,17 +108,17 @@
     </ignored-roots>
   </component>
   <component name="WindowStateProjectService">
-    <state x="334" y="77" width="613" height="536" key="find.popup" timestamp="1581935470903">
+    <state x="334" y="77" width="613" height="536" key="find.popup" timestamp="1581945892596">
       <screen x="0" y="0" width="1280" height="690" />
     </state>
-    <state x="334" y="77" width="613" height="536" key="find.popup/0.0.1280.690@0.0.1280.690" timestamp="1581935470903" />
+    <state x="334" y="77" width="613" height="536" key="find.popup/0.0.1280.690@0.0.1280.690" timestamp="1581945892596" />
     <state x="298" y="154" key="run.anything.popup" timestamp="1581890504330">
       <screen x="0" y="0" width="1280" height="690" />
     </state>
     <state x="298" y="154" key="run.anything.popup/0.0.1280.690@0.0.1280.690" timestamp="1581890504330" />
-    <state x="303" y="11" width="672" height="678" key="search.everywhere.popup" timestamp="1581895870157">
+    <state x="303" y="11" width="672" height="678" key="search.everywhere.popup" timestamp="1581946085170">
       <screen x="0" y="0" width="1280" height="690" />
     </state>
-    <state x="303" y="11" width="672" height="678" key="search.everywhere.popup/0.0.1280.690@0.0.1280.690" timestamp="1581895870157" />
+    <state x="303" y="11" width="672" height="678" key="search.everywhere.popup/0.0.1280.690@0.0.1280.690" timestamp="1581946085170" />
   </component>
 </project>

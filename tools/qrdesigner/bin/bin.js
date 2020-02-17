@@ -127,8 +127,8 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
         function ConfKeeper() {
         }
         ConfKeeper.dataType = [
-            { name: 'bgPath', type: 'string', def: 'assets/bg/16.jpg', outer: true, mul: 0 },
-            { name: 'blur', title: 'Blur Background', type: 'boolean', def: true },
+            { name: 'bgPath', type: 'string', def: 'assets/bg/big/16.jpg', outer: true, mul: 0 },
+            { name: 'blur', title: 'Blur Background', type: 'boolean', def: false },
             { name: 'blur2', title: 'Blur More', type: 'boolean', def: false },
             { name: 'darken', title: 'Darken Background', type: 'boolean', def: true },
             { name: 'darken2', title: 'Darken more', type: 'boolean', def: false },
@@ -414,7 +414,111 @@ define("DrawQR", ["require", "exports", "Calc"], function (require, exports, Cal
     }(Sprite));
     exports.DrawQR = DrawQR;
 });
-define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "DrawQR"], function (require, exports, ConfKeeper_1, BgImage_1, FontLoader_1, DrawQR_1) {
+define("Device", ["require", "exports"], function (require, exports) {
+    "use strict";
+    Object.defineProperty(exports, "__esModule", { value: true });
+    var Device = (function () {
+        function Device() {
+            this.isiPhone = false;
+            this.isAndroid = false;
+            this.isDesktop = false;
+            this.isMobile = false;
+            this.isChrome = false;
+            this.isEdge = false;
+            this.isIE = false;
+            this.isFirefox = false;
+            this.isSafari = false;
+            this._initialized = false;
+            this.version = "";
+            this.userAgent = navigator.userAgent;
+            this.init();
+        }
+        Object.defineProperty(Device.prototype, "PlatformName", {
+            get: function () {
+                return this.isMobile ? "mobile" : "pc";
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Device.prototype, "Resolution", {
+            get: function () {
+                return this.isDesktop ? "web" : this.isMobile ? "low" : 'high';
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Device.prototype, "IsPortrait", {
+            get: function () {
+                return window.innerWidth < window.innerHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Device.prototype, "IsLandscape", {
+            get: function () {
+                return window.innerWidth > window.innerHeight;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Device.prototype, "IsFramed", {
+            get: function () {
+                return top !== self;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Device.prototype, "IsMobileAndFramed", {
+            get: function () {
+                return this.isMobile && this.IsFramed;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Device.prototype, "ParentNotificationEnabled", {
+            get: function () {
+                return Device._.IsMobileAndFramed || Device._.IsFramed;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Device.prototype, "ButtonInteractionMethod", {
+            get: function () {
+                return this.isMobile ? "touchend" : "click";
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Device.prototype.init = function () {
+            if (this._initialized)
+                return;
+            this._initialized = true;
+            var ua = this.userAgent;
+            this.isiPhone = /iPad|iPhone|iPod/.test(ua);
+            this.isAndroid = /android/i.test(ua);
+            this.isFirefox = /firefox/i.test(ua);
+            this.isEdge = /Edge/i.test(ua);
+            this.isChrome = /chrome/i.test(ua);
+            this.isSafari = /^((?!chrome|android).)*safari/i.test(ua);
+            this.isMobile = (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua));
+            this.isDesktop = !this.isMobile;
+            var verStr = "Version/";
+            if (ua.indexOf(verStr) != -1) {
+                this.version = ua.split(verStr).pop().split(" ").shift();
+            }
+        };
+        Object.defineProperty(Device, "_", {
+            get: function () {
+                return this.__self || (this.__self = new this());
+            },
+            enumerable: true,
+            configurable: true
+        });
+        return Device;
+    }());
+    exports.Device = Device;
+});
+define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "DrawQR", "Device"], function (require, exports, ConfKeeper_1, BgImage_1, FontLoader_1, DrawQR_1, Device_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var Point = PIXI.Point;
@@ -422,7 +526,14 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
     var Sprite2d = PIXI.projection.Sprite2d;
     var GlowFilter = PIXI.filters.GlowFilter;
     var Loader = PIXI.Loader;
-    var trace = function (s) { };
+    var trace = function (s) {
+        return console.log(s);
+    };
+    var flip = function () {
+        var d = Device_1.Device._;
+        var haveVers = !!d.version;
+        return d.isSafari && haveVers && parseInt(d.version.split(".").shift()) > 7;
+    };
     var QRGen = (function () {
         function QRGen(bgi, vars, previewImageId) {
             var _this = this;
@@ -468,7 +579,10 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
                     _this.genI++;
                     var trace = function (s) { return _this.trace(": " + _this.genI + ": " + s); };
                     var blurByFactor = function (v) { return _this.initialHeight / (nominalHeight / v); };
-                    var all = _this.app.stage;
+                    var stage = _this.app.stage;
+                    stage.removeChildren();
+                    var all = new Sprite();
+                    stage.addChild(all);
                     var addPic = function (tex, x, y, wid, hei) {
                         if (hei === void 0) { hei = null; }
                         var pic = new Sprite(tex);
@@ -521,7 +635,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
                             scaleSprite(bg, x2 ? 1.1 : 1.05);
                         }
                         if (setting('darken')) {
-                            brightness(.5);
+                            brightness(.7);
                             if (setting('darken2'))
                                 brightness(.7);
                         }
@@ -577,13 +691,19 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
                         finishEverything = function () {
                             trace("picture is ready, starting rendering routine:");
                             var finalizeCanvasAndRelease = function () {
+                                if (flip()) {
+                                    all.anchor.set(.5);
+                                    all.scale.y = -1;
+                                    all.y = sz.h;
+                                }
+                                _this.app.render();
                                 var canv = _this.app.view;
                                 _this.bgi.canReleaseElements = true;
-                                onDone(canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85));
+                                var str = canv.toDataURL('image/jpeg', _this.initialHeight < 1300 ? .75 : .85);
+                                onDone(str);
                             };
                             var delay = round(1 / 60), times = 2;
                             if (useDrawQR) {
-                                _this.app.render();
                                 setTimeout(finalizeCanvasAndRelease, 50);
                             }
                             else {
@@ -616,8 +736,10 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
                     var buttonQRCover = function () {
                         var bSize = sz.w * .45;
                         var button = addPic(loader.resources['button'].texture, qrPos.x, qrPos.y + qrSize * .6, bSize, bSize);
-                        button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
-                        expandForFilter(button, blurByFactor(16));
+                        if (!Device_1.Device._.isSafari) {
+                            button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+                            expandForFilter(button, blurByFactor(16));
+                        }
                     };
                     buttonQRCover();
                     var allTexts = function () {
@@ -663,7 +785,7 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
                     loader.add('google', 'assets/pics/google-infra-c.png');
                     loader.load(function () {
                         trace("loader loaded " + setting('bgPath') + ", button and google");
-                        doItAll();
+                        setTimeout(doItAll, 500);
                         $('#initial-please-wait').hide();
                     });
                 }
