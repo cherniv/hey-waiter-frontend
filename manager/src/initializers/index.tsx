@@ -1,5 +1,5 @@
 import Auth from '../services/Auth';
-import { when } from 'mobx';
+import { when, reaction } from 'mobx';
 import Business from '../models/Business';
 import Table from '../models/Table';
 import './api.initializer'
@@ -14,18 +14,30 @@ class Initializer {
 
     await Auth.init();
 
-    when(
+    reaction(
       () => Auth.isLoggedIn,
-      async () =>  {
-        Notifications.askPermissions();
-        if (!Auth.justSignedUp) await Business.fetchMyBusinesses();
-        if (Business.first) Business.current = Business.first;
-        if (!Business.first && !Waiter.isWaiter && !Auth.justSignedUp) {
-            Auth.brokenSignupResume();
+      async flag =>  {
+        if (flag) {
+          Notifications.askPermissions();
+          if (!Auth.justSignedUp) await Business.fetchMyBusinesses();
+          if (Business.first) Business.current = Business.first;
+          if (!Business.first && !Waiter.isWaiter && !Auth.justSignedUp) {
+              Auth.brokenSignupResume();
+          }
+          // Special case for fired or redeemed waiter:
+          if (!Business.first && Waiter.isWaiter && !Auth.justSignedUp) {
+            Auth.signOut();
+          }
         }
-        // Special case for fired or redeemed waiter:
-        if (!Business.first && Waiter.isWaiter && !Auth.justSignedUp) {
-          Auth.signOut();
+      }
+    )
+
+    reaction (
+      () => Auth.justSignedOut,
+      flag => {
+        if (flag) {
+          Table.populate([]);
+          Waiter.populate([]);
         }
       }
     )

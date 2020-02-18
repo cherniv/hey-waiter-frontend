@@ -15,6 +15,7 @@ class Auth {
   @observable firebaseUser:any; 
   @observable justSignedUp:boolean = false;
   @observable token:any;
+  @observable justSignedOut:boolean = false;
 
   @computed get isAnonymous () {
     const {firebaseUser} = this;
@@ -37,10 +38,8 @@ class Auth {
         }
         await User.fetchFromRemote(firebaseUser.uid);
         this.user = User.first;
-      } else {
-        // logged out
-        this.user = null;
-      }
+        this.justSignedOut = false;
+      } 
       this.authStateLoading = false;
     });
   }
@@ -76,6 +75,8 @@ class Auth {
       this.user.destroy();
     }
     firebase.auth().signOut();
+    this.justSignedOut = true;
+    this.user = null;
   }
 }
 
