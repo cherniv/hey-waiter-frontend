@@ -66,11 +66,9 @@ class Auth {
   }
 
   isMobileApp() {
-      return !!(window as any).isNativeApp || !!(new URL(window.location.href)).searchParams.get('app')
-      // isNativeApp is injected by react-native and is real scenario
-      // app=true is for testing in browser
-      //return window && ((window as any).isNativeApp || (window.location && window.location.href.includes('app=true')));
-      //return window && ((window as any).isNativeApp || (window.location && window.location.href.includes('app=true')));
+    const win:any = (window as any); 
+    const {ReactNativeWebView} = win;
+    return ReactNativeWebView; 
   }
 
   signOut () {
