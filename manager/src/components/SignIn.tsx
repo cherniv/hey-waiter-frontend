@@ -27,7 +27,7 @@ const UI_CONFIG = {
 
 class SignIn extends React.Component {
   render () {
-    
+    const isMobileApp = Auth.isMobileApp();
     return (
       <div className="component-sign-in">
         <br/>
@@ -35,7 +35,7 @@ class SignIn extends React.Component {
         <img src={SigninLogo} className="signin-logo d-inline-block" alt="Logo" />
         <br/>
         <br/>
-        <h3>Waiter.Live Manager</h3>
+        {!isMobileApp && <h3>Waiter.Live Manager</h3>}
         <br/>
         {this.renderProviders()}
       </div>

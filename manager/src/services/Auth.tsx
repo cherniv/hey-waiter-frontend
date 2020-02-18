@@ -66,7 +66,10 @@ class Auth {
   }
 
   isMobileApp() {
-      return window && window.location && window.location.href.includes('manager') && window.self !== window.top;
+      //return window && window.location && window.location.href.includes('app=true')
+      // isNativeApp is injected by react-native and is real scenario
+      // app=true is for testing in browser
+      return window && ((window as any).isNativeApp || (window.location && window.location.href.includes('app=true')));
   }
 
   signOut () {
