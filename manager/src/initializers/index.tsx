@@ -1,5 +1,5 @@
 import Auth from '../services/Auth';
-import { when, reaction } from 'mobx';
+import { reaction } from 'mobx';
 import Business from '../models/Business';
 import Table from '../models/Table';
 import './api.initializer'
