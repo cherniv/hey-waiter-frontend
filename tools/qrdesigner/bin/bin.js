@@ -165,6 +165,13 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
             { family: "Monoton", scale: .67 },
             { family: "Sigmar One", scale: .68 },
             { family: "Press Start 2P", scale: .45 },
+            { family: "Girassol", scale: 1.07 },
+            { family: "Audiowide", scale: .75 },
+            { family: "Modak", scale: .93 },
+            { family: "Playball", scale: 1 },
+            { family: "Black Ops One", scale: .8 },
+            { family: "", scale: 1 },
+            { family: "", scale: 1 },
             { family: "", scale: 1 },
         ].map(function (f) {
             f.family = f.family.trim();
@@ -568,7 +575,6 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
     var Point = PIXI.Point;
     var Sprite = PIXI.Sprite;
     var Sprite2d = PIXI.projection.Sprite2d;
-    var GlowFilter = PIXI.filters.GlowFilter;
     var Loader = PIXI.Loader;
     var trace = function (s) {
         return console.log(s);
@@ -778,12 +784,8 @@ define("QRGen", ["require", "exports", "ConfKeeper", "BgImage", "FontLoader", "D
                     };
                     QR();
                     var buttonQRCover = function () {
-                        var bSize = sz.w * .45;
+                        var bSize = sz.w * .50;
                         var button = addPic(loader.resources['button'].texture, qrPos.x, qrPos.y + qrSize * .6, bSize, bSize);
-                        if (!Device_1.Device._.isSafari) {
-                            button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
-                            expandForFilter(button, blurByFactor(16));
-                        }
                     };
                     buttonQRCover();
                     var allTexts = function () {

@@ -284,15 +284,15 @@ export class QRGen {
 
 
             const buttonQRCover = () => {
-                const bSize = sz.w * .45;
+                const bSize = sz.w * .50;
                 const button = addPic(loader.resources['button'].texture,
                     qrPos.x, qrPos.y + qrSize * .6,
                     bSize, bSize
                 );
-                if(!Device._.isSafari){
-                    button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
-                    expandForFilter(button, blurByFactor(16));
-                }
+                // if(!Device._.isSafari){
+                //     button.filters = [new GlowFilter(blurByFactor(16), 1, 0, 0x000000, .5)];
+                //     expandForFilter(button, blurByFactor(16));
+                // }
             };
             buttonQRCover();
 

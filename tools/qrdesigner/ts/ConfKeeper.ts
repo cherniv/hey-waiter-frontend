@@ -48,6 +48,13 @@ export class ConfKeeper {
         {family:`Monoton`, scale:.67},
         {family:`Sigmar One`, scale:.68},
         {family:`Press Start 2P`, scale:.45},
+        {family:`Girassol`, scale:1.07},
+        {family:`Audiowide`, scale:.75},
+        {family:`Modak`, scale:.93},
+        {family:`Playball`, scale:1},
+        {family:`Black Ops One`, scale:.8},
+        {family:``, scale:1},
+        {family:``, scale:1},
         {family:``, scale:1},
     ].map(f => {
         f.family = f.family.trim();
