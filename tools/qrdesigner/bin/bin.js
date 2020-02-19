@@ -126,6 +126,50 @@ define("ConfKeeper", ["require", "exports", "Stor"], function (require, exports,
     var ConfKeeper = (function () {
         function ConfKeeper() {
         }
+        ConfKeeper.getCurrentFont = function () {
+            if (Stor_1.Stor.has(this.fntKey)) {
+                this.___currFont = this.name2font(Stor_1.Stor.get(this.fntKey));
+            }
+            return this.___currFont || this.fonts[0];
+        };
+        ConfKeeper.name2font = function (name) {
+            var res = this.fonts.filter(function (f) { return f.family == name; });
+            return res.length ? res[0] : null;
+        };
+        ConfKeeper.setCurrentFont = function (name) {
+            var font = this.name2font(name);
+            this.___currFont = font || this.fonts[0];
+            if (font)
+                Stor_1.Stor.set(this.fntKey, name);
+        };
+        ConfKeeper.fntKey = "qr_font";
+        ConfKeeper.fonts = [
+            { family: "Lilita One", scale: 1 },
+            { family: "Odibee Sans", scale: 1.4 },
+            { family: "Lacquer", scale: .9 },
+            { family: "Oswald", scale: 1.05 },
+            { family: "Raleway", scale: .9 },
+            { family: "Squada One", scale: 1.2 },
+            { family: "Lora", scale: .9 },
+            { family: "Nunito", scale: .95 },
+            { family: "Krona One", scale: .65 },
+            { family: "Lobster", scale: 1 },
+            { family: "Lobster Two", scale: 1 },
+            { family: "Comfortaa", scale: .84 },
+            { family: "Righteous", scale: .92 },
+            { family: "Knewave", scale: .93 },
+            { family: "Alfa Slab One", scale: .76 },
+            { family: "Fredoka One", scale: .9 },
+            { family: "Special Elite", scale: .88 },
+            { family: "Luckiest Guy", scale: .85 },
+            { family: "Monoton", scale: .67 },
+            { family: "Sigmar One", scale: .68 },
+            { family: "Press Start 2P", scale: .45 },
+            { family: "", scale: 1 },
+        ].map(function (f) {
+            f.family = f.family.trim();
+            return f;
+        }).filter(function (f) { return !!f.family; });
         ConfKeeper.dataType = [
             { name: 'bgPath', type: 'string', def: 'assets/bg/big/16.jpg', outer: true, mul: 0 },
             { name: 'blur', title: 'Blur Background', type: 'boolean', def: false },
@@ -837,6 +881,20 @@ define("Settings", ["require", "exports", "ConfKeeper", "FontLoader", "QRGen"], 
     Object.defineProperty(exports, "__esModule", { value: true });
     var Settings = (function () {
         function Settings() {
+            var _this = this;
+            this.applyCurrentFontAndReloadThePreview = function () {
+                var font = ConfKeeper_2.ConfKeeper.getCurrentFont();
+                var percent = $("#font-size-percent").val() || 100;
+                FontLoader_2.FontLoader.globalFontFaceName = font.family;
+                FontLoader_2.FontLoader.fontSizeMultiplierPercent = parseFloat(percent) * font.scale;
+                QRGen_1.QRGen._.objOpacity = .5;
+                setTimeout(function () {
+                    window.webFontReload();
+                    setTimeout(function () {
+                        QRGen_1.QRGen._.previewWithPleaseWait();
+                    }, 300);
+                }, 10);
+            };
             var elements = [];
             var i = 0;
             var win = window;
@@ -863,18 +921,15 @@ define("Settings", ["require", "exports", "ConfKeeper", "FontLoader", "QRGen"], 
                         + ("<input onclick=\"settingsChUpd('" + t.name + "', this.checked)\" type=\"checkbox\" id=\"" + id + "\" " + (on ? 'checked' : '') + ">&nbsp;&nbsp;<label for=\"" + id + "\">" + t.title + "</label>"));
                 }
             });
-            elements.push("\n  <div style=\"border: 1px solid #bebebe;border-radius: .5em;padding: .2em;\">\n  <form id=\"google-fonts-opener\" \n    action=\"https://fonts.google.com/\" method=\"get\" target=\"_blank\" style=\"display: none;\"></form>\n    <a href=\"javascript:findFontForQR()\">Font face:</a> <input id=\"font-face\" style=\"width:6em;padding: 0;height: 1.7em;\" value=\"" + FontLoader_2.FontLoader.globalFontFaceName + "\"><br>\n    size: <input id=\"font-size-percent\" style=\"width:3em;padding: 0;height: 1.7em;\" value=\"" + FontLoader_2.FontLoader.fontSizeMultiplierPercent + "\">% &nbsp;<button style=\"padding:.4em;height:1.9em;font-weight: bold;\" onclick=\"setFontQR()\">set font</button>\n  \n  </div>\n");
-            win.setFontQR = function () {
-                var face = $("#font-face").val();
-                var percent = $("#font-size-percent").val();
-                FontLoader_2.FontLoader.globalFontFaceName = face;
-                FontLoader_2.FontLoader.fontSizeMultiplierPercent = parseFloat(percent);
-                QRGen_1.QRGen._.objOpacity = .5;
-                setTimeout(function () {
-                    win.webFontReload();
-                    QRGen_1.QRGen._.previewWithPleaseWait();
-                }, 500);
+            var currFont = ConfKeeper_2.ConfKeeper.getCurrentFont().family;
+            elements.push("\n  <div style=\"border: 1px solid #bebebe;border-radius: .5em;padding: .2em;\">\n  <form id=\"google-fonts-opener\"   action=\"https://fonts.google.com/\" method=\"get\"\n        target=\"_blank\" style=\"display: none;\"></form>\n        \n        \n    <!--<a href=\"javascript:findFontForQR()\">Font face:</a> \n    <input id=\"font-face\" \n            style=\"width:6em;padding: 0;height: 1.7em;\" value=\"" + FontLoader_2.FontLoader.globalFontFaceName + "\">-->\n    font face:\n    <select onchange=\"qrStFontChanged()\" id=\"qr-st-font-sel\">\n      " + ConfKeeper_2.ConfKeeper.fonts.map(function (f) { return "<option\n          " + (f.family == currFont ? "selected" : "") + " \n          value=\"" + f.family + "~" + f.scale + "\">" + f.family + "</option>"; }) + "\n    </select>\n    <!--\n            <br>\n    size: <input id=\"font-size-percent\" style=\"width:3em;padding: 0;height: 1.7em;\" value=\"" + FontLoader_2.FontLoader.fontSizeMultiplierPercent + "\">% &nbsp;<button style=\"padding:.4em;height:1.9em;font-weight: bold;\" onclick=\"setFontQR()\">set font</button>\n  -->\n  </div>\n");
+            win.qrStFontChanged = function () {
+                var _a = ("" + $("#qr-st-font-sel").val()).split("~"), family = _a[0], scaleStr = _a[1], scale = parseFloat(scaleStr);
+                ConfKeeper_2.ConfKeeper.setCurrentFont(family);
+                _this.applyCurrentFontAndReloadThePreview();
+                win.setFontQR();
             };
+            win.setFontQR = function () { return _this.applyCurrentFontAndReloadThePreview(); };
             $('#settings').html('<b>SETTINGS</b><br>' + elements.join('<br>'));
         }
         return Settings;
@@ -993,10 +1048,10 @@ define("Main", ["require", "exports", "UrlVarsParser", "Settings", "BgImage", "Q
             this.run = function () {
                 _this.vars = new UrlVarsParser_1.UrlVarsParser();
                 ConfKeeper_3.ConfKeeper.init();
-                new Settings_1.Settings();
+                var settings = new Settings_1.Settings();
                 var bgi = new BgImage_2.BgImage(function () {
                     var gen = new QRGen_2.QRGen(bgi, _this.vars, 'preview-image');
-                    gen.preview(function () { });
+                    settings.applyCurrentFontAndReloadThePreview();
                     new QrPrint_1.QrPrint(_this.vars, gen);
                 });
             };

@@ -15,10 +15,13 @@ class Main {
     private run = () => {
         this.vars = new UrlVarsParser();
         ConfKeeper.init();
-        new Settings();
+        const settings = new Settings();
         const bgi = new BgImage(() => {
             const gen = new QRGen(bgi, this.vars, 'preview-image');
-            gen.preview(() => {});
+            // alert(ConfKeeper.getCurrentFont().family);
+            settings.applyCurrentFontAndReloadThePreview();
+            // gen.preview(() => {});
+
             new QrPrint(this.vars, gen);
         });
     };

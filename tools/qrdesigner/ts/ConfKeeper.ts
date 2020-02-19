@@ -4,9 +4,55 @@ import {Stor} from "./Stor";
 type DataEntry =
     {name:string, title?:string, type:string, filter?:string, mul?:number, def?:any, outer?:boolean};
 
+type FontEntry = {family:string, scale:number,};
+
 
 
 export class ConfKeeper {
+    private static fntKey = `qr_font`;
+    static getCurrentFont(){
+        if(Stor.has(this.fntKey)){
+            this.___currFont = this.name2font(Stor.get(this.fntKey));
+        }
+        return this.___currFont || this.fonts[0];
+    }
+    private static name2font(name:string){
+        const res = this.fonts.filter(f => f.family == name);
+        return res.length ? res[0] : null;
+    }
+    static setCurrentFont(name:string){
+        const font = this.name2font(name);
+        this.___currFont = font || this.fonts[0];
+        if(font) Stor.set(this.fntKey, name);
+    }
+    private static ___currFont:FontEntry;
+    static fonts:FontEntry[] = [
+        {family:`Lilita One`, scale:1},
+        {family:`Odibee Sans`, scale:1.4},
+        {family:`Lacquer`, scale:.9},
+        {family:`Oswald`, scale:1.05},
+        {family:`Raleway`, scale:.9},
+        {family:`Squada One`, scale:1.2},
+        {family:`Lora`, scale:.9},
+        {family:`Nunito`, scale:.95},
+        {family:`Krona One`, scale:.65},
+        {family:`Lobster`, scale:1},
+        {family:`Lobster Two`, scale:1},
+        {family:`Comfortaa`, scale:.84},
+        {family:`Righteous`, scale:.92},
+        {family:`Knewave`, scale:.93},
+        {family:`Alfa Slab One`, scale:.76},
+        {family:`Fredoka One`, scale:.9},
+        {family:`Special Elite`, scale:.88},
+        {family:`Luckiest Guy`, scale:.85},
+        {family:`Monoton`, scale:.67},
+        {family:`Sigmar One`, scale:.68},
+        {family:`Press Start 2P`, scale:.45},
+        {family:``, scale:1},
+    ].map(f => {
+        f.family = f.family.trim();
+        return f;
+    }).filter(f => !!f.family);
     static dataType:DataEntry[] = [
 
         // {name:'distort', title:'Perspective distortion', type:'boolean', def:true},
