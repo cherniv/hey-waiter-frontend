@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="description"
 	      content="Restaurant, Service Optimization, QR Code, QR Reader, Restaurant Service, Waiter Call System">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=4, user-scalable=yes">
 	<!--jq-->
 	<script src="bootstrap-3.3.4-dist/js/jquery.js"></script>
 	<script src="scripts/cookiebar.js"></script>
@@ -78,11 +78,6 @@
 </div>
 <div id="cont" style="display: none">
 	<pg>
-		<button style="font-size: 1.31em;font-weight: bold;
-									position: absolute;right: 1em;top:1em;"
-		        onclick="location.href='::manager-url::',this.innerHTML='Please wait...'"
-		        class="btn btn-success">Launch Manager!
-		</button>
 		<name>
 			<img src="pics/logo.svg" class="top-logo-svg">
 
@@ -90,6 +85,11 @@
 		</name>
 		<top-info>Introducing A New Way To Summon Waiters
 		</top-info>
+		<button
+			style="float:right;"
+			onclick="location.href='::manager-url::',this.innerHTML='Please wait...'"
+			class="btn btn-success top-mng-button">Launch Manager!
+		</button>
 
 
 		<remark>
@@ -223,7 +223,10 @@
 				<qr>4</qr>
 				<qr>5</qr>
 				<qr>6</qr>
+				&nbsp;<br>
 				This tool will be available after registration.
+				<img src="pics/indoor1.jpg" style="width:80%;" class="pic-qr">
+
 			</issue>
 		</panel>
 
@@ -247,22 +250,18 @@
 				<table class="table">
 					<!--table class="table table-striped"-->
 					<tr>
-						<td>Email:</td>
-						<td><a href="mailto:::email::">::email::</a></td>
+						<td>Email:<br>&nbsp;&nbsp;<a href="mailto:::email::">::email::</a></td>
 					</tr>
 					<tr>
-						<td>Phone:</td>
-						<td>+1 (888) 876-7038</td>
+						<td>Phone:<br>&nbsp;&nbsp;+1 (888) 876-7038</td>
 					</tr>
 					<tr>
-						<td>WhatsApp:</td>
-						<td>+972 (55) 97-11-570</td>
+						<td>WhatsApp:<br>&nbsp;&nbsp;+972 (55) 97-11-570</td>
 					</tr>
 					<tr>
-						<td>Address</td>
-						<td>
-							94 Yigal Alon St.<br>
-							Tel Aviv, Israel, 6789141
+						<td>Address<br>
+							&nbsp;&nbsp;94 Yigal Alon St.<br>
+							&nbsp;&nbsp;Tel Aviv, Israel, 6789141
 						</td>
 					</tr>
 				</table>

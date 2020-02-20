@@ -3,11 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="1e2b692b-fa50-4088-ad3a-a83df9a8597c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/pics/physical_button.png" beforeDir="false" afterPath="$PROJECT_DIR$/assets/pics/physical_button.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/bin.js" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/bin.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/bin/bin.js.map" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/ConfKeeper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/ConfKeeper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ts/QRGen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/ts/QRGen.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../website/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/pics/qr1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../website/pics/qr1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/pics/qr2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../website/pics/qr2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/pics/qr3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../website/pics/qr3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/pics/qr4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../website/pics/qr4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/pics/qr5.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../website/pics/qr5.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/pics/qr6.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/../website/pics/qr6.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../website/styles/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../website/styles/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +86,7 @@
       <workItem from="1580998234448" duration="2747000" />
       <workItem from="1581877479374" duration="11235000" />
       <workItem from="1581898936530" duration="1387000" />
-      <workItem from="1581900351874" duration="29717000" />
+      <workItem from="1581900351874" duration="30936000" />
     </task>
     <servers />
   </component>

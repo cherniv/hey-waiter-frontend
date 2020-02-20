@@ -250,6 +250,30 @@ a:hover {
     }
 }
 
+
+/*if less than*/
+@media (max-width: 768px) {
+    .top-mng-button {
+        font-size: 1.31em;
+        font-weight: bold;
+        position: relative;
+        margin-bottom: .4em;
+    }
+
+}
+
+/*if greater than*/
+@media (min-width: 768px) {
+    .top-mng-button {
+        font-size: 1.31em;
+        font-weight: bold;
+        position: absolute;
+        right: 1em;
+        top: 1em;
+    }
+}
+
+
 .pic {
     border: 1px solid #cbcbcb;
     border-radius: .5em;
