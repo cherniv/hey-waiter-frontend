@@ -75,6 +75,7 @@ class WaiterSigninButton extends React.Component {
             <Button 
                 variant={isMobileApp ? 'success' : 'link'}
                 onClick={() => {
+                    if (this.waiting) return;
                     this.waiting = true;
                     Auth.signInAsWaiter() ;
                 }} 

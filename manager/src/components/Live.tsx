@@ -16,6 +16,7 @@ class Live extends React.Component {
           business={Business.current}
           editing={false}
         />
+        <br />
         <h3>Waiters</h3>
         <Waiters
           business={Business.current}

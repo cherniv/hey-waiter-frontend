@@ -15,7 +15,7 @@ import Avatar from './components/Avatar';
 
 const SideBar: React.FC = () => {
   return (
-    <Navbar >
+    <Navbar sticky="top" >
       <Container className="justify-content-between">
       <Navbar.Brand as={Link} to="/manager/">
         <img src={SidebarLogo} className="sidebar-logo d-inline-block" alt="Logo" />
