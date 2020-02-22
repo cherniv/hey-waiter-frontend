@@ -136,6 +136,19 @@ body, #root, .App, .fill {
     justify-content: space-between;
 }
 
+.qrdesigner-modal {
+    width: 98%;
+    height: 90%;
+    max-width: 98%!important;
+}
+
+.qrdesigner-modal .modal-content {
+    height: 100%
+}
+.qrdesigner-modal .modal-body {
+    padding: 0;
+}
+
 @keyframes slidein {
   from {
     opacity: 0;

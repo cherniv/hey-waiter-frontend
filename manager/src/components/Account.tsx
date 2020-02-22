@@ -7,7 +7,8 @@ import {
   OverlayTrigger,
   Tooltip,
   Image,
-  FormCheck
+  Modal,
+  FormCheck,
 } from 'react-bootstrap';
 import Avatar from './Avatar';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -19,7 +20,8 @@ import Waiters from './Waiters';
 import QrcodeIcon from '../images/qrcode-icon.png';
 import Waiter from '../models/Waiter';
 import Table from '../models/Table';
-import {isMobileApp} from '../utils/Device'
+import {isMobileApp} from '../utils/Device';
+import {observable} from 'mobx';
 
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
@@ -61,26 +63,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <Waiters business={Business.current} />
         <br />
         <br/>
-        <Button 
-          variant="success"
-          //size="lg"
-          onClick={()=>{
-            const params = {
-              company: Business.current.title,
-              tables: Business.current.tables.map(({id, customName, index}:Table)=>
-                ({url:"https://waiter.live/#q" + id, name: 'Table #'+(customName || index)})
-              )
-            }
-            localStorage.setItem(`qr_designer_query`, JSON.stringify(params));
-            //params.tables = JSON.stringify(params.tables)
-            //const url =  "../qrdesigner?" + new URLSearchParams(params);
-            const url= "../qrdesigner";
-            window.open(url, '_blank');
-          }}
-        >
-          <Image src={QrcodeIcon} width={18} height={18} roundedCircle /> 
-          {' '}
-          QR Designer</Button>
+        {this.renderQrcodeButton()}
         {/*
         <iframe src="../qrdesigner" title="QRDesigner"></iframe>
         */}
@@ -95,6 +78,12 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <br/>
         <br/>
       </div>
+    )
+  }
+
+  renderQrcodeButton() {
+    return (
+      <QrcodeButtonAndModal />
     )
   }
 
@@ -141,6 +130,70 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         {this.renderSignoutButton()}
       </div>
     )
+  }
+}
+
+@observer
+class QrcodeButtonAndModal extends React.Component {
+  @observable isOpen = false;
+  onPressQrcodeButton = () => {
+    const params = {
+      company: Business.current.title,
+      tables: Business.current.tables.map(({id, customName, index}:Table)=>
+        ({url:"https://waiter.live/#q" + id, name: 'Table #'+(customName || index)})
+      )
+    }
+    localStorage.setItem(`qr_designer_query`, JSON.stringify(params));
+    //params.tables = JSON.stringify(params.tables)
+    //const url =  "../qrdesigner?" + new URLSearchParams(params);
+    //const url= "../qrdesigner";
+    //window.open(url, '_blank');
+    this.isOpen = true;
+  }
+  render() {
+    return (
+      <>
+      <Button 
+        variant="success"
+        //size="lg"
+        onClick={this.onPressQrcodeButton}
+      >
+        <Image src={QrcodeIcon} width={18} height={18} roundedCircle /> 
+        {' '}
+        QR Designer
+      </Button>
+      <Modal 
+        show={this.isOpen} 
+        onHide={this.handleClose}
+        centered
+        //size="lg"
+        dialogClassName="qrdesigner-modal"
+      >
+        <Modal.Header closeButton>
+          {/* <Modal.Title>Modal heading</Modal.Title> */}
+        </Modal.Header>
+        <Modal.Body>{
+          this.isOpen && 
+          <iframe 
+            src="https://waiter.live/qrdesigner" 
+            frameBorder="0"
+            style={{width: '100%', height: '100%'}}
+          ></iframe>
+        }</Modal.Body>
+        {/* <Modal.Footer>
+          <Button variant="secondary" onClick={this.handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={this.handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer> */}
+      </Modal>
+      </>
+    )
+  }
+  handleClose = () => {
+    this.isOpen = false;
   }
 }
 
