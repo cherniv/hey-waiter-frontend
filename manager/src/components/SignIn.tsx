@@ -6,6 +6,7 @@ import SigninLogo from '../images/sidebar-logo.png';
 
 import Auth from '../services/Auth';
 import { Button } from 'react-bootstrap';
+import {isMobileApp} from '../utils/Device'
 
 const UI_CONFIG = {
   // Popup signin flow rather than redirect flow.
@@ -27,7 +28,7 @@ const UI_CONFIG = {
 
 class SignIn extends React.Component {
   render () {
-    const isMobileApp = Auth.isMobileApp();
+    
     return (
       <div className="component-sign-in">
         <br/>
@@ -42,7 +43,6 @@ class SignIn extends React.Component {
     )
   }
   renderProviders(){
-    const isMobileApp = Auth.isMobileApp();
     var el;
     if (!isMobileApp) {
       el = (
@@ -58,7 +58,6 @@ class SignIn extends React.Component {
     return el;
   }
   renderWaiterSignin() {
-    const isMobileApp = Auth.isMobileApp();
     var text:string = isMobileApp ? 'Sign In' : 'Sign in as Waiter';
     return (
       <Button 

@@ -65,12 +65,6 @@ class Auth {
     this.setSignupStatus(true); 
   }
 
-  isMobileApp() {
-    const win:any = (window as any); 
-    const {ReactNativeWebView} = win;
-    return ReactNativeWebView; 
-  }
-
   signOut () {
     User.populate([]);
     if (this.isAnonymous) {
