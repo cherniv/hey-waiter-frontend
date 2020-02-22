@@ -176,6 +176,7 @@ class QrcodeButtonAndModal extends React.Component {
           this.isOpen && 
           <iframe 
             src="https://waiter.live/qrdesigner" 
+            title="QR Designer"
             frameBorder="0"
             style={{width: '100%', height: '100%'}}
           ></iframe>
