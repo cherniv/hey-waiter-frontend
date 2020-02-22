@@ -136,6 +136,8 @@ class AccountScreen extends React.Component<RouteComponentProps> {
     return (
       <div className="screen">
         {this.renderNotificationsSettings()}
+        <br></br>
+        <br></br>
         {this.renderSignoutButton()}
       </div>
     )

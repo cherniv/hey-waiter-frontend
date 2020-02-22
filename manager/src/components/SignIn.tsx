@@ -1,12 +1,15 @@
 import React from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import * as firebase from 'firebase/app';
-
 import SigninLogo from '../images/sidebar-logo.png';
-
 import Auth from '../services/Auth';
-import { Button } from 'react-bootstrap';
+import { 
+    Button,
+    Spinner,
+} from 'react-bootstrap';
 import {isMobileApp} from '../utils/Device'
+import { observer } from 'mobx-react';
+import {observable} from 'mobx';
 
 const UI_CONFIG = {
   // Popup signin flow rather than redirect flow.
@@ -58,14 +61,38 @@ class SignIn extends React.Component {
     return el;
   }
   renderWaiterSignin() {
-    var text:string = isMobileApp ? 'Sign In' : 'Sign in as Waiter';
-    return (
-      <Button 
-        variant={isMobileApp ? 'success' : 'link'}
-        onClick={() => Auth.signInAsWaiter() } 
-      >{text}</Button>
-    )
+    return <WaiterSigninButton />
   }
+}
+
+@observer
+class WaiterSigninButton extends React.Component {
+    @observable waiting = false;
+    render () {
+        var text:string = isMobileApp ? 'Sign In' : 'Sign in as Waiter';
+        var innerEl:any = this.waiting ? this.renderSpinner() : text;
+        return (
+            <Button 
+                variant={isMobileApp ? 'success' : 'link'}
+                onClick={() => {
+                    this.waiting = true;
+                    Auth.signInAsWaiter() ;
+                }} 
+                style={{minWidth: '80px'}}
+            >{innerEl}</Button>
+        )
+    }
+    renderSpinner() {
+        return (
+            <Spinner
+              as="span"
+              animation="grow"
+              size="sm"
+              role="status"
+              aria-hidden="true"
+            />
+        )
+    }
 }
 
 export default SignIn;
