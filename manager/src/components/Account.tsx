@@ -24,7 +24,7 @@ import {isMobileApp} from '../utils/Device'
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
   render() {
-    if (Waiter.isWaiter) return this.renderSignoutButton();
+    if (Waiter.isWaiter) return this.renderWaiterAccount();
     if (!Business.current) return null;
     return (
       <div className="screen">
@@ -129,6 +129,15 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         {' '}
         {'Sign Out'}
       </Button>
+    )
+  }
+
+  renderWaiterAccount () {
+    return (
+      <div className="screen">
+        {this.renderNotificationsSettings()}
+        {this.renderSignoutButton()}
+      </div>
     )
   }
 }
