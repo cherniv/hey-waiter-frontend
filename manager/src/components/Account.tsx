@@ -7,6 +7,7 @@ import {
   OverlayTrigger,
   Tooltip,
   Image,
+  FormCheck
 } from 'react-bootstrap';
 import Avatar from './Avatar';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
@@ -18,6 +19,7 @@ import Waiters from './Waiters';
 import QrcodeIcon from '../images/qrcode-icon.png';
 import Waiter from '../models/Waiter';
 import Table from '../models/Table';
+import {isMobileApp} from '../utils/Device'
 
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
@@ -58,6 +60,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <h3>Waiters</h3>
         <Waiters business={Business.current} />
         <br />
+        <br/>
         <Button 
           variant="success"
           //size="lg"
@@ -83,9 +86,31 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         */}
         <br />
         <br />
+        <br/>
+        {isMobileApp && this.renderNotificationsSettings()}
+        <br/>
+        <br/>
         {this.renderSignoutButton()}
         <br/>
+        <br/>
+        <br/>
       </div>
+    )
+  }
+
+  renderNotificationsSettings() {
+    const {
+      notificationsEnabled,
+      switchNotifications,
+    } = Auth.user;
+    return (
+      <FormCheck
+        id="switchNotificationsEnabled"
+        type="switch"
+        checked={notificationsEnabled}
+        onChange={()=>switchNotifications()}
+        label={"Notifications are " + (notificationsEnabled ? "ON" : "OFF")}
+      />
     )
   }
 
