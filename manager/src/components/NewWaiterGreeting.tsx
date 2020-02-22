@@ -16,6 +16,15 @@ class NewUserGreeting extends React.Component {
     if (this.stage === 1) return this.renderStage1();
   }
 
+    onSubmit = async() => {
+        try {
+            var codeIsCorrect = await Waiter.waiterEnterByCode(this.code);
+            if (codeIsCorrect) Auth.finishSignupProcess();
+        } catch(e) {
+            this.shouldShowErrorCodeMessage = true;
+        }
+    }
+
   renderStage1() {
     return (
       <div>
@@ -32,18 +41,16 @@ class NewUserGreeting extends React.Component {
           }}
           value={this.code}
           ref={(input:any) => { this.codeInput = input; }} 
+          onKeyPress={(event:any) => {
+            if (event.key === "Enter") {
+              this.onSubmit();
+            }
+          }}
         />
         <br />
         <p>
         <Button 
-          onClick={async () => {
-            try {
-              var codeIsCorrect = await Waiter.waiterEnterByCode(this.code);
-              if (codeIsCorrect) Auth.finishSignupProcess();
-            } catch(e) {
-              this.shouldShowErrorCodeMessage = true;
-            }
-          }} 
+          onClick={this.onSubmit} 
           variant="success"
           disabled={!this.code.length }
         >
