@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "waiter.live",
+    "sha256_cert_fingerprints":
+    ["DA:FE:CB:25:7A:CC:79:17:B2:20:0A:05:E3:A5:42:05:92:E5:F9:26:ED:68:7E:2C:5F:E5:EA:14:CD:2E:8C:0B"]
+  }
+}]
