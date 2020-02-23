@@ -47,7 +47,7 @@ class SignIn extends React.Component {
   }
   renderProviders(){
     var el;
-    
+    if (!isMobileApp) {
       el = (
         <>
           {/*<p>Please sign-in:</p>*/}
@@ -55,7 +55,9 @@ class SignIn extends React.Component {
           {this.renderWaiterSignin()}
         </>
       );
-    
+    } else {
+      el = this.renderWaiterSignin();
+    }
     return el;
   }
   renderWaiterSignin() {
