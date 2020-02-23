@@ -1,0 +1,9 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [{
+      "appID": "LB856E2CRL.waiter.live",
+      "paths": ["/*"]
+    }]
+  }
+}

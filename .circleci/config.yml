@@ -33,8 +33,11 @@ jobs: # a collection of steps
       # DEPLOY
       # DEPLOY
       - run:
+          name: Copying .well-known 
+          command: mkdir -p ./public; cp -R .well-known public/
+      - run:
           name: Copying visitor 
-          command: mkdir -p ./public; cp -R visitor public/
+          command: cp -R visitor public/
       - run:
           name: Copying privacy policy file 
           command: cp privacy-policy.html public/privacy-policy.html
