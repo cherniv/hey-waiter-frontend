@@ -6,7 +6,7 @@ import {
 
 import {
   Navbar,
-  Nav,
+//  Nav,
   Container,
 } from 'react-bootstrap';
 
