@@ -19,12 +19,13 @@ const SideBar: React.FC = () => {
       <Container className="justify-content-between">
       <Navbar.Brand as={Link} to="/manager/">
         <img src={SidebarLogo} className="sidebar-logo d-inline-block" alt="Logo" />
-        {' Waiter.Live'}
+        {' Waiter.Live Dashboard'}
       </Navbar.Brand>
       
-        <Nav.Link as={Link} to="/manager/account" >
+        <Navbar.Brand as={Link} to="/manager/account" >
+            {'Settings '}
             <Avatar size={32} />
-        </Nav.Link>
+        </Navbar.Brand>
       
       </Container>
     </Navbar>
