@@ -20,7 +20,7 @@ const SideBar: React.FC = () => {
       <Container className="justify-content-between">
       <Navbar.Brand as={Link} to="/manager/">
         <img src={SidebarLogo} className="sidebar-logo d-inline-block" alt="Logo" />
-        {( !isMobileApp && ' Waiter.Live') + ' Dashboard'}
+        {( !isMobileApp ? ' Waiter.Live' : '') + ' Dashboard'}
       </Navbar.Brand>
       
         <Navbar.Brand as={Link} to="/manager/account" >
