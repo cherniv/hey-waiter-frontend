@@ -23,6 +23,9 @@
 
       function apiTableCalling(){
         callApi("table/calling");
+        gtag('event', 'table/calling', {
+            'id': id
+        });
       }
 
       function callWaiter(){
