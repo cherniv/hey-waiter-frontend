@@ -37,7 +37,7 @@
 
 	var tr=[];
 	function TR(o){
-		if(trek){
+		if(typeof trek!="undefined"){
 			while(tr.length) trek(tr.shift());
 			trek(o);
 		}
