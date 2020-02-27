@@ -40,12 +40,11 @@ var __assign = (this && this.__assign) || function () {
         ajax("https://us-central1-hey-waiter-9d976."
             + "cloudfunctions.net/trek/trek/add?info="
             + encodeURIComponent(JSON.stringify(p)), function (txt) {
-            console.log("trek for " + JSON.stringify(p) + " said " + txt);
+            //            console.log(`trek for ${JSON.stringify(p)} said ${txt}`)
         });
-    }, OBJ = win.TREK;
-    if (win.trek)
-        return;
-    win.trek = function (p) { return stack.push(p); };
+    };
+    /*export*/
+    var trek = function (p) { return stack.push(p); };
     ajax("https://www.cloudflare.com/cdn-cgi/trace", function (data) {
         cloudf = ('' + data).split('\n')
             .map(function (v) { return v.split('='); })
@@ -63,7 +62,6 @@ var __assign = (this && this.__assign) || function () {
         };
         tick();
     });
-    if (OBJ)
-        win.trek(OBJ);
+    win.trek = trek;
 })();
 //# sourceMappingURL=trek.js.map

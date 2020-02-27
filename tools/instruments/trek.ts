@@ -20,10 +20,9 @@ type TrekParamExt = TrekParam & {
         muff:string,/// muffin, i.e. cookie, but stored in LocalStorage
     }
 };
-
 ~(() => {
     let cloudf:any = null;
-    const K = `trek`, win = (<any>window), stack:TrekParam[] = [], ajax = (url:string, done:(txt:string) => void) => {
+    const K = `trek`, win = (window as any), stack:TrekParam[] = [], ajax = (url:string, done:(txt:string) => void) => {
         const xhr = new XMLHttpRequest();
         xhr.open('GET', url);
         xhr.send(null);
@@ -54,18 +53,18 @@ type TrekParamExt = TrekParam & {
             + `cloudfunctions.net/trek/trek/add?info=`
             + encodeURIComponent(JSON.stringify(p)),
             txt => {
-                console.log(`trek for ${JSON.stringify(p)} said ${txt}`)
+//            console.log(`trek for ${JSON.stringify(p)} said ${txt}`)
             });
-    }, OBJ = win.TREK;
-    if(win.trek) return;
-    win.trek = (p:TrekParam) => stack.push(p);
+    };
+    /*export*/
+    const trek = (p:TrekParam) => stack.push(p);
     ajax(`https://www.cloudflare.com/cdn-cgi/trace`, data => {
         cloudf = ('' + data).split('\n')
         .map(v => v.split('='))
         .map(a => ({k:a[0], v:a[1]}))
         .filter(o => o.k)
         .reduce((map, obj) => {
-            (<any>map)[obj.k] = obj.v;
+            (map as any)[obj.k] = obj.v;
             return map;
         }, {});
         // alert(JSON.stringify(cloudf));
@@ -76,6 +75,6 @@ type TrekParamExt = TrekParam & {
         };
         tick();
     });
-    if(OBJ) win.trek(OBJ);
-})();
+    win.trek = trek;
 
+})();

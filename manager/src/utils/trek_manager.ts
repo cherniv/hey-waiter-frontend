@@ -52,7 +52,7 @@ const K = `trek`, win = (window as any), stack:TrekParam[] = [], ajax = (url:str
         + `cloudfunctions.net/trek/trek/add?info=`
         + encodeURIComponent(JSON.stringify(p)),
         txt => {
-            console.log(`trek for ${JSON.stringify(p)} said ${txt}`)
+//            console.log(`trek for ${JSON.stringify(p)} said ${txt}`)
         });
 };
 export const trek = (p:TrekParam) => stack.push(p);
