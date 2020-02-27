@@ -5,6 +5,7 @@ import Business from '../models/Business';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import WaiterImg from '../images/waiter-icon.png'
+import { trek } from '../utils/trek_manager';
 
 type props = {
   business: any,
@@ -45,6 +46,7 @@ class Waiters extends React.Component<props> {
         <Button variant="primary" size="lg" 
           onClick={() => {
             Business.current.addWaiter();
+            trek({as:`mng`, mng:Business.current.id, act:`+waiter`});
           }}
         >+ <br />Add Waiter</Button>
         }
@@ -78,6 +80,7 @@ class Waiters extends React.Component<props> {
             variant="primary" 
             onClick={()=>{
               this.waiterToDelete.generateCode();
+              trek({as:`mng`, mng:Business.current.id, act:`new code and disconnect`, wtr:this.waiterToDelete.id});
               Business.current.removeWaiterUserFromUserIds(this.waiterToDelete);
               this.waiterToDelete.update({userId:''});
               this.shouldShowGenerateNewCodePrompt=false;
@@ -89,6 +92,7 @@ class Waiters extends React.Component<props> {
             variant="primary" 
             onClick={()=>{
               this.waiterToDelete.generateCode();
+              trek({as:`mng`, mng:Business.current.id, act:`new code`, wtr:this.waiterToDelete.id});
               this.shouldShowGenerateNewCodePrompt=false;
             }}
           >
@@ -117,6 +121,7 @@ class WaiterComponent extends React.Component<tableProps> {
 
   removeWaiter(waiter:Waiter) {
     Business.current.removeWaiter(waiter);
+    trek({as:`mng`, mng:Business.current.id, act:`-waiter`, wtr:waiter.id});
   }
   render() {
     const {
