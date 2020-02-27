@@ -21,7 +21,7 @@ type TrekParamExt = TrekParam & {
     }
 };
 let cloudf:any = null;
-const K = `trek`, win = (<any>window), stack:TrekParam[] = [], ajax = (url:string, done:(txt:string) => void) => {
+const K = `trek`, win = (window as any), stack:TrekParam[] = [], ajax = (url:string, done:(txt:string) => void) => {
     const xhr = new XMLHttpRequest();
     xhr.open('GET', url);
     xhr.send(null);
@@ -62,7 +62,7 @@ ajax(`https://www.cloudflare.com/cdn-cgi/trace`, data => {
     .map(a => ({k:a[0], v:a[1]}))
     .filter(o => o.k)
     .reduce((map, obj) => {
-        (<any>map)[obj.k] = obj.v;
+        (map as any)[obj.k] = obj.v;
         return map;
     }, {});
     // alert(JSON.stringify(cloudf));
@@ -73,4 +73,5 @@ ajax(`https://www.cloudflare.com/cdn-cgi/trace`, data => {
     };
     tick();
 });
+win.trek = trek;
 
