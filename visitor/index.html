@@ -36,20 +36,14 @@
 
 
 	var tr=[];
-	function TR(o){
-		if(typeof trek!="undefined"){
-			while(tr.length) trek(tr.shift());
-			trek(o);
-		}
-		else tr.push(o);
-	}
+	function TR(o){		if(typeof trek!="undefined")trek(o);	else tr.push(o);	}
 	TR({act:"scan", as:"visitor"});
 	setTimeout(function(){
-		var S = document.createElement('script');
-		S.src = "/tackle/trek.js";
-		document.head.appendChild(S);
-	}, 100);
-
+			var S = document.createElement('script');
+			S.src = "/tackle/trek.js";
+			S.onload=function(){while(tr.length) trek(tr.shift());}
+			document.head.appendChild(S);
+		}, 100);
     }
 	</script>
 	<style>
