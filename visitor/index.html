@@ -27,7 +27,7 @@
 
       function callWaiter(){
         apiTableCalling();
-		TR({act:"call", as:"visitor"});
+		TR({act:"call", tbl:id, as:"guest"});
         document.getElementById("callButton").style.display = "none";
         document.getElementById("doneLabel").style.display = "block";
       }
@@ -37,7 +37,7 @@
 
 	var tr=[];
 	function TR(o){		if(typeof trek!="undefined")trek(o);	else tr.push(o);	}
-	TR({act:"scan", as:"visitor"});
+	TR({act:"scan", tbl:id, as:"guest"});
 	setTimeout(function(){
 			var S = document.createElement('script');
 			S.src = "/tackle/trek.js";
