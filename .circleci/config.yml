@@ -54,6 +54,9 @@ jobs: # a collection of steps
           name: Copying website 
           command: mkdir -p ./public/hello; cp -a ./tools/website/. ./public/hello/
       - run:
+          name: Copying instruments 
+          command: mkdir -p ./public/tackle; cp -a ./tools/instruments/bin. ./public/tackle/
+      - run:
           name: Install Firebase Tools
           command: npm install --prefix=./firebase-deploy firebase-tools
       - run:

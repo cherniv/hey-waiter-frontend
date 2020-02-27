@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Trek test</title>
+</head>
+<body>
+<script>
+  TREK = {act:"come back", as:"a flower"};
+  setTimeout(function(){
+    var S = document.createElement('script');
+    S.src = "bin/trek.js";
+    document.head.appendChild(S);
+  }, 100);
+
+  function sampleTrek(){
+    trek({as:"ghost", act:"wandering " + Math.random().toString(36).slice(-6)});
+  }
+</script>
+<button onclick="sampleTrek()">trek something! (see Network and console for details)</button>
+</body>
+</html>
