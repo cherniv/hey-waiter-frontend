@@ -31,7 +31,15 @@
         document.getElementById("doneLabel").style.display = "block";
       }
 
-      !!id && apiTableActive();
+	  apiTableActive();
+	  
+	  TREK = {act:"call", as:"visitor"};
+		setTimeout(function(){
+			var S = document.createElement('script');
+			S.src = "/tackle/trek.js";
+			document.head.appendChild(S);
+		}, 100);
+
     }
 	</script>
 	<style>
