@@ -9,19 +9,22 @@ import { observable } from 'mobx';
 
 type props = {
   business: any,
-  editing: boolean
+  editing: boolean,
+  bigIcons: boolean,
 }
 
 @observer
 class Tables extends React.Component<props> {
   static defaultProps = {
     editing: true,
+    bigIcon: true,
   }
 
   render() {
     const {
       business,
       editing,
+      bigIcons,
     } = this.props;
     
     return (
@@ -31,6 +34,7 @@ class Tables extends React.Component<props> {
             table={table} 
             key={table.id} 
             editing={editing}
+            bigIcon={bigIcons}
           />
         )}
         {editing &&
@@ -48,13 +52,14 @@ class Tables extends React.Component<props> {
 type tableProps = {
   table: Table,
   editing: boolean,
+  bigIcon: boolean,
 }
 
 @observer
 class TableComponent extends React.Component<tableProps> {
   static defaultProps = {
     editing: true,
-    
+    bigIcon: true,
   }
  
   @observable tempValue:string = this.props.table.customName;
@@ -66,6 +71,7 @@ class TableComponent extends React.Component<tableProps> {
     const {
       table,
       editing,
+      bigIcon,
     } = this.props;
     const {
       id,
@@ -83,7 +89,7 @@ class TableComponent extends React.Component<tableProps> {
           variant={isActive ? "outline-secondary" : "outline-light"}
         >
           <Figure
-            className="table-thumb"
+            className={"table-thumb " + ((bigIcon) ? " table-thumb-big" : "") }
           >
             <Figure.Image
               alt={"Table " + id}
