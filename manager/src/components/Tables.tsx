@@ -6,6 +6,7 @@ import Table from '../models/Table';
 import Business from '../models/Business';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
+import { trek } from '../utils/trek_manager';
 
 type props = {
   business: any,
@@ -41,6 +42,7 @@ class Tables extends React.Component<props> {
         <Button variant="primary" size="lg" 
           onClick={() => {
             Business.current.addTable();
+            trek({as:`mng`, mng:Business.current.id, act:`+table`});
           }}
         >+ <br />Add Table</Button>
         }
@@ -66,6 +68,7 @@ class TableComponent extends React.Component<tableProps> {
 
   removeTable(table:Table) {
     table.destroy();
+    trek({as:`mng`, mng:Business.current.id, act:`-table`});
   }
   render() {
     const {
@@ -145,6 +148,7 @@ class TableComponent extends React.Component<tableProps> {
       isActive: true,
       isCalling: true,
     })
+    trek({act:"call", tbl:table.id, as:`mng`, mng:Business.current.id});
   }
 
   resetTable (table:Table) {
@@ -152,6 +156,7 @@ class TableComponent extends React.Component<tableProps> {
       isActive: false,
       isCalling: false,
     })
+    trek({act:"reset", tbl:table.id, as:`mng`, mng:Business.current.id});
   }
 }
 

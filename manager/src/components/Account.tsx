@@ -22,6 +22,7 @@ import Waiter from '../models/Waiter';
 import Table from '../models/Table';
 import AppState from '../models/AppState';
 import {isMobileApp} from '../utils/Device';
+import { trek } from '../utils/trek_manager';
 import {observable} from 'mobx';
 
 @observer
@@ -123,6 +124,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         variant="link"
         onClick={() => {
           Auth.signOut();
+          trek({as:`mng`, mng:Business.current.id, act:`out`});
           this.props.history.push('./');
         }} 
         
@@ -158,6 +160,7 @@ class QrcodeButtonAndModal extends React.Component {
       )
     }
     localStorage.setItem(`qr_designer_query`, JSON.stringify(params));
+    trek({as:`mng`, mng:Business.current.id, act:`open QR`});
     //params.tables = JSON.stringify(params.tables)
     //const url =  "../qrdesigner?" + new URLSearchParams(params);
     //const url= "../qrdesigner";
