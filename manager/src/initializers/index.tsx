@@ -6,13 +6,17 @@ import './api.initializer'
 import firebase from 'firebase/app';
 import Waiter from '../models/Waiter';
 import Notifications from '../services/Notifications';
+import AppState from '../models/AppState';
+
 Table.Firebase = firebase;
 Waiter.Firebase = firebase;
+AppState.Storage = window.localStorage;
 
 class Initializer {
   async init () {
 
     await Auth.init();
+    await AppState.init();
 
     reaction(
       () => Auth.isLoggedIn,

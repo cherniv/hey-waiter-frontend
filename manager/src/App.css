@@ -92,6 +92,12 @@ body, #root, .App, .fill {
 }
 
 .table-thumb {
+  height: 32px;
+  width: 30px;
+  padding: 2px; 
+}
+
+.table-thumb-big {
   height: 72px;
   width: 90px;
   padding: 6px; 
@@ -106,15 +112,27 @@ body, #root, .App, .fill {
   
 }
 
-.waiter {
-  height: 40px !important;
+.waiter-thumb {
+  height: 32px;
+  width: 30px;
+  padding: 2px; 
 }
 
-.waiter-thumb {
-  height: 72px;
-  width: 90px;
-  padding: 6px; 
+.waiter-thumb .waiter {
+    height: 20px !important;
 }
+
+.waiter-thumb-big {
+    height: 72px;
+    width: 90px;
+    padding: 6px; 
+  }
+
+
+.waiter-thumb-big .waiter {
+    height: 40px !important;
+}
+  
 
 .waiter-passive {
   opacity: 0.5;

@@ -10,6 +10,7 @@ import { trek } from '../utils/trek_manager';
 type props = {
   business: any,
   editing: boolean,
+  bigIcons: boolean,
 }
 
 @observer
@@ -19,12 +20,14 @@ class Waiters extends React.Component<props> {
 
   static defaultProps = {
     editing: true,
+    bigIcons: true,
   }
 
   render() {
     const {
       business,
       editing,
+      bigIcons,
     } = this.props;
     
     return (
@@ -36,6 +39,7 @@ class Waiters extends React.Component<props> {
             key={waiter.id} 
             editing={editing}
             index={index+1}
+            bigIcon={bigIcons}
             getNewCodeOnPress={(waiter:Waiter)=>{
               this.shouldShowGenerateNewCodePrompt = true;
               this.waiterToDelete = waiter;
@@ -109,12 +113,14 @@ type tableProps = {
   editing: boolean,
   index: number,
   getNewCodeOnPress: any,
+  bigIcon: boolean,
 }
 
 @observer
 class WaiterComponent extends React.Component<tableProps> {
   static defaultProps = {
     editing: true,
+    bigIcon: true,
   }
   
   @observable tempValue:string = this.props.waiter.customName;
@@ -129,6 +135,7 @@ class WaiterComponent extends React.Component<tableProps> {
       editing,
       index,
       getNewCodeOnPress,
+      bigIcon,
     } = this.props;
     const {
       id,
@@ -145,7 +152,7 @@ class WaiterComponent extends React.Component<tableProps> {
           variant={"outline-light"}
         >
           <Figure
-            className="waiter-thumb"
+            className={"waiter-thumb " + ((bigIcon) ? " waiter-thumb-big" : "") }
           >
             <Figure.Image
               alt={"Waiter " + id}

@@ -20,6 +20,7 @@ import Waiters from './Waiters';
 import QrcodeIcon from '../images/qrcode-icon.png';
 import Waiter from '../models/Waiter';
 import Table from '../models/Table';
+import AppState from '../models/AppState';
 import {isMobileApp} from '../utils/Device';
 import { trek } from '../utils/trek_manager';
 import {observable} from 'mobx';
@@ -58,10 +59,10 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <BusinessDetails business={Business.current} showInstagram={true} />
         <br/>
         <h3>Tables</h3>
-        <Tables business={Business.current} />
+        <Tables business={Business.current} bigIcons={true} />
         <br/>
         <h3>Waiters</h3>
-        <Waiters business={Business.current} />
+        <Waiters business={Business.current} bigIcons={true} />
         <br />
         <br/>
         {this.renderQrcodeButton()}
@@ -69,9 +70,10 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <iframe src="../qrdesigner" title="QRDesigner"></iframe>
         */}
         <br />
-        <br />
+        {isMobileApp && <><br/><br/>{this.renderNotificationsSettings()}</>}
         <br/>
-        {isMobileApp && this.renderNotificationsSettings()}
+        <br/>
+        {this.renderIconSizeSelector()}
         <br/>
         <br/>
         {this.renderSignoutButton()}
@@ -100,6 +102,18 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         checked={notificationsEnabled}
         onChange={()=>switchNotifications()}
         label={"Notifications are " + (notificationsEnabled ? "ON" : "OFF")}
+      />
+    )
+  }
+
+  renderIconSizeSelector() {
+    return (
+      <FormCheck
+        id="switchIconSize"
+        type="switch"
+        checked={AppState.iconIsBig}
+        onChange={()=>AppState.switchIconSize()}
+        label={(AppState.iconIsBig ? "Big" : "Small") + " icons in dashboard screen"}
       />
     )
   }
