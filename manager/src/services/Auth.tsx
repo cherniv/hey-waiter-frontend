@@ -3,6 +3,7 @@ import firebase from 'firebase/app';
 import "firebase/auth";
 import "firebase/firestore";
 import User from '../models/User';
+import AppState from '../models/AppState';
 
 async function getFreshToken() {
   return firebase.auth().currentUser.getIdToken();
@@ -66,6 +67,7 @@ class Auth {
   }
 
   signOut () {
+    AppState.updateUserWindowVisibility(false);
     User.populate([]);
     if (this.isAnonymous) {
       this.user.destroy();
