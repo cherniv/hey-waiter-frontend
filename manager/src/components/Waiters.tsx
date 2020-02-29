@@ -127,6 +127,7 @@ class WaiterComponent extends React.Component<tableProps> {
   @observable tempValue:string = this.props.waiter.customName;
 
   removeWaiter(waiter:Waiter) {
+    if(!confirm(`Do you really want to remove this waiter?\nThis act is irreversible!`))return;
     Business.current.removeWaiter(waiter);
     trek({as:`mng`, mng:Business.current.id, act:`-waiter`, wtr:waiter.id});
   }

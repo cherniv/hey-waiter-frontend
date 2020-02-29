@@ -69,6 +69,7 @@ class TableComponent extends React.Component<tableProps> {
   @observable tempValue:string = this.props.table.customName;
 
   removeTable(table:Table) {
+    if(!confirm(`Do you really want to delete this table?\nThis act is irreversible!`))return;
     table.destroy();
     trek({as:`mng`, mng:Business.current.id, tbl:table.id, act:`-table`});
   }
