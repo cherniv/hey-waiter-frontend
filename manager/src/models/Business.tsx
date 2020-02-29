@@ -115,6 +115,7 @@ class Business extends Model {
       businessId: this.id,
     });
     waiter.generateCode();
+    return waiter;
   }
 
 }
