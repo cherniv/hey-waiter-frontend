@@ -70,7 +70,7 @@ class TableComponent extends React.Component<tableProps> {
 
   removeTable(table:Table) {
     table.destroy();
-    trek({as:`mng`, mng:Business.current.id, act:`-table`});
+    trek({as:`mng`, mng:Business.current.id, tbl:table.id, act:`-table`});
   }
   render() {
     const {
