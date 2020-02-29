@@ -41,8 +41,8 @@ class Tables extends React.Component<props> {
         {editing &&
         <Button variant="primary" size="lg" 
           onClick={() => {
-            Business.current.addTable();
-            trek({as:`mng`, mng:Business.current.id, act:`+table`});
+            const t = Business.current.addTable();
+            trek({as:`mng`, mng:Business.current.id, tbl:t.id, act:`+table`});
           }}
         >+ <br />Add Table</Button>
         }
