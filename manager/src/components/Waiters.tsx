@@ -49,7 +49,7 @@ class Waiters extends React.Component<props> {
         {editing &&
         <Button variant="primary" size="lg" 
           onClick={async () => {
-            var w = await Business.current.addWaiter();
+            const w = await Business.current.addWaiter();
             trek({as:`mng`, mng:Business.current.id, wtr:w.id, act:`+waiter`});
           }}
         >+ <br />Add Waiter</Button>

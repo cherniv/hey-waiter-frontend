@@ -42,10 +42,8 @@ class Tables extends React.Component<props> {
         )}
         {editing &&
         <Button variant="primary" size="lg" 
-          onClick={() => {
-            Business.current.addTable().then(
-              t=>trek({as:`mng`, mng:Business.current.id, tbl:t.id, act:`+table`})
-              );
+          onClick={async () => {
+            trek({as:`mng`, mng:Business.current.id, tbl:(await Business.current.addTable()).id, act:`+table`})
           }}
         >+ <br />Add Table</Button>
         }
