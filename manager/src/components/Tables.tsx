@@ -42,8 +42,9 @@ class Tables extends React.Component<props> {
         {editing &&
         <Button variant="primary" size="lg" 
           onClick={() => {
-            const t = Business.current.addTable();
-            trek({as:`mng`, mng:Business.current.id, tbl:t.id, act:`+table`});
+            Business.current.addTable().then(
+              t=>trek({as:`mng`, mng:Business.current.id, tbl:t.id, act:`+table`})
+              );
           }}
         >+ <br />Add Table</Button>
         }
@@ -157,7 +158,10 @@ class TableComponent extends React.Component<tableProps> {
       isActive: false,
       isCalling: false,
     })
-    trek({act:"reset", tbl:table.id, as: Waiter.isWaiter ? `wtr` : `mng`, mng:Business.current.id});
+    const addTrek=Waiter.isWaiter
+        ?{as:`wtr`, wtr:123}
+        :{as:`mng`, mng:Business.current.id};
+    trek({act:"reset", tbl:table.id,  ...addTrek} as any);
   }
 }
 
