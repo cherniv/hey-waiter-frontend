@@ -4,6 +4,7 @@ import CallingImg from "../images/greeting-man.png";
 import { Figure, Button, Dropdown, ButtonToolbar, FormControl } from 'react-bootstrap';
 import Table from '../models/Table';
 import Business from '../models/Business';
+import Waiter from '../models/Waiter';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { trek } from '../utils/trek_manager';
@@ -156,7 +157,7 @@ class TableComponent extends React.Component<tableProps> {
       isActive: false,
       isCalling: false,
     })
-    trek({act:"reset", tbl:table.id, as:`mng`, mng:Business.current.id});
+    trek({act:"reset", tbl:table.id, as: Waiter.isWaiter ? `wtr` : `mng`, mng:Business.current.id});
   }
 }
 
