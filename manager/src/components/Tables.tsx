@@ -8,6 +8,7 @@ import Waiter from '../models/Waiter';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { trek } from '../utils/trek_manager';
+import Auth from '../services/Auth';
 
 type props = {
   business: any,
@@ -159,7 +160,7 @@ class TableComponent extends React.Component<tableProps> {
       isCalling: false,
     })
     const addTrek=Waiter.isWaiter
-        ?{as:`wtr`, wtr:123}
+        ?{as:`wtr`, wtr: Auth.user.id}
         :{as:`mng`, mng:Business.current.id};
     trek({act:"reset", tbl:table.id,  ...addTrek} as any);
   }
