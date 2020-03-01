@@ -4,6 +4,7 @@ const ASK_MOBILE_NOTIFICATIONS_PERMISSION = 'ASK_MOBILE_NOTIFICATIONS_PERMISSION
 const GOT_NOTIFICATIONS_PERMISSION = 'GOT_NOTIFICATIONS_PERMISSION';
 
 const KEY = process.env.PUBLIC_VAPID_KEY;
+console.log('KEY', KEY)
 const convertedVapidKey = urlBase64ToUint8Array(KEY);
 
 function urlBase64ToUint8Array(base64String:string) {
