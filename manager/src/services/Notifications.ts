@@ -3,6 +3,27 @@ import Auth from "./Auth";
 const ASK_MOBILE_NOTIFICATIONS_PERMISSION = 'ASK_MOBILE_NOTIFICATIONS_PERMISSION';
 const GOT_NOTIFICATIONS_PERMISSION = 'GOT_NOTIFICATIONS_PERMISSION';
 
+const KEY = process.env.REACT_APP_PUBLIC_VAPID_KEY;
+const convertedVapidKey = urlBase64ToUint8Array(KEY);
+
+function urlBase64ToUint8Array(base64String:string) {
+  const padding = "=".repeat((4 - base64String.length % 4) % 4)
+  // eslint-disable-next-line
+  const base64 = (base64String + padding).replace(/\-/g, "+").replace(/_/g, "/")
+
+  const rawData = window.atob(base64)
+  const outputArray = new Uint8Array(rawData.length)
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i)
+  }
+  return outputArray
+}
+
+function sendSubscription(subscription:any) {
+  Auth.user.update({webNotificationsSubscription: JSON.stringify(subscription)});
+}
+
 class NotificationsService {
   askNativePushNotificationsPermissions() {
     const win:any = (window as any); 
@@ -27,45 +48,41 @@ class NotificationsService {
     };
   }
 
-  askDesktopPushNotificationsPermissions() {
-    // Disable the button so it can't be changed while
-    // we process the permission request
-    //var pushButton = document.querySelector('.js-push-button');
-    //pushButton.disabled = true;
+  askDesktopPushNotificationsPermissions = () => {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(function(registration) {
+        if (!registration.pushManager) {
+          console.log('Push manager unavailable.')
+          return
+        }
   
-    navigator.serviceWorker.ready.then(function(serviceWorkerRegistration) {
-      serviceWorkerRegistration.pushManager.subscribe()
-        .then(function(subscription) {
-          console.log('webNotificationsSubscription', subscription);
-          // The subscription was successful
-          
-          // isPushEnabled = true;
-          // pushButton.textContent = 'Disable Push Messages';
-          // pushButton.disabled = false;
-  
-          // TODO: Send the subscription.endpoint to your server
-          // and save it to send a push message at a later date
-          //return sendSubscriptionToServer(subscription);
-          return Auth.user.update({webNotificationsSubscription: subscription});;
-        })
-        .catch(function(e) {
-          if (Notification.permission === 'denied') {
-            // The user denied the notification permission which
-            // means we failed to subscribe and the user will need
-            // to manually change the notification permission to
-            // subscribe to push messages
-            console.warn('Permission for Notifications was denied');
-            //pushButton.disabled = true;
+        registration.pushManager.getSubscription().then(function(existedSubscription) {
+          if (existedSubscription === null) {
+            console.log('No subscription detected, make a request.')
+            registration.pushManager.subscribe({
+              applicationServerKey: convertedVapidKey,
+              userVisibleOnly: true,
+            }).then(function(newSubscription) {
+              console.log('New subscription added.')
+              sendSubscription(newSubscription)
+            }).catch(function(e) {
+              if (Notification.permission !== 'granted') {
+                console.log('Permission was not granted.')
+              } else {
+                console.error('An error ocurred during the subscription process.', e)
+              }
+            })
           } else {
-            // A problem occurred with the subscription; common reasons
-            // include network errors, and lacking gcm_sender_id and/or
-            // gcm_user_visible_only in the manifest.
-            console.error('Unable to subscribe to push.', e);
-            //pushButton.disabled = false;
-            //pushButton.textContent = 'Enable Push Messages';
+            console.log('Existed subscription detected.')
+            sendSubscription(existedSubscription)
           }
-        });
-    });
+        })
+      })
+        .catch(function(e) {
+          console.error('An error ocurred during Service Worker registration.', e)
+        })
+    }
+      
   }
 
 }
