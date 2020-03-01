@@ -3,7 +3,8 @@ import Auth from "./Auth";
 const ASK_MOBILE_NOTIFICATIONS_PERMISSION = 'ASK_MOBILE_NOTIFICATIONS_PERMISSION';
 const GOT_NOTIFICATIONS_PERMISSION = 'GOT_NOTIFICATIONS_PERMISSION';
 
-const KEY = process.env.REACT_APP_PUBLIC_VAPID_KEY;
+const KEY = process.env.PUBLIC_VAPID_KEY;
+//const KEY = 'BDPt0PtX7VV5tMOQwVXhketleLKrrte9bAirHK8dW0ZY2ToAtKD2Z9eUXx9TRZvnXFmdwN3Fn4h0Ry6zKm5X9HQ';
 const convertedVapidKey = urlBase64ToUint8Array(KEY);
 
 function urlBase64ToUint8Array(base64String:string) {
