@@ -43,7 +43,7 @@ jobs: # a collection of steps
           command: cp privacy-policy.html public/privacy-policy.html
       - run:
           name: React Scripts Build
-          command: export PUBLIC_VAPID_KEY=$PUBLIC_VAPID_KEY; npm run build; 
+          command: npm run build; 
       - run:
           name: Copying React-based manager to public/manager folder    
           command: mkdir -p ./public/manager; cp -a ./manager/build/. ./public/manager/
