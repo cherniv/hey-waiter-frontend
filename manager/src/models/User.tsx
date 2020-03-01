@@ -9,6 +9,7 @@ class User extends Model {
   @observable notificationsToken:string = "";
   @observable notificationsEnabled:boolean = true;
   @observable windowVisible:boolean = true;  
+  @observable webNotificationsSubscription:string = "";
 
   switchNotifications = async() => {
     this.update({notificationsEnabled: !this.notificationsEnabled});

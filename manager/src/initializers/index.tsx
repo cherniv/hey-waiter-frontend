@@ -22,7 +22,8 @@ class Initializer {
       () => Auth.isLoggedIn,
       async flag =>  {
         if (flag) {
-          Notifications.askPermissions();
+          Notifications.askNativePushNotificationsPermissions();
+          Notifications.askDesktopPushNotificationsPermissions();
           if (!Auth.justSignedUp) await Business.fetchMyBusinesses();
           if (Business.first) Business.current = Business.first;
           if (!Business.first && !Waiter.isWaiter && !Auth.justSignedUp) {
