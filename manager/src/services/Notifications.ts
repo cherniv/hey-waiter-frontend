@@ -7,6 +7,8 @@ const GOT_NOTIFICATIONS_PERMISSION = 'GOT_NOTIFICATIONS_PERMISSION';
 const KEY = 'BDPt0PtX7VV5tMOQwVXhketleLKrrte9bAirHK8dW0ZY2ToAtKD2Z9eUXx9TRZvnXFmdwN3Fn4h0Ry6zKm5X9HQ';
 const convertedVapidKey = urlBase64ToUint8Array(KEY);
 
+const SERVICE_WORKER_ERROR_MESSAGE = 'An error ocurred during Service Worker registration.';
+
 function urlBase64ToUint8Array(base64String:string) {
   const padding = "=".repeat((4 - base64String.length % 4) % 4)
   // eslint-disable-next-line
@@ -49,43 +51,68 @@ class NotificationsService {
     };
   }
 
-  askDesktopPushNotificationsPermissions = () => {
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.ready.then(function(registration) {
-        if (!registration.pushManager) {
-          console.log('Push manager unavailable.')
-          return
-        }
-  
-        registration.pushManager.getSubscription().then(function(existedSubscription) {
-          if (existedSubscription === null) {
-            console.log('No subscription detected, make a request.')
-            registration.pushManager.subscribe({
-              applicationServerKey: convertedVapidKey,
-              userVisibleOnly: true,
-            }).then(function(newSubscription) {
-              console.log('New subscription added.')
-              sendSubscription(newSubscription)
-            }).catch(function(e) {
-              if (Notification.permission !== 'granted') {
-                console.log('Permission was not granted.')
-              } else {
-                console.error('An error ocurred during the subscription process.', e)
-              }
-            })
-          } else {
-            console.log('Existed subscription detected.')
-            sendSubscription(existedSubscription)
-          }
-        })
-      })
-        .catch(function(e) {
-          console.error('An error ocurred during Service Worker registration.', e)
-        })
+  isWebPushNotificationsAvailable = async () => {
+    if ('serviceWorker' in navigator === false) {
+      console.log('ServiceWorker unavailable.')
+      return false;
     }
-      
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      if (!registration.pushManager) {
+        console.log('Push manager unavailable.')
+        return false;
+      }
+    } catch(e) {
+      return false;
+    }
+    return true;
   }
 
+  getWebPushRegistrartion = async () => {
+    return navigator.serviceWorker.ready;
+  }
+
+  getWebPushSubscription = async () => {
+    try {
+      const registration = await this.getWebPushRegistrartion();
+      const subscription = await registration.pushManager.getSubscription();
+      return subscription;
+    } catch(e) {
+      console.error(SERVICE_WORKER_ERROR_MESSAGE, e);
+    }
+    return null;
+  }
+
+  askWebPushNotificationsPermissions = async () => {
+    if (await !this.isWebPushNotificationsAvailable()) return;
+
+    const existedSubscription = await this.getWebPushSubscription();
+    
+    if (existedSubscription === null) {
+      console.log('No subscription detected, make a request.')
+      const registration = await this.getWebPushRegistrartion();
+
+      try {
+        var newSubscription = await registration.pushManager.subscribe({
+          applicationServerKey: convertedVapidKey,
+          userVisibleOnly: true,
+        });
+        
+        console.log('New subscription added.')
+        sendSubscription(newSubscription);
+      } catch(e)  {
+        console.log('Error occured')
+        if (Notification.permission !== 'granted') {
+          console.log('Permission was not granted.')
+        } else {
+          console.error('An error ocurred during the subscription process.', e)
+        }
+      }
+    } else {
+      console.log('Existed subscription detected.')
+      sendSubscription(existedSubscription)
+    }
+  }   
 }
 
 export default new NotificationsService();
