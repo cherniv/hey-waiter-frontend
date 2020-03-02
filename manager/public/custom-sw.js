@@ -1,9 +1,9 @@
 self.addEventListener('push', event => {
-  console.log('HEY', event);
   const data = event.data.json()
-  console.log('New notification', data)
   const options = {
     body: data.body,
+    icon: '/favicon.ico',
+    image: '/favicon.ico'
   }
   event.waitUntil(
     self.registration.showNotification(data.title, options)
