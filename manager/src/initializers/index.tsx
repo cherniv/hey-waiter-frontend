@@ -23,7 +23,7 @@ class Initializer {
       async flag =>  {
         if (flag) {
           Notifications.askNativePushNotificationsPermissions();
-          //Notifications.askDesktopPushNotificationsPermissions();
+          Notifications.askDesktopPushNotificationsPermissions();
           if (!Auth.justSignedUp) await Business.fetchMyBusinesses();
           if (Business.first) Business.current = Business.first;
           if (!Business.first && !Waiter.isWaiter && !Auth.justSignedUp) {
