@@ -1,4 +1,6 @@
 import Auth from "./Auth";
+import { isMobileApp } from "../utils/Device"
+import Table from "../models/Table";
 
 const ASK_MOBILE_NOTIFICATIONS_PERMISSION = 'ASK_MOBILE_NOTIFICATIONS_PERMISSION';
 const GOT_NOTIFICATIONS_PERMISSION = 'GOT_NOTIFICATIONS_PERMISSION';
@@ -117,5 +119,11 @@ class NotificationsService {
     }
   }   
 }
+
+!isMobileApp && (
+  navigator.serviceWorker.addEventListener('message', event => {
+    Table.resetTableById(event.data.tableId);
+  })
+);
 
 export default new NotificationsService();

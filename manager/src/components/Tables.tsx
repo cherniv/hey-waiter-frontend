@@ -4,11 +4,9 @@ import CallingImg from "../images/greeting-man.png";
 import { Figure, Button, Dropdown, ButtonToolbar, FormControl } from 'react-bootstrap';
 import Table from '../models/Table';
 import Business from '../models/Business';
-import Waiter from '../models/Waiter';
 import { observer } from 'mobx-react';
 import { observable } from 'mobx';
 import { trek } from '../utils/trek_manager';
-import Auth from '../services/Auth';
 
 type props = {
   business: any,
@@ -161,14 +159,7 @@ class TableComponent extends React.Component<tableProps> {
   }
 
   resetTable (table:Table) {
-    table.update({
-      isActive: false,
-      isCalling: false,
-    })
-    const addTrek=Waiter.isWaiter
-        ?{as:`wtr`, wtr: Auth.user.id}
-        :{as:`mng`, mng:Business.current.id};
-    trek({act:"reset", tbl:table.id,  ...addTrek} as any);
+    Table.resetTable(table);
   }
 }
 
