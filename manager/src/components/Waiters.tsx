@@ -214,7 +214,7 @@ class WaiterComponent extends React.Component<tableProps> {
           <Toast 
             style={{position: 'absolute'}}
             onClose={() => this.toastContent = null } show={Boolean(this.toastContent)} delay={3000} autohide>
-          <Toast.Header>
+          <Toast.Header closeButton={false}>
             <strong className="mr-auto">{this.toastContent}</strong>
           </Toast.Header>
           {/* <Toast.Body>{this.toastContent}</Toast.Body> */}

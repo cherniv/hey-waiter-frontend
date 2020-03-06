@@ -103,7 +103,7 @@ class Waiter extends Model {
 
   async managerCalls() {
     var callableRef = firebase.functions().httpsCallable('managerCallsWaiterToCome');
-    var result = await callableRef(); 
+    var result = await callableRef({userId: this.userId}); 
     return true;
   }
 
