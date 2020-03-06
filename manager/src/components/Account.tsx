@@ -24,6 +24,7 @@ import AppState from '../models/AppState';
 import {isMobileApp} from '../utils/Device';
 import { trek } from '../utils/trek_manager';
 import {observable} from 'mobx';
+import Notifications from '../services/Notifications';
 
 @observer
 class AccountScreen extends React.Component<RouteComponentProps> {
@@ -70,7 +71,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <iframe src="../qrdesigner" title="QRDesigner"></iframe>
         */}
         <br />
-        {isMobileApp && <><br/><br/>{this.renderNotificationsSettings()}</>}
+        {<><br/><br/>{this.renderNotificationsSettings()}</>}
         <br/>
         <br/>
         {this.renderIconSizeSelector()}
@@ -100,7 +101,18 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         id="switchNotificationsEnabled"
         type="switch"
         checked={notificationsEnabled}
-        onChange={()=>switchNotifications()}
+        onChange={async ()=>{
+          switchNotifications();
+          if (!notificationsEnabled && !isMobileApp) {
+            var iwpna = await Notifications.isWebPushNotificationsAvailable();
+            if (iwpna) {
+              var s = await Notifications.getWebPushSubscription();
+              if (!s) {
+                Notifications.askWebPushNotificationsPermissions();
+              }
+            }
+          }
+        }}
         label={"Notifications are " + (notificationsEnabled ? "ON" : "OFF")}
       />
     )
