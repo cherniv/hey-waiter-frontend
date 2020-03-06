@@ -12,6 +12,8 @@ class Table extends Model {
   @observable customName:string = '';
   @observable index:number = 0;
 
+  @observable static isLoading:boolean = true;
+
   static TABLES_QUERY:any = (businessId:string) => ({ 
     structuredQuery: { 
       from: [{ collectionId: 'tables' }], 
@@ -36,7 +38,9 @@ class Table extends Model {
   })
 
   static async fetchTables() {
-    this.fetchFromRemote(this.TABLES_QUERY(Business.current.id));
+    this.isLoading = true;
+    await this.fetchFromRemote(this.TABLES_QUERY(Business.current.id));
+    this.isLoading = false;
   }
 
 }

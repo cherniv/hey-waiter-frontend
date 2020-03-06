@@ -14,6 +14,7 @@ class Waiter extends Model {
   @observable userId:string = "";
   @observable code:string = "";
   @observable customName:string = "";
+  @observable static isLoading:boolean = true;
 
   @computed get isPending():boolean {
     return !this.userId;
@@ -70,7 +71,9 @@ class Waiter extends Model {
   })
 
   static async fetchWaiters() {
-    this.fetchFromRemote(this.WAITERS_QUERY(Business.current.id));
+    this.isLoading = true;
+    await this.fetchFromRemote(this.WAITERS_QUERY(Business.current.id));
+    this.isLoading = false;
   }
 
   static async checkCode(code:string) {
