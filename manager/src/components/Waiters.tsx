@@ -1,5 +1,7 @@
 import React from 'react';
-import { Figure, Button, Dropdown, ButtonToolbar, FormControl, Modal } from 'react-bootstrap';
+import { Figure, Button, Dropdown, ButtonToolbar, FormControl, Modal,
+  Alert,
+} from 'react-bootstrap';
 import Waiter from '../models/Waiter';
 import Business from '../models/Business';
 import { observer } from 'mobx-react';
@@ -11,6 +13,7 @@ type props = {
   business: any,
   editing: boolean,
   bigIcons: boolean,
+  emptyListShouldCallToAction: boolean,
 }
 
 @observer
@@ -21,6 +24,7 @@ class Waiters extends React.Component<props> {
   static defaultProps = {
     editing: true,
     bigIcons: true,
+    emptyListShouldCallToAction: false,
   }
 
   render() {
@@ -28,6 +32,7 @@ class Waiters extends React.Component<props> {
       business,
       editing,
       bigIcons,
+      emptyListShouldCallToAction,
     } = this.props;
     
     return (
@@ -55,6 +60,11 @@ class Waiters extends React.Component<props> {
         >+ <br />Add Waiter</Button>
         }
       </ButtonToolbar>
+      {emptyListShouldCallToAction && 
+        <Alert variant={"warning"}>
+          No waiters.. Add some under the Settings tab!
+        </Alert>
+      }
       {this.renderErrorPopup()}
       </>
     )

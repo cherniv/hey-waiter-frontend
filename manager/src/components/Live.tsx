@@ -29,6 +29,7 @@ class Live extends React.Component {
           business={Business.current}
           editing={false}
           bigIcons={AppState.iconIsBig}
+          emptyListShouldCallToAction={true}
         />
         
       </div>
