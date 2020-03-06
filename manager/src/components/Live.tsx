@@ -1,50 +1,21 @@
 import React from 'react';
 import Business from '../models/Business';
 import { observer } from 'mobx-react';
-import { observable } from 'mobx';
 import Tables from './Tables';
 import Waiters from './Waiters';
 import AppState from '../models/AppState';
-import Notifications from '../services/Notifications';
-import {
-  Button,
-} from 'react-bootstrap';
+import Auth from '../services/Auth';
+import WebPushInvitation from './WebPushInvitation';
 
 @observer
 class Live extends React.Component {
   business = Business.current || Business.new();
-  @observable shouldShowWebPushNotificationInvitation:boolean = false;
-
-  async componentDidMount() {
-    this.checkWPN();
-  }
-
-  async checkWPN() {
-    var iwpna = await Notifications.isWebPushNotificationsAvailable();
-    if (iwpna) {
-      var s = await Notifications.getWebPushSubscription();
-      if (!s) this.shouldShowWebPushNotificationInvitation = true;
-    }
-  }
-
-  askWebPushNotificationsPermissions = async () => {
-    this.shouldShowWebPushNotificationInvitation = false;
-    Notifications.askWebPushNotificationsPermissions();
-  }
 
   render( ) {
     if (!Business.current) return null;
     return (
       <div>
-        {this.shouldShowWebPushNotificationInvitation &&
-          <>
-          <h3>Notifications</h3>
-          <Button onClick={this.askWebPushNotificationsPermissions}>
-            Allow notifications
-          </Button>
-          <br />
-          <br />
-          </>
+        { Auth.justSignedUp && <WebPushInvitation />
         }
         <h3>Tables</h3>
         <Tables
