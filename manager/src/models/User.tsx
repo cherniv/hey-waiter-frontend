@@ -7,7 +7,7 @@ class User extends Model {
   static REMOTE_PATH:string = 'users/';
   @observable name:string = "";
   @observable notificationsToken:string = "";
-  @observable notificationsEnabled:boolean = true;
+  @observable notificationsEnabled:boolean = false;
   @observable windowVisible:boolean = true;  
   @observable webNotificationsSubscription:string = "";
 

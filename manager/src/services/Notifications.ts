@@ -43,7 +43,10 @@ class NotificationsService {
         const {notificationsToken} = command;
         if (notificationsToken) {
           
-          Auth.user.update({notificationsToken});
+          Auth.user.update({
+            notificationsToken,
+            notificationsEnabled: true,
+          });
           
         }
       }
