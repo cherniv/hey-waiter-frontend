@@ -66,6 +66,7 @@ class TableComponent extends React.Component<tableProps> {
   }
  
   @observable tempValue:string = this.props.table.customName;
+  inputRef:any = React.createRef();
 
   removeTable(table:Table) {
     if(!window.confirm(`Do you really want to delete this table?\nThis act is irreversible!`))return;
@@ -103,12 +104,18 @@ class TableComponent extends React.Component<tableProps> {
             />
             {editing && 
               <FormControl
+                ref={this.inputRef}
                 placeholder={""+index}
                 onBlur={()=>table.update({customName: this.tempValue})}
                 value={this.tempValue}
                 aria-label="Set name"
                 aria-describedby="basic-addon1"
                 onChange={({target}:any) => this.tempValue = target.value}
+                onKeyPress={(event:any) => {
+                  if (event.key === "Enter") {
+                    this.inputRef.current.blur();
+                  }
+                }}
               />
             }
             {!editing &&
