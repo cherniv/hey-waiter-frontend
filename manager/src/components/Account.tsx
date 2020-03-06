@@ -33,7 +33,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
     if (!Business.current) return null;
     return (
       <div className="screen">
-        <h2>Account</h2>
+        <h2>Settings</h2>
         <br />
         <Form.Label>Choose Restaurant</Form.Label>
         <Form.Row>

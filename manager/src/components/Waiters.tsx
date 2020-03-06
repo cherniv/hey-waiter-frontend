@@ -60,7 +60,7 @@ class Waiters extends React.Component<props> {
         >+ <br />Add Waiter</Button>
         }
       </ButtonToolbar>
-      {emptyListShouldCallToAction && 
+      {emptyListShouldCallToAction && !business.waiters.length && 
         <Alert variant={"warning"}>
           No waiters.. Add some under the Settings tab!
         </Alert>
