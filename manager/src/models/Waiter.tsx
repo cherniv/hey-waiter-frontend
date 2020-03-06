@@ -101,6 +101,12 @@ class Waiter extends Model {
     this.update({code: result.data });
   }
 
+  async managerCalls() {
+    var callableRef = firebase.functions().httpsCallable('managerCallsWaiterToCome');
+    var result = await callableRef(); 
+    return true;
+  }
+
 }
 
 export default Waiter;

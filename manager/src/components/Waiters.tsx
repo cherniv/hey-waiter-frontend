@@ -1,6 +1,7 @@
 import React from 'react';
 import { Figure, Button, Dropdown, ButtonToolbar, FormControl, Modal,
   Alert,
+  Toast,
 } from 'react-bootstrap';
 import Waiter from '../models/Waiter';
 import Business from '../models/Business';
@@ -134,12 +135,19 @@ class WaiterComponent extends React.Component<tableProps> {
   }
   
   @observable tempValue:string = this.props.waiter.customName;
+  @observable toastContent:string;
 
   removeWaiter(waiter:Waiter) {
     if(!window.confirm(`This act is irreversible!\nInstead, you can simply regenerate the code.\n\nDo you really want to remove this waiter?`))return;
     Business.current.removeWaiter(waiter);
     trek({as:`mng`, mng:Business.current.id, act:`-waiter`, wtr:waiter.id});
   }
+
+  async managerCallsToWaiter(waiter: Waiter) {
+    await waiter.managerCalls();
+    this.toastContent = 'Message sent'
+  }
+
   render() {
     const {
       waiter,
@@ -202,6 +210,16 @@ class WaiterComponent extends React.Component<tableProps> {
             </Figure.Caption>
             }
           </Figure>
+          <div style={{position: 'relative'}}>
+          <Toast 
+            style={{position: 'absolute'}}
+            onClose={() => this.toastContent = null } show={Boolean(this.toastContent)} delay={3000} autohide>
+          <Toast.Header>
+            <strong className="mr-auto">{this.toastContent}</strong>
+          </Toast.Header>
+          {/* <Toast.Body>{this.toastContent}</Toast.Body> */}
+        </Toast>
+        </div>
         </Dropdown.Toggle>
 
         {editing &&
@@ -217,9 +235,10 @@ class WaiterComponent extends React.Component<tableProps> {
         {!editing &&
         <Dropdown.Menu>
           <Dropdown.Item 
-            disabled
-            //onSelect={()=>alert("Coming soon")}
-          >Coming soon</Dropdown.Item>
+            onSelect={async ()=>{
+              this.managerCallsToWaiter(waiter)
+            }}
+          >Send "Come Over, Please" message</Dropdown.Item>
         </Dropdown.Menu>
         }
       </Dropdown>
