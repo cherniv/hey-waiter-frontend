@@ -6,6 +6,7 @@ import Waiters from './Waiters';
 import AppState from '../models/AppState';
 import Auth from '../services/Auth';
 import WebPushInvitation from './WebPushInvitation';
+import Waiter from '../models/Waiter';
 
 @observer
 class Live extends React.Component {
@@ -24,14 +25,17 @@ class Live extends React.Component {
           bigIcons={AppState.iconIsBig}
         />
         <br />
-        <h3>Waiters</h3>
-        <Waiters
-          business={Business.current}
-          editing={false}
-          bigIcons={AppState.iconIsBig}
-          emptyListShouldCallToAction={true}
-        />
-        
+        {!Waiter.isWaiter &&
+        <>
+          <h3>Waiters</h3>
+          <Waiters
+            business={Business.current}
+            editing={false}
+            bigIcons={AppState.iconIsBig}
+            emptyListShouldCallToAction={true}
+          />
+        </>
+        }
       </div>
     )
   }
