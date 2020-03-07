@@ -11,6 +11,7 @@ class NewUserGreeting extends React.Component {
   @observable stage:number = 1;
   @observable code:string = '';
   @observable shouldShowErrorCodeMessage:boolean = false;
+  @observable checkingCode:boolean = false;
   codeInput:any;
   render( ) {
     if (this.stage === 1) return this.renderStage1();
@@ -18,7 +19,9 @@ class NewUserGreeting extends React.Component {
 
     onSubmit = async() => {
         try {
-            var codeIsCorrect = await Waiter.waiterEnterByCode(this.code);
+          this.checkingCode = true;
+            var codeIsCorrect = await Waiter.waiterEnterByCode(this.code.toLowerCase());
+            this.checkingCode = false;
             if (codeIsCorrect) Auth.finishSignupProcess();
         } catch(e) {
             this.shouldShowErrorCodeMessage = true;
@@ -46,6 +49,7 @@ class NewUserGreeting extends React.Component {
               this.onSubmit();
             }
           }}
+          disabled={this.checkingCode || !this.code || !this.code.length}
         />
         <br />
         <p>
