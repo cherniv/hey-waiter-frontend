@@ -71,7 +71,9 @@ class AccountScreen extends React.Component<RouteComponentProps> {
         <iframe src="../qrdesigner" title="QRDesigner"></iframe>
         */}
         <br />
-        {<><br/><br/>{this.renderNotificationsSettings()}</>}
+        <br/>
+        <br/>
+        {this.renderNotificationsSettings()}
         <br/>
         <br/>
         {this.renderIconSizeSelector()}
@@ -154,6 +156,7 @@ class AccountScreen extends React.Component<RouteComponentProps> {
       <div className="screen">
         {this.renderNotificationsSettings()}
         <br></br>
+        {this.renderIconSizeSelector()}
         <br></br>
         {this.renderSignoutButton()}
       </div>
