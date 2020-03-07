@@ -136,6 +136,7 @@ class WaiterComponent extends React.Component<tableProps> {
   
   @observable tempValue:string = this.props.waiter.customName;
   @observable toastContent:string;
+  inputRef:any = React.createRef();
 
   removeWaiter(waiter:Waiter) {
     if(!window.confirm(`This act is irreversible!\nInstead, you can simply regenerate the code.\n\nDo you really want to remove this waiter?`))return;
@@ -185,6 +186,7 @@ class WaiterComponent extends React.Component<tableProps> {
             />
             {editing && 
               <FormControl
+                ref={this.inputRef}
                 size='sm'
                 placeholder={"Name"}
                 onBlur={()=>waiter.update({customName: this.tempValue})}
@@ -192,6 +194,11 @@ class WaiterComponent extends React.Component<tableProps> {
                 aria-label="Set name"
                 aria-describedby="basic-addon2"
                 onChange={({target}:any) => this.tempValue = target.value}
+                onKeyPress={(event:any) => {
+                  if (event.key === "Enter") {
+                    this.inputRef.current.blur();
+                  }
+                }}
               />
             }
             {editing && 
