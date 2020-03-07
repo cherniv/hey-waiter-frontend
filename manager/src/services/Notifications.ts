@@ -3,6 +3,7 @@ import { isMobileApp } from "../utils/Device"
 import Table from "../models/Table";
 
 const ASK_MOBILE_NOTIFICATIONS_PERMISSION = 'ASK_MOBILE_NOTIFICATIONS_PERMISSION';
+const START_LISTEN_FOR_MOBILE_NOTIFICATIONS = 'START_LISTEN_FOR_MOBILE_NOTIFICATIONS';
 const GOT_NOTIFICATIONS_PERMISSION = 'GOT_NOTIFICATIONS_PERMISSION';
 const NOTIFICATION_TABLE_RESET_ACTION_FIRED = 'NOTIFICATION_TABLE_RESET_ACTION_FIRED';
 
@@ -11,6 +12,9 @@ const KEY = 'BDPt0PtX7VV5tMOQwVXhketleLKrrte9bAirHK8dW0ZY2ToAtKD2Z9eUXx9TRZvnXFm
 const convertedVapidKey = urlBase64ToUint8Array(KEY);
 
 const SERVICE_WORKER_ERROR_MESSAGE = 'An error ocurred during Service Worker registration.';
+
+const win:any = (window as any); 
+const {ReactNativeWebView} = win;
 
 function urlBase64ToUint8Array(base64String:string) {
   const padding = "=".repeat((4 - base64String.length % 4) % 4)
@@ -30,17 +34,9 @@ function sendSubscription(subscription:any) {
   Auth.user.update({webNotificationsSubscription: JSON.stringify(subscription)});
 }
 
-
 class NotificationsService {
-  askNativePushNotificationsPermissions() {
-    const win:any = (window as any); 
-    const {ReactNativeWebView} = win;
+  listenForMobileWebViewMessages() {
     if (!ReactNativeWebView) return;
-
-    var command = {
-      "command": ASK_MOBILE_NOTIFICATIONS_PERMISSION,
-    };
-    ReactNativeWebView.postMessage(JSON.stringify(command));
     win.messageFromMobile = (data:string) => {
       var command:any = JSON.parse(data);
       if (command.command === GOT_NOTIFICATIONS_PERMISSION) {
@@ -62,6 +58,24 @@ class NotificationsService {
       }
       
     };
+  }
+  startListenForPushNotifications() {
+    if (!ReactNativeWebView) return;
+
+    var command = {
+      "command": START_LISTEN_FOR_MOBILE_NOTIFICATIONS,
+    };
+    ReactNativeWebView.postMessage(JSON.stringify(command));
+  }
+
+  askNativePushNotificationsPermissions() {
+    if (!ReactNativeWebView) return;
+
+    var command = {
+      "command": ASK_MOBILE_NOTIFICATIONS_PERMISSION,
+    };
+    ReactNativeWebView.postMessage(JSON.stringify(command));
+    
   }
 
   isWebPushNotificationsAvailable = async () => {
