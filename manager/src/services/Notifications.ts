@@ -52,7 +52,7 @@ class NotificationsService {
       }
       if (command.command === NOTIFICATION_TABLE_RESET_ACTION_FIRED) {
         const {tableId} = command;
-        if (Auth.isLoggedIn && tableId) {
+        if (tableId) {
           Table.resetTableById(tableId);
         }
       }
