@@ -11,7 +11,6 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <div className="screen">
-        <h2>Dashboard</h2>
         <br />
         {Auth.justSignedUp && !Waiter.isWaiter && <NewUserGreeting />}
         {Auth.justSignedUp && Waiter.isWaiter && <NewWaiterGreeting />}
