@@ -4,8 +4,6 @@ import { observer } from 'mobx-react';
 import Tables from './Tables';
 import Waiters from './Waiters';
 import AppState from '../models/AppState';
-import Auth from '../services/Auth';
-import WebPushInvitation from './WebPushInvitation';
 import Waiter from '../models/Waiter';
 
 @observer
@@ -16,8 +14,6 @@ class Live extends React.Component {
     if (!Business.current) return null;
     return (
       <div>
-        { Auth.justSignedUp && <WebPushInvitation />
-        }
         <h3>Tables</h3>
         <Tables
           business={Business.current}
