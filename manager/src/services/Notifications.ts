@@ -56,7 +56,7 @@ class NotificationsService {
       }
       if (command.command === NOTIFICATION_TABLE_RESET_ACTION_FIRED) {
         const {tableId} = command;
-        if (tableId) {
+        if (Auth.isLoggedIn && tableId) {
           Table.resetTableById(tableId);
         }
       }
