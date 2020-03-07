@@ -25,6 +25,7 @@ class NewUserGreeting extends React.Component {
             if (codeIsCorrect) Auth.finishSignupProcess();
         } catch(e) {
             this.shouldShowErrorCodeMessage = true;
+            this.checkingCode = false;
         }
     }
 
