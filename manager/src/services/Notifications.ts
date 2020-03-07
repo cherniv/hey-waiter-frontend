@@ -4,6 +4,7 @@ import Table from "../models/Table";
 
 const ASK_MOBILE_NOTIFICATIONS_PERMISSION = 'ASK_MOBILE_NOTIFICATIONS_PERMISSION';
 const GOT_NOTIFICATIONS_PERMISSION = 'GOT_NOTIFICATIONS_PERMISSION';
+const NOTIFICATION_TABLE_RESET_ACTION_FIRED = 'NOTIFICATION_TABLE_RESET_ACTION_FIRED';
 
 //const KEY = process.env.PUBLIC_VAPID_KEY; // DOESN'T WORK, undefined in production
 const KEY = 'BDPt0PtX7VV5tMOQwVXhketleLKrrte9bAirHK8dW0ZY2ToAtKD2Z9eUXx9TRZvnXFmdwN3Fn4h0Ry6zKm5X9HQ';
@@ -29,6 +30,7 @@ function sendSubscription(subscription:any) {
   Auth.user.update({webNotificationsSubscription: JSON.stringify(subscription)});
 }
 
+
 class NotificationsService {
   askNativePushNotificationsPermissions() {
     const win:any = (window as any); 
@@ -50,6 +52,12 @@ class NotificationsService {
             notificationsEnabled: true,
           });
           
+        }
+      }
+      if (command.command === NOTIFICATION_TABLE_RESET_ACTION_FIRED) {
+        const {tableId} = command;
+        if (tableId) {
+          Table.resetTableById(tableId);
         }
       }
       
