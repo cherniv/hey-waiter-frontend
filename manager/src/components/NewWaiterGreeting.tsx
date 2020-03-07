@@ -49,14 +49,13 @@ class NewUserGreeting extends React.Component {
               this.onSubmit();
             }
           }}
-          disabled={this.checkingCode || !this.code || !this.code.length}
         />
         <br />
         <p>
         <Button 
           onClick={this.onSubmit} 
           variant="success"
-          disabled={!this.code.length }
+          disabled={this.checkingCode || !this.code.length }
         >
           Check code
         </Button>
