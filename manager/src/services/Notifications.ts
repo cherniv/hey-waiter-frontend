@@ -39,7 +39,7 @@ class NotificationsService {
     if (!ReactNativeWebView) return;
     win.messageFromMobile = (data:string) => {
       var command:any = JSON.parse(data);
-      alert('++'+command.command+command.tableId)
+      
       if (command.command === GOT_NOTIFICATIONS_PERMISSION) {
         const {notificationsToken} = command;
         if (notificationsToken) {
