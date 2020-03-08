@@ -1,6 +1,7 @@
 import Auth from "./Auth";
 import { isMobileApp } from "../utils/Device"
 import Table from "../models/Table";
+import { when } from 'mobx';
 
 const ASK_MOBILE_NOTIFICATIONS_PERMISSION = 'ASK_MOBILE_NOTIFICATIONS_PERMISSION';
 const START_LISTEN_FOR_MOBILE_NOTIFICATIONS = 'START_LISTEN_FOR_MOBILE_NOTIFICATIONS';
@@ -54,7 +55,10 @@ class NotificationsService {
       if (command.command === NOTIFICATION_TABLE_RESET_ACTION_FIRED) {
         const {tableId} = command;
         if (tableId) {
-          Table.resetTableById(tableId);
+          when(
+            () => Table.all.length,
+            () => Table.resetTableById(tableId),
+          )
         }
       }
       
@@ -143,6 +147,7 @@ class NotificationsService {
   }   
 }
 
+// Reset table from web notification
 !isMobileApp && (
   navigator.serviceWorker.addEventListener('message', event => {
     Table.resetTableById(event.data.tableId);
