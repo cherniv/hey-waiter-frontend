@@ -54,7 +54,10 @@ class NotificationsService {
       }
       if (command.command === NOTIFICATION_TABLE_RESET_ACTION_FIRED) {
         const {tableId} = command;
+        // when comes from mobile push notification
         if (tableId) {
+          // initial notification fires too fast 
+          // so need to wait for tables to load
           when(
             () => Table.all.length,
             () => Table.resetTableById(tableId),
@@ -120,29 +123,26 @@ class NotificationsService {
 
     const existedSubscription = await this.getWebPushSubscription();
     
-    if (existedSubscription === null) {
-      console.log('No subscription detected, make a request.')
-      const registration = await this.getWebPushRegistrartion();
+    if (existedSubscription) {
+      sendSubscription(existedSubscription);
+      return;
+    }
 
-      try {
-        var newSubscription = await registration.pushManager.subscribe({
-          applicationServerKey: convertedVapidKey,
-          userVisibleOnly: true,
-        });
-        
-        console.log('New subscription added.')
-        sendSubscription(newSubscription);
-      } catch(e)  {
-        console.log('Error occured')
-        if (Notification.permission !== 'granted') {
-          console.log('Permission was not granted.')
-        } else {
-          console.error('An error ocurred during the subscription process.', e)
-        }
+    const registration = await this.getWebPushRegistrartion();
+
+    try {
+      var newSubscription = await registration.pushManager.subscribe({
+        applicationServerKey: convertedVapidKey,
+        userVisibleOnly: true,
+      });
+      
+      sendSubscription(newSubscription);
+    } catch(e)  {
+      if (Notification.permission !== 'granted') {
+        console.log('Permission was not granted.')
+      } else {
+        console.error('An error ocurred during the subscription process.', e)
       }
-    } else {
-      console.log('Existed subscription detected.')
-      sendSubscription(existedSubscription)
     }
   }   
 }
