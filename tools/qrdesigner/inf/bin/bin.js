@@ -84,7 +84,7 @@ define("GeoPos", ["require", "exports"], function (require, exports) {
             this.roll = function (done) {
                 navigator.geolocation.getCurrentPosition(function (pos) {
                     var crd = pos.coords;
-                    codeLatLng(44.037915, 43.077107, function (loc) {
+                    codeLatLng(crd.latitude, crd.longitude, function (loc) {
                         var point = crd.latitude + ", " + crd.longitude;
                         var place = loc.countryCode + ", " + loc.city + ", " + loc.locality;
                         var link = "https://www.google.com/maps/search/" + point + "?hl=en&source=opensearch";
