@@ -76,7 +76,7 @@
     if(goHome) loc.replace("//waiter.live/hello/");
     else {
       var api = "https://us-central1-hey-waiter-9d976.cloudfunctions.net/api/",
-        id = loc.hash.substr(2), xhr = new XMLHttpRequest(), params = {id};
+        id = loc.hash.substr(2), xhr = new XMLHttpRequest(), params = {id:id};
 
         function el(n){return document.getElementById(n);}
       function callApi(endpoint){
